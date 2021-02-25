@@ -22,7 +22,7 @@ const proposes = [1,2,3,4,5]
       {proposes.map((el,i)=>{
 
         return(
-            <View style={styles.proposeCard}>
+            <View key={'proposrss'+i} style={styles.proposeCard}>
               <View style={styles.propCardFlex}>
                   <Text>Имя фамилия</Text>
                   <Text>01.05</Text>

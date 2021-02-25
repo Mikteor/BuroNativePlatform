@@ -11,13 +11,14 @@ import { setAuthToken } from './src/components/utils/axios';
 
 //login
 import Login from './src/components/login/login'
+import Registration from './src/components/login/registration'
 
+// screens 
 import Main from './src/screens/main'
 import Project from './src/screens/menu/projects/project'
 import Department from './src/screens/department'
 import News from './src/screens/news'
 import Office from './src/screens/office'
-//menu screen
 import Menu from './src/screens/menu'
 import EditProfile from './src/screens/menu/editProfile';
 import AllDepartments from './src/screens/menu/allDepartments'
@@ -69,63 +70,64 @@ useEffect(() => {
           <Text style={{color: 'white'}}>absolute</Text>
       </View> */}
     {!isAuthenticated?  
-     <Stack.Navigator headerMode='none'>
-        <Stack.Screen name='login' component={Login}/>
-        {/* <Stack.Screen name='registration' component={Registration}/> */}
-     </Stack.Navigator>  :
-        <Tab.Navigator 
-            tabBarOptions={{
-                  activeTintColor: 'white', 
-                  inactiveTintColor: 'grey', 
-                  activeBackgroundColor: '#3F496C', 
-                  inactiveBackgroundColor: '#3F496C',
+      <Stack.Navigator headerMode='none'>
+          <Stack.Screen name='login' component={Login}/>
+          <Stack.Screen name='registration' component={Registration}/>
+      </Stack.Navigator>  :
+
+      <Tab.Navigator 
+          tabBarOptions={{
+                activeTintColor: 'white', 
+                inactiveTintColor: 'grey', 
+                activeBackgroundColor: '#3F496C', 
+                inactiveBackgroundColor: '#3F496C',
+                }}>
+                  
+          <Tab.Screen name='Главная' options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}}>
+            {e => 
+            <Stack.Navigator headerMode='none'>
+                <Stack.Screen name='main' component={Main}/>
+                <Stack.Screen name='news' component={News}/>
+            </Stack.Navigator>
+            }
+          </Tab.Screen>
+
+          <Tab.Screen name='Отдел' component={Department} options={{tabBarIcon : ({ color, size }) => (<Icon name="account-group-outline" color={color} size={24}  />)}}/>
+          
+          <Tab.Screen  
+                name='Create'  
+                options={{
+                  tabBarIcon : ({ color, size }) => (<Icon name="plus" color={color} size={50} style={{marginTop: 13}} />), 
+                  tabBarLabel: ''
                   }}>
+                  {e => 
+                  <View></View>
+                  }
+          </Tab.Screen>
+
+          <Tab.Screen name='Офис' component={Office} options={{tabBarIcon : ({ color, size }) => (<Icon name="human-greeting" color={color} size={24}  />)}}/>
+          
+          <Tab.Screen 
+                name='Меню' 
+                options={{
+                  tabBarIcon : ({ color, size }) => (<Icon name="menu" color={color} size={24}  />),
+                  }}>
+                  {e => 
+                  <Stack.Navigator headerMode='none'>
+                    <Stack.Screen name='menu' component={Menu}/>
+                    <Stack.Screen name='allDepartments' component={AllDepartments}/>
+                    <Stack.Screen name='buroTeam' component={BuroTeam}/>
+                    <Stack.Screen name='smejniki' component={Smejniki}/>
                     
-            <Tab.Screen name='Главная' options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}}>
-              {e => 
-              <Stack.Navigator headerMode='none'>
-                  <Stack.Screen name='main' component={Main}/>
-                  <Stack.Screen name='news' component={News}/>
-              </Stack.Navigator>
-              }
-            </Tab.Screen>
+                    <Stack.Screen name='editProfile' component={EditProfile}/>
+                    <Stack.Screen name='projects' component={Projects}/>
+                    <Stack.Screen name='project' component={Project}/>
+                    {/* <Stack.Screen name='toto' component={}/> */}
+                  </Stack.Navigator>
+                  }
+          </Tab.Screen>
 
-            <Tab.Screen name='Отдел' component={Department} options={{tabBarIcon : ({ color, size }) => (<Icon name="account-group-outline" color={color} size={24}  />)}}/>
-            
-            <Tab.Screen  
-                  name='Create'  
-                  options={{
-                    tabBarIcon : ({ color, size }) => (<Icon name="plus" color={color} size={50} style={{marginTop: 13}} />), 
-                    tabBarLabel: ''
-                    }}>
-                    {e => 
-                    <View></View>
-                    }
-            </Tab.Screen>
-
-            <Tab.Screen name='Офис' component={Office} options={{tabBarIcon : ({ color, size }) => (<Icon name="human-greeting" color={color} size={24}  />)}}/>
-           
-            <Tab.Screen 
-                  name='Меню' 
-                  options={{
-                    tabBarIcon : ({ color, size }) => (<Icon name="menu" color={color} size={24}  />),
-                    }}>
-                    {e => 
-                    <Stack.Navigator headerMode='none'>
-                      <Stack.Screen name='menu' component={Menu}/>
-                      <Stack.Screen name='allDepartments' component={AllDepartments}/>
-                      <Stack.Screen name='buroTeam' component={BuroTeam}/>
-                      <Stack.Screen name='smejniki' component={Smejniki}/>
-                      
-                      <Stack.Screen name='editProfile' component={EditProfile}/>
-                      <Stack.Screen name='projects' component={Projects}/>
-                      <Stack.Screen name='project' component={Project}/>
-                      {/* <Stack.Screen name='toto' component={}/> */}
-                    </Stack.Navigator>
-                    }
-            </Tab.Screen>
-
-        </Tab.Navigator>
+      </Tab.Navigator>
   
     }
       

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {Provider, useDispatch, useSelector} from 'react-redux'
 import { login } from '../../redux/actions/auth'
-import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput,  } from 'react-native';
 // import  storage  from '../../components/localStorage/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Input, Button } from 'react-native-elements';
 
 
 
-const Login = () => {
+const Login = ({navigation}) => {
 
 const dispatch = useDispatch()
 
@@ -54,18 +55,19 @@ const onSubmit = async e => {
     <View style={styles.container}>
  
 
-      <TextInput
+      <Input
         onChangeText={text=>setFormData({...formData, email: text})}
         value={formData.email}
         placeholder='e-mail'
       />
-      <TextInput
+      <Input
         onChangeText={text=>setFormData({...formData, password: text})}
         value={formData.password}
-        placeholder='password'
+        placeholder='password' 
       />
       <Button title='Подтвердить' onPress={onSubmit} />
-      <Button title='log' onPress={log} />
+      <Button title='Регистрация' type='clear'  onPress={()=>navigation.navigate('registration')} />
+      {/* <Button title='log' onPress={log} /> */}
      
   
 
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
 

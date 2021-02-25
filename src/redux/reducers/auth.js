@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
     switch(type){
         case REGISTER:
         case LOGIN:
-            console.log(payload, 'payload token')
+            // console.log(payload, 'payload token')
             //  storage.save({key:'token', data: payload.token});
              AsyncStorage.setItem('token', payload.token).then(console.log('token placed')).catch(console.log('token fail'))
              
@@ -77,7 +77,7 @@ export default function(state = initialState, action) {
                             msg: payload.msg
                         }
                 case ADD_SPRINT_TO_CHOSEN:
-                    console.log('here is payload',payload)    
+                    // console.log('here is payload',payload)    
                 
                 return {
                         ...state,
@@ -85,7 +85,7 @@ export default function(state = initialState, action) {
                         msg: payload.msg
                     }
             case AUTH_ERROR:
-                console.log('here is payload',payload) 
+                // console.log('here is payload',payload) 
                 return {
                     ...state,
                     
