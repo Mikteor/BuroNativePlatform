@@ -1,56 +1,88 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
-import {Button, ListItem, Icon} from 'react-native-elements'
+import { StyleSheet, Text, View, ScrollView, Image, TextInput } from 'react-native';
+import {Button, ListItem, } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale';
+import { DataTable } from 'react-native-paper';
+import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 const Main = ({}) => {
 
+const team = [1,2,3,4,5,6,7,8,]
+const projects = [1,2,3,4,5,6,7,8,9,0]
 
   return (
     
-    <View style={styles.container}>
+  <View style={styles.container}>
 
-<Text style={styles.title}>Отдел</Text>
+    <View style={{flex:1}}>
+      <View style={styles.title}>
+          <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
+          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела</Text>
+      </View>
 
-<ListItem  
-// containerStyle={styles.buttContainer}
-          Component={TouchableScale}
-          friction={90} //
-          tension={100} // These props are passed to the parent component (here TouchableScale)
-          activeScale={0.95} //
-          >
-              <Image source={require('../../assets/ava.jpeg')} style={styles.avatar}/>
+      <ScrollView style={styles.scrollView}>
+        {team.map((el,i)=>{
+            return(
+              <ListItem
+                style={{marginVertical: 2,}}
+                key={'team'+i}  
+                // containerStyle={styles.buttContainer}
+                Component={TouchableScale}
+                friction={90} //
+                tension={100} // These props are passed to the parent component (here TouchableScale)
+                activeScale={0.95} //
+                >
+                    <Image source={require('../../assets/ava.jpeg')} style={styles.avatar}/>
+                    <ListItem.Content>
+                      <ListItem.Title>Mitya putovitenko</ListItem.Title>
+                      <ListItem.Subtitle>Mitya putovitenko</ListItem.Subtitle>
+                    </ListItem.Content>
+                    <ListItem.Chevron />
+              </ListItem>
+            )
+        })}
+      </ScrollView>
+      
+  </View>
+  <View style={{flex:1}}>
 
-              <ListItem.Content>
-                <ListItem.Title>Mitya putovitenko</ListItem.Title>
-                <ListItem.Subtitle>Mitya putovitenko</ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron />
-          </ListItem>
-
-<View style={styles.card}>
-            <View style={styles.profileFlex}>
-                <Image source={require('../../assets/ava.jpeg')} style={styles.avatar}/>
-                <View>
-                    <Text style={styles.name}>Mitya Pustovitenko</Text>
-                    <Text style={styles.pos}>mobile developer</Text>
-                </View>
-            </View>
-            <Button title='Профиль' containerStyle={styles.btnProf}/>
-        </View>
-        <Text style={styles.title}>Проекты отдела</Text>
-
-        <View style={styles.card}>
-          <Text style={{textAlign: 'right'}}>активный</Text>
-          <Text style={{textAlign: 'right'}}>7 дней</Text>
-          <Text style={styles.projTitle} numberOfLines={1}>Название проекта</Text>
-          <Text style={{marginRight: 50}}>Короткое описание проекта вот тут. Кто о чем куда где</Text>
-          <View style={styles.projectFlex}>
-            <Text>#smth</Text>
-            <Button title='Подробнее' containerStyle={{width: 150,borderRadius: 13,}}/>
-          </View>
-          </View>
+      <View style={styles.title}>
+          <Icon name='playlist-check' color='#7C7C7C' size={24}/>
+          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Проекты отдела</Text>
+          <Button title='Все проекты' type='clear' 
+                  titleStyle={{color: '#7C7C7C', fontSize: 14 }} 
+                  containerStyle={{height:30, justifyContent: 'center',}}
+                  icon={<ArrowIcon name='keyboard-arrow-right' color='#7C7C7C' size={18}/>}
+                  iconRight={true}
+                  />
+      </View>
+      <ScrollView style={styles.scrollView}>
+      <DataTable>
+      {projects.map((el,i)=>{
+        return(
+          
+          <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
+            <DataTable.Cell style={{flex: 1,}}>Название крупного проекта с длинным названием</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>35 дней</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>
+              <View style={styles.projType}>
+                <Text style={{color: '#CA9E4D',}}>архитектура</Text>
+              </View>
+            </DataTable.Cell>
+            <DataTable.Cell style={{flex: .3}} numeric>
+              <Icon name='circle' color='green' size={14}/>
+            </DataTable.Cell>
+          </DataTable.Row>
+        )
+        
+      })}
+      </DataTable>
+      </ScrollView>
+  </View>
+      
+        
 
     </View>
   );
@@ -60,9 +92,12 @@ export default Main
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#C4C4C4',
+    backgroundColor: '#F8FAFB',
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  scrollView:{
+    paddingHorizontal: 15,
   },
     card: {
       backgroundColor: 'white',
@@ -80,26 +115,25 @@ const styles = StyleSheet.create({
       marginBottom: 30,
     },
     title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      borderBottomWidth: 1,
-      marginHorizontal: 10,
-      marginVertical: 20,
-      paddingBottom: 10,
-    },
-    projectFlex: {
-      marginTop: 30,
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      marginHorizontal: 15,
       alignItems: 'center',
+      borderBottomWidth: 1,
+      borderColor: '#DDDDDD',
+      marginBottom: 5,
+      paddingBottom: 3,
+      marginTop: 20,
     },
-    projTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginRight: 50,
+    tableRow: {
+      backgroundColor: 'white',
+      marginVertical: 2,
+      padding: 0,
     },
+    projType: {
+      backgroundColor: '#F2ECE1',
 
+    },
     profileFlex: {
       display: 'flex',
       flexDirection: 'row',

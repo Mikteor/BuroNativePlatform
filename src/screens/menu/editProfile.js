@@ -1,26 +1,38 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
+import { ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import {  Button } from 'react-native-elements'
 
 
-const Main = ({}) => {
+const EditProfile = ({}) => {
 
 
   return (
     
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
 
-<Text style={styles.title}>Новости</Text>
+      
+      {/* <View style={styles.profileFlex}> 
+        <Image source={require('../../../assets/ava.jpeg')} style={styles.avatar}/>
+        <View>
+           <Text style={styles.name}>Mitya Pustovitenko</Text>
+           <Text style={styles.pos}>mobile developer</Text>
+           <Button title='Редактировать' type='clear' containerStyle={{marginRight: 'auto',}}/>
+        </View>
+      </View>
+      <View style={{marginHorizontal: 20}}>
+          <Text style={styles.pos}>rocket: miktor</Text>
+          <Text style={styles.pos}>dm.pustovitenko@gmail.com</Text>
+          <Text style={styles.pos}>Отдел: разработка странных приложений</Text>
+      </View> */}
 
-<View style={styles.card}>
-    <Text style={{textAlign: 'right'}}>01.20</Text>
-    <Text>Имя фамилия</Text>
-    <Text style={styles.newsTitle} numberOfLines={1}>Большое и длинное название новости</Text>
-</View>
+      <Text style={styles.title}>Редактирование профиля</Text>
 
-    </View>
+
+    </ScrollView>
   );
 }
-export default Main
+export default EditProfile
 
 const styles = StyleSheet.create({
   container: {
@@ -29,27 +41,55 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
   },
-    card: {
-      backgroundColor: 'white',
-      marginHorizontal: 10,
-      borderRadius: 13,
-      paddingRight: 8,
-      paddingLeft: 20,
-      paddingVertical: 8,
-    },
-    newsTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginRight: 50,
-      marginBottom: 30,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      borderBottomWidth: 1,
-      marginHorizontal: 10,
-      marginVertical: 20,
-      paddingBottom: 10,
-    },
+  profileFlex: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 100,
+    marginRight: 20,
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    width: 200,
+    marginLeft: 8,
+    // backgroundColor: 'red'
+  },
+  pos: {
+    marginLeft: 8,
+  },
+  card: {
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 13,
+    paddingRight: 8,
+    paddingLeft: 20,
+    paddingVertical: 8,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    borderBottomWidth: 1,
+    marginHorizontal: 10,
+    marginVertical: 20,
+    paddingBottom: 10,
+  },
+  projectFlex: {
+    marginTop: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  projTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginRight: 50,
+  },
   });
 

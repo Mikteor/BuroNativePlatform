@@ -23,7 +23,7 @@ const Projects = ({navigation}) => {
       
         {projects.map((el,i)=>{
           return(
-          <DataTable.Row onPress={()=>navigation.navigate('project')} >
+          <DataTable.Row key={'projeccts'+i} onPress={()=>navigation.navigate('project')} >
             <DataTable.Cell style={{flex: 4,}}>Название крупного проекта с длинным названием</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>3</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>

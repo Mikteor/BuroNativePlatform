@@ -12,8 +12,28 @@ import { ScrollView } from 'react-native';
 const Main = ({navigation}) => {
 const dispatch = useDispatch()
   const [exit, setExit] = useState(false)
-const buttons = ["Все новости", "Предложения", 'Все отделы', 'Сотрудники']
-const scndGroup = [ 'создать чонить', 'и еще кнопка']
+const buttons = [
+  {
+  name: "Все отделы",
+  navigate: 'allDepartments'
+  },
+    {
+  name: "Все проекты",
+  navigate: 'projects'
+  },
+    {
+  name: "Сотрудники",
+  navigate: 'team'
+  },
+    {
+  name: "Смежники",
+  navigate: 'smejniki'
+  },
+]
+const scndGroup = [ 
+  {name:'Изменить профиль',
+  navigate: 'editProfile'
+  },]
 
   return (
     
@@ -28,6 +48,7 @@ const scndGroup = [ 'создать чонить', 'и еще кнопка']
       {buttons.map((el,i)=>{
         return(
           <ListItem key={'buttons'+i} containerStyle={styles.buttContainer}
+          onPress={()=>navigation.navigate(el.navigate)}
           Component={TouchableScale}
           friction={90} //
           tension={100} // These props are passed to the parent component (here TouchableScale)
@@ -35,7 +56,7 @@ const scndGroup = [ 'создать чонить', 'и еще кнопка']
           >
               <Icon name="rhombus-outline" color='white' size={24}  />
               <ListItem.Content>
-                <ListItem.Title style={styles.buttText}>{el}</ListItem.Title>
+                <ListItem.Title style={styles.buttText}>{el.name}</ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
           </ListItem>
@@ -45,6 +66,7 @@ const scndGroup = [ 'создать чонить', 'и еще кнопка']
       {scndGroup.map((el,i)=>{
         return(
           <ListItem key={'scndGroup'+i} containerStyle={styles.buttContainer}
+          onPress={()=>navigation.navigate(el.navigate)}
           Component={TouchableScale}
           friction={90} //
           tension={100} // These props are passed to the parent component (here TouchableScale)
@@ -52,7 +74,7 @@ const scndGroup = [ 'создать чонить', 'и еще кнопка']
           >
               <Icon name="rhombus-outline" color='white' size={24}  />
               <ListItem.Content>
-                <ListItem.Title style={styles.buttText}>{el}</ListItem.Title>
+                <ListItem.Title style={styles.buttText}>{el.name}</ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
           </ListItem>
