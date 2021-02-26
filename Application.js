@@ -50,29 +50,26 @@ const [isAuthenticated, setIsAuthenticated] = useState(false)
 
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
-        setIsAuthenticated(res)
+        res ? setIsAuthenticated(true) : setIsAuthenticated(false)
         setAuthToken(res)
-    }) 
-
-
-    if(isAuthenticated){
-      dispatch(loadUser());
-
-    }
+    })    
 
 
   },[tokenBoulean])
 
   const loadAll = () => {
-    dispatch(loadUser())
-    dispatch(allNews())
-    user && user.division && dispatch(findDepartment(user.division.divname))
-    dispatch(likedProposes())
-    dispatch(allProjects())
+    if(isAuthenticated){
+      dispatch(loadUser())
+      dispatch(allNews())
+      user && user.division && dispatch(findDepartment(user.division.divname))
+      dispatch(likedProposes())
+      dispatch(allProjects())
+    }
+    
   }
   useEffect(()=>{
     loadAll()
-  },[])
+  },[isAuthenticated])
   // const mainIcon = <Icon name="home-outline" color={color} size={24}  />
 
   return (

@@ -21,15 +21,13 @@ export default function(state = initialState, action) {
     switch(type){
         case REGISTER:
         case LOGIN:
-            // console.log(payload, 'payload token')
-            //  storage.save({key:'token', data: payload.token});
+            
              AsyncStorage.setItem('token', payload.token).then(console.log('token placed')).catch(console.log('token fail'))
              
-            //  console.log(AsyncStorage.token, 'NEW TOKEN ')
             return {
                 ...state,
                 loaded: true,
-                token: true,
+                token: !state.token,
                 error: payload.err,
                 msg: payload
             }
@@ -37,7 +35,7 @@ export default function(state = initialState, action) {
                 AsyncStorage.removeItem('token')
                 return{
                     ...state,
-                    token:false
+                    token:!state.token
                 }
             case CLEAR_ERROR:
                 return {

@@ -12,8 +12,7 @@ const Login = ({navigation}) => {
 
 const dispatch = useDispatch()
 
-// const tokBoulean = useSelector(state=> state.auth.token)
-// const swit = token? true : false
+
  
 const [formData, setFormData ] = useState({
         
@@ -24,19 +23,6 @@ const [formData, setFormData ] = useState({
 });
 
 
-
-
-
-
-const log = () => {
-  console.log('bbb')
-
- 
-//   // console.log( AsyncStorage, 'NEW TOKEN ')
-//  console.log(tok, 'getItem token')
-// token.then(res => setToken(res))
-// console.log(tokken, 'tokkkkkken')
-}
 
 const onSubmit = async e => {
   e.preventDefault();
