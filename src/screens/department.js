@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {useSelector} from 'react-redux'
 import { StyleSheet, Text, View, ScrollView, Image, TextInput } from 'react-native';
 import {Button, ListItem, } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale';
@@ -9,8 +10,36 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Main = ({}) => {
 
+const user = useSelector(state=>state.auth.user)
+const department = useSelector(state => state.departments.findDep)
+const [departmentProjects, setDepProjects] = useState([])
 const team = [1,2,3,4,5,6,7,8,]
-const projects = [1,2,3,4,5,6,7,8,9,0]
+let projects = []
+
+const getAllProjects = () => {
+  if(department){
+      let allProjs = department.members.map((el,i)=>{
+                            return el.projects
+                            })
+      let inOneArr = [].concat.apply([], allProjs)
+
+      for (let i=0; i<inOneArr.length; i=i){
+        if(inOneArr.some((item,index)=>item._id===inOneArr[i]._id && index>i)){
+          inOneArr.splice(i,1)
+          i=0
+        } else {
+          i+=1
+        }
+      }
+      setDepProjects(inOneArr)
+  }
+}
+
+useEffect(()=>{
+
+    getAllProjects()
+},[department])
+
 
   return (
     
@@ -19,11 +48,11 @@ const projects = [1,2,3,4,5,6,7,8,9,0]
     <View style={{flex:1}}>
       <View style={styles.title}>
           <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела</Text>
+          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела {user&& user.division.divname}</Text>
       </View>
 
       <ScrollView style={styles.scrollView}>
-        {team.map((el,i)=>{
+        {!department? <Text>loading members</Text> : department.members.map((el,i)=>{
             return(
               <ListItem
                 style={{marginVertical: 2,}}
@@ -36,8 +65,8 @@ const projects = [1,2,3,4,5,6,7,8,9,0]
                 >
                     <Image source={require('../../assets/ava.jpeg')} style={styles.avatar}/>
                     <ListItem.Content>
-                      <ListItem.Title>Mitya putovitenko</ListItem.Title>
-                      <ListItem.Subtitle>Mitya putovitenko</ListItem.Subtitle>
+                      <ListItem.Title>{el.fullname}</ListItem.Title>
+                      <ListItem.Subtitle>{el.position}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron />
               </ListItem>
@@ -59,12 +88,15 @@ const projects = [1,2,3,4,5,6,7,8,9,0]
                   />
       </View>
       <ScrollView style={styles.scrollView}>
+        {/* <Button title='allProjs' onPress={()=>getAllProjects()}/> */}
       <DataTable>
-      {projects.map((el,i)=>{
+      {!department? <Text>loading</Text> : 
+      (departmentProjects.length==0? <Text>У отдела пока нет проектов</Text> : 
+      departmentProjects.map((el,i)=>{
         return(
           
           <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 1,}}>Название крупного проекта с длинным названием</DataTable.Cell>
+            <DataTable.Cell style={{flex: 1,}}>{el.title}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>35 дней</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>
               <View style={styles.projType}>
@@ -77,7 +109,7 @@ const projects = [1,2,3,4,5,6,7,8,9,0]
           </DataTable.Row>
         )
         
-      })}
+      }))}
       </DataTable>
       </ScrollView>
   </View>

@@ -11,15 +11,48 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native';
 import Projects from './menu/projects/projects';
 import { DataTable } from 'react-native-paper';
+import { loadUser } from '../redux/actions/auth';
+import { allNews } from '../redux/actions/news';
+import { findDepartment } from '../redux/actions/department';
+import { likedProposes } from '../redux/actions/office';
+import { allProjects } from '../redux/actions/projects';
 
+import {url} from '../components/utils/axios'
 
 
 const Main = ({navigation}) => {
 const dispatch = useDispatch()
-
+const user = useSelector(state=>state.auth.user)
+const news = useSelector(state=>state.news.news)
+const department = useSelector(state => state.departments.findDep)
+const liked = useSelector(state => state.office.likedProposes)
 
 const flexs = ['OB', 'AP', 'ПП','ПП','ПП']
-const projects = [1,2,3,4,5]
+const projects = useSelector(state=> state.projects.projects)
+const [daysLeft, setDaysLeft] = useState(35)
+
+
+const loadAll = () => {
+  dispatch(loadUser())
+  dispatch(allNews())
+  user && user.division && dispatch(findDepartment(user.division.divname))
+  dispatch(likedProposes())
+  dispatch(allProjects())
+
+}
+const logAll = () => {
+  console.log(projects[5])
+}
+useEffect(()=>{
+  loadAll()
+},[user])
+// useEffect(()=>{
+//   const now = new Date()
+//   const finish = new Date(project.dateFinish)
+//   const left = (finish.getTime() - now.getTime()) / (1000*60*60*24)
+//   const days = Math.floor(left)
+//  setDaysLeft(days)
+// },[user])
 
   return (
     
@@ -27,9 +60,10 @@ const projects = [1,2,3,4,5]
       <View style={{height: 100, backgroundColor: 'black',}}/>
  
       <View style={styles.profileTop}>
-        <Image source={require('../../assets/ava.jpeg')} style={styles.avatar}/>
-        <Text style={styles.name}>Mitya Pustovitenko</Text>
-        <Text style={styles.pos}>mobile developer</Text>
+      {/* source={{uri: `${url+user.avatar}`}} */}
+        <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
+        <Text style={styles.name}>{user? user.fullname :'Mitya Pustovitenko'}</Text>
+        <Text style={styles.pos}>{user? user.position : 'position'}</Text>
       </View>
 
 
@@ -44,7 +78,8 @@ const projects = [1,2,3,4,5]
           )
         })}
       </View>
-
+{/* <Button title='loadAll' onPress={()=>loadAll()}/>
+<Button title='log' onPress={()=>logAll()}/> */}
 
 <View style={styles.scrollView}>
 
@@ -61,18 +96,18 @@ const projects = [1,2,3,4,5]
       </View>
 
       <DataTable>
-      {projects.map((el,i)=>{
+      {!news? <Text>loading news</Text> : news.map((el,i)=>{
         if (i<3){
         return(
           
           <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 2,}}>Название новости длинной</DataTable.Cell>
+            <DataTable.Cell style={{flex: 2,}}>{el.title}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>
               <View style={styles.projType}>
                 <Text style={{color: '#CA9E4D',}}>объявление</Text>
               </View>
             </DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>11.06</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>{el.postDate.slice(0,10).split('-').reverse().join('.')}</DataTable.Cell>
           </DataTable.Row>
         )} 
         
@@ -91,12 +126,12 @@ const projects = [1,2,3,4,5]
       </View>
 
       <DataTable>
-      {projects.map((el,i)=>{
+      {user && (!user.projects? <Text>loading projects</Text> : user.projects.map((el,i)=>{
         return(
           
           <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 1,}}>Название крупного проекта с длинным названием</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>35 дней</DataTable.Cell>
+            <DataTable.Cell style={{flex: 1,}}>{el.title}</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>{daysLeft} {daysLeft<1?'день': daysLeft<5? 'дня': 'дней'}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>
               <View style={styles.projType}>
                 <Text style={{color: '#CA9E4D',}}>архитектура</Text>
@@ -108,7 +143,7 @@ const projects = [1,2,3,4,5]
           </DataTable.Row>
         )
         
-      })}
+      }))}
       </DataTable>
 
 

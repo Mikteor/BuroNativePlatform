@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar } from 'react-native';
 import {  Button, ButtonGroup } from 'react-native-elements'
 import { DataTable } from 'react-native-paper';
@@ -8,11 +8,13 @@ import SprintPage from '../../../components/projects/sprints'
 import TeamPage from '../../../components/projects/projTeam'
 import Info from '../../../components/projects/info'
 import Model from '../../../components/projects/model'
+import { useDispatch, useSelector } from 'react-redux';
 
 const Project = ({}) => {
+  const dispatch = useDispatch()
 
   const [selectedButton, setButton] = useState(0)
-
+const cryptProject = useSelector(state => state.projects.selectedProject)
   
   const buttons = ['Спринты', 'Команда','Модель','Информация']
   const sprints = [1,2,3,4,5,6,7,8]
@@ -22,6 +24,10 @@ const Project = ({}) => {
     console.log(e)
     setButton(e)
   }
+
+  useEffect(()=>{
+    console.log('cryptProject',cryptProject)
+  },[cryptProject])
 
   return (
     

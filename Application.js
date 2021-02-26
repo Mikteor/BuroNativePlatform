@@ -33,7 +33,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
+import { allNews } from './src/redux/actions/news';
+import { findDepartment } from './src/redux/actions/department';
+import { likedProposes } from './src/redux/actions/office';
+import { allProjects } from './src/redux/actions/projects';
 
 export default function App() {
 const dispatch = useDispatch()
@@ -41,6 +44,8 @@ const dispatch = useDispatch()
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
 const tokenBoulean = useSelector(state=> state.auth.token)
+const user = useSelector(state=>state.auth.user)
+
 const [isAuthenticated, setIsAuthenticated] = useState(false)
 
 useEffect(() => {
@@ -57,8 +62,17 @@ useEffect(() => {
 
 
   },[tokenBoulean])
-  
-  
+
+  const loadAll = () => {
+    dispatch(loadUser())
+    dispatch(allNews())
+    user && user.division && dispatch(findDepartment(user.division.divname))
+    dispatch(likedProposes())
+    dispatch(allProjects())
+  }
+  useEffect(()=>{
+    loadAll()
+  },[])
   // const mainIcon = <Icon name="home-outline" color={color} size={24}  />
 
   return (

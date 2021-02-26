@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {useDispatch, useSelector} from 'react-redux'
 import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
 import {  Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { likedProposes, likePropose } from '../redux/actions/office';
 
 
 const Profile = ({navigation}) => {
+const dispatch = useDispatch()
+const liked = useSelector(state => state.office.likedProposes)
+const dated = useSelector(state => state.office.dateProposes)
+const loaded = useSelector(state => state.office.loaded)
+const reload = useSelector(state => state.office.reload)
+const user = useSelector(state => state.auth.user)
+
+
+const likeButton =(id) =>{
+  dispatch(likePropose(id))
+  // dispatch(likedProposes())
+}
+useEffect(()=>{
+  dispatch(likedProposes())
+},[reload])
 
 const proposes = [1,2,3,4,5]
 
@@ -19,18 +36,20 @@ const proposes = [1,2,3,4,5]
       </View>
 
     <ScrollView>
-      {proposes.map((el,i)=>{
-
+      {!liked? <Text>Предложений пока нет</Text> : 
+        liked.map((el,i)=>{
+          const likeTrue =  el.likes.some(el => el.user == user._id)
         return(
             <View key={'proposrss'+i} style={styles.proposeCard}>
               <View style={styles.propCardFlex}>
-                  <Text>Имя фамилия</Text>
-                  <Text>01.05</Text>
+                  <Text>{el.user.fullname}</Text>
+                  <Text>{el.date.slice(5,10).split('-').reverse().join('.')}</Text>
               </View>
-              <Text style={{fontWeight: 'bold',marginVertical: 5, fontSize: 15}}>Предложение состоит в том чтоб все предложения отрисовывались тут как предложения</Text>
+              <Text style={{fontWeight: 'bold',marginVertical: 5, fontSize: 15}}>{el.title}</Text>
+              <Text>{el.text}</Text>
               <View style={styles.propCardFlex}>
-                <Text>3 людям нравится</Text>
-                <Icon name={i%2?'heart': 'heart-outline'} color={i%2?'red': '#7C7C7C'} size={24}/>
+                <Text>{el.likeCount} людям нравится</Text>
+                <Icon onPress={()=>likeButton(el._id)} name={likeTrue?'heart': 'heart-outline'} color={likeTrue?'red': '#7C7C7C'} size={24}/>
               </View>
             </View>
         )

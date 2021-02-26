@@ -2,11 +2,20 @@ import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectedProject } from '../../../redux/actions/projects'
 
 const Projects = ({navigation}) => {
 
-  const projects = [1,2,3,4,5]
+  const dispatch = useDispatch()
+
+  const projects = useSelector(state=>state.projects.projects)
   const finishedProjects = [1,2,]
+  
+  const projectPress = (crypt) => {
+    dispatch(selectedProject(crypt))
+    navigation.navigate('project')
+  }
 
   return (
     
@@ -21,13 +30,20 @@ const Projects = ({navigation}) => {
           <DataTable.Title style={styles.smallHeadCell}>Спринты</DataTable.Title>
         </DataTable.Header>
       
-        {projects.map((el,i)=>{
+        {!projects? <Text>Нет проектов</Text> : 
+          projects
+          .filter((project) => !project.status)
+          .map((el,i)=>{
+            let doneSprints = 0
+            for(let i=0; i<el.sprints.length; i++){
+              el.sprints[i].status==true && (doneSprints += 1 )
+            }
           return(
-          <DataTable.Row key={'projeccts'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 4,}}>Название крупного проекта с длинным названием</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>3</DataTable.Cell>
+          <DataTable.Row key={'projeccts'+i} onPress={()=>projectPress(el.crypt)} >
+            <DataTable.Cell style={{flex: 4,}}>{el.title}</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>{el.dateFinish ? el.dateFinish.slice(5,10).split('-').reverse().join('.') : '-'}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>4</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>{doneSprints +'/'+ el.sprints.length}</DataTable.Cell>
           </DataTable.Row>
           )
           
@@ -42,13 +58,20 @@ const Projects = ({navigation}) => {
           <DataTable.Title style={styles.smallHeadCell}>Статус</DataTable.Title>
           <DataTable.Title style={styles.smallHeadCell}>Спринты</DataTable.Title>
         </DataTable.Header>
-        {finishedProjects.map((el,i)=>{
+        {!projects? <Text>Нет проектов</Text> : 
+          projects
+          .filter((project) => project.status)
+          .map((el,i)=>{
+            let doneSprints = 0
+            for(let i=0; i<el.sprints.length; i++){
+              el.sprints[i].status==true && (doneSprints += 1 )
+            }
           return(
             <DataTable.Row key={'finishedProjects'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 4,}}>Название крупного проекта с длинным названием</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>3</DataTable.Cell>
+            <DataTable.Cell style={{flex: 4,}}>{el.title}</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>{el.dateFinish && el.dateFinish.slice(5,10).split('-').reverse().join('.')}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>4</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>{doneSprints +'/'+ el.sprints.length}</DataTable.Cell>
           </DataTable.Row>
           )
          
@@ -64,7 +87,7 @@ export default Projects
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#C4C4C4',
+      backgroundColor: '#F1F5FF',
       // alignItems: 'center',
       // justifyContent: 'center',
     },
