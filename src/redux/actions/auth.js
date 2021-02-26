@@ -57,7 +57,7 @@ export const login = (formData) => async dispatch  => {
 
         }
       catch (err) {
-        console.log('err');
+        console.log('err', err);
 
         // const errors = err.response.data.err;
         // errors.map(err => {

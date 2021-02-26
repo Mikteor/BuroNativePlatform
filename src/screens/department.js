@@ -48,7 +48,7 @@ useEffect(()=>{
     <View style={{flex:1}}>
       <View style={styles.title}>
           <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела {user&& user.division.divname}</Text>
+          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела {user && user.division && user.division.divname}</Text>
       </View>
 
       <ScrollView style={styles.scrollView}>
