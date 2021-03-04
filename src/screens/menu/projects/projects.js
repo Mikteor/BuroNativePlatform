@@ -10,7 +10,6 @@ const Projects = ({navigation}) => {
   const dispatch = useDispatch()
 
   const projects = useSelector(state=>state.projects.projects)
-  const finishedProjects = [1,2,]
   
   const projectPress = (crypt) => {
     dispatch(selectedProject(crypt))

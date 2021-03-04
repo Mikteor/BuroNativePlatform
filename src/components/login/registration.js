@@ -74,7 +74,7 @@ const onSubmit = e => {
             placeholder='E-mail'
         />
         <Input
-            onChangeText={text=>setFormData({...formData, login: text})}
+            onChangeText={text=>setFormData({...formData, rocketname: text})}
             value={formData.rocketname}
             placeholder='Rocket name'
         />

@@ -38,7 +38,6 @@ export const clearDeps = () => async dispatch  => {
 }
 export const allDepartments = () => async dispatch  => {
     try {
-
         const res = await innerBackend.get('/divisions/all')
 
         dispatch({

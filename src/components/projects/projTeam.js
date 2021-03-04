@@ -5,21 +5,13 @@ import { ListItem } from 'react-native-elements';
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import TouchableScale from 'react-native-touchable-scale';
+import {url} from '../utils/axios'
 
-const Project = ({}) => {
+const Project = ({team}) => {
 
-  const [selectedButton, setButton] = useState(0)
 
-  
-  const buttons = ['Спринты', 'Команда','Модель','Информация']
-  const sprints = [1,2,3,4,5,6,7,8]
-  const team = [1,2,3,4,5,6,7,8]
   const flexs = ['OB', 'AP',]
 
-  const btnGroup = (e) => {
-    console.log(e)
-    setButton(e)
-  }
 
   return (
     
@@ -38,11 +30,11 @@ const Project = ({}) => {
                 // tension={100} // These props are passed to the parent component (here TouchableScale)
                 // activeScale={0.95} //
                 >
-                    <Image source={require('../../../assets/ava.jpeg')} style={teamStyle.avatar}/>
+                    <Image source={el.avatar? {uri: `${url+el.avatar}`} : require('../../../assets/ava.jpeg')} style={teamStyle.avatar}/>
           
                             <View>
-                                <Text style={teamStyle.name}>Mitya putovitenko</Text>
-                                <Text style={teamStyle.pos}>Mitya putovitenko</Text>
+                                <Text style={teamStyle.name}>{el.fullname}</Text>
+                                <Text style={teamStyle.pos}>{el.position}</Text>
                                 <View style={teamStyle.flex}>
                                     {flexs.map((el,i)=>{
                                         return(

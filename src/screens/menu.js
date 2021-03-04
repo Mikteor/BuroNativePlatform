@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../redux/actions/auth'
 import { ImageBackground } from 'react-native';
 import { StyleSheet, Text, View, Image, TextInput,  Modal } from 'react-native';
@@ -8,9 +8,11 @@ import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Alert } from 'react-native';
 import { ScrollView } from 'react-native';
-
+import {url} from '../components/utils/axios'
 const Main = ({navigation}) => {
 const dispatch = useDispatch()
+const user = useSelector(state=>state.auth.user)
+
   const [exit, setExit] = useState(false)
 const buttons = [
   {
@@ -23,7 +25,7 @@ const buttons = [
   },
     {
   name: "Сотрудники",
-  navigate: 'team'
+  navigate: 'buroTeam'
   },
     {
   name: "Смежники",
@@ -39,9 +41,9 @@ const scndGroup = [
     
     <ScrollView style={styles.container}>
       <View style={styles.avatar}>
-          <ImageBackground source={require('../../assets/ava.jpeg')} style={styles.avaBG}>
-            <Text style={styles.name}>My name</Text>
-            <Text style={styles.postition}>my prof</Text>
+          <ImageBackground source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avaBG}>
+            <Text style={styles.name}>{user.fullname}</Text>
+            <Text style={styles.postition}>{user.position}</Text>
           </ImageBackground>
       </View>
 

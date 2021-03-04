@@ -1,21 +1,45 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { ImageBackground } from 'react-native';
-import { StyleSheet, Text, View, Image, TextInput,  Modal } from 'react-native';
-import { ListItem, Divider, Overlay, Button } from 'react-native-elements'
-import TouchableScale from 'react-native-touchable-scale';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { Alert } from 'react-native';
+import React, { useEffect,  } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { StyleSheet, Text, } from 'react-native';
+
 import { ScrollView } from 'react-native';
+import { DataTable } from 'react-native-paper';
+import { allDepartments } from '../../redux/actions/department'
 
 const AllDepartments = ({navigation}) => {
 const dispatch = useDispatch()
+const departments = useSelector(state => state.departments.departments)
 
+useEffect(()=>{
+  dispatch(allDepartments())
 
+},[])
   return (
     
     <ScrollView style={styles.container}>
   
+  <DataTable>
+        <DataTable.Header>
+          <DataTable.Title sortDirection='descending' style={{flex: 4,}}>Название</DataTable.Title>
+          <DataTable.Title style={styles.smallHeadCell}>Дедлайн</DataTable.Title>
+          <DataTable.Title style={styles.smallHeadCell}>Статус</DataTable.Title>
+          <DataTable.Title style={styles.smallHeadCell}>Спринты</DataTable.Title>
+        </DataTable.Header>
+      
+        {!departments? <Text>loading...</Text> : 
+          departments.map((el,i)=>{
+           
+          return(
+          <DataTable.Row key={'projeccts'+i} onPress={()=>projectPress(el.crypt)} >
+            <DataTable.Cell style={{flex: 4,}}>{el.divname}</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>1</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>
+            <DataTable.Cell style={styles.smallCell} numeric>3</DataTable.Cell>
+          </DataTable.Row>
+          )
+          
+        })}
+</DataTable>
 
     </ScrollView>
   );
@@ -25,7 +49,7 @@ export default AllDepartments
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#3F496C',
+      backgroundColor: '#F8FAFB',
     },
 
   });

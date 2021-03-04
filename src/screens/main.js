@@ -33,19 +33,21 @@ const [daysLeft, setDaysLeft] = useState(35)
 
 
 const loadAll = () => {
+
   dispatch(loadUser())
   dispatch(allNews())
   user && user.division && dispatch(findDepartment(user.division.divname))
   dispatch(likedProposes())
   dispatch(allProjects())
+  // console.log(user)
 
 }
 const logAll = () => {
-  console.log(projects[5])
+  console.log(user)
 }
 useEffect(()=>{
   loadAll()
-},[user])
+},[])
 // useEffect(()=>{
 //   const now = new Date()
 //   const finish = new Date(project.dateFinish)
@@ -78,8 +80,8 @@ useEffect(()=>{
           )
         })}
       </View>
-{/* <Button title='loadAll' onPress={()=>loadAll()}/>
-<Button title='log' onPress={()=>logAll()}/> */}
+<Button title='loadAll' onPress={()=>loadAll()}/>
+{/* <Button title='log' onPress={()=>logAll()}/> */}
 
 <View style={styles.scrollView}>
 

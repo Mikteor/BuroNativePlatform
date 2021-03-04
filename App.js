@@ -12,6 +12,7 @@ import {Provider} from 'react-redux'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Application from './Application'
 import store from './src/redux/store';
+import {navigationRef} from './RootNavigation';
 
 
 
@@ -20,7 +21,7 @@ import store from './src/redux/store';
 
 const App: () => React$Node = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
         <SafeAreaProvider >
             <Provider store={store}>
                 <Application />

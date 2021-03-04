@@ -9,25 +9,37 @@ import TeamPage from '../../../components/projects/projTeam'
 import Info from '../../../components/projects/info'
 import Model from '../../../components/projects/model'
 import { useDispatch, useSelector } from 'react-redux';
+import { getProject } from '../../../redux/actions/projects'
 
-const Project = ({}) => {
+const Project = ({navigation}) => {
   const dispatch = useDispatch()
-
+  const project = useSelector(state => state.projects.project)
   const [selectedButton, setButton] = useState(0)
-const cryptProject = useSelector(state => state.projects.selectedProject)
+  const cryptProject = useSelector(state => state.projects.selectedProject)
   
   const buttons = ['Спринты', 'Команда','Модель','Информация']
   const sprints = [1,2,3,4,5,6,7,8]
   const history = [1,2,3,4,5,6,7,8]
 
   const btnGroup = (e) => {
+    console.log('project',project)
+    console.log('sprints',project.sprints)
     console.log(e)
     setButton(e)
   }
 
   useEffect(()=>{
     console.log('cryptProject',cryptProject)
+    dispatch(getProject(cryptProject))
   },[cryptProject])
+
+if (!project) {
+  return(
+  <View style={{flex: 1,justifyContent:'center', alignContent: 'center'}}>
+    <Text style={{textAlign: 'center'}}>loading...</Text>
+  </View>
+  )
+} 
 
   return (
     
@@ -35,7 +47,7 @@ const cryptProject = useSelector(state => state.projects.selectedProject)
         <View style={styles.picture}>
             <ImageBackground source={require('../../../../assets/mria.png')} style={styles.bg}>
               <View style={styles.darkenes}>
-                <Text style={styles.title}>Название проекта</Text>
+                <Text style={styles.title}>{project.title}</Text>
                 <ButtonGroup
                       onPress={(e)=>btnGroup(e)}
                       selectedIndex={selectedButton}
@@ -53,10 +65,10 @@ const cryptProject = useSelector(state => state.projects.selectedProject)
         </View>
 
 
-      {selectedButton==0? <SprintPage /> : 
-       selectedButton==1? <TeamPage /> :
+      {selectedButton==0? <SprintPage  project={project} navigation={navigation}/> : 
+       selectedButton==1? <TeamPage team={project.team}/> :
        selectedButton==2? <Model /> :
-       selectedButton==3 && <Info /> }
+       selectedButton==3 && <Info project={project} /> }
       
     
 

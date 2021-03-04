@@ -6,7 +6,7 @@ import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import TouchableScale from 'react-native-touchable-scale';
 
-const Project = ({}) => {
+const Project = ({project}) => {
 
   const [selectedButton, setButton] = useState(0)
 
@@ -34,32 +34,32 @@ const Project = ({}) => {
 <ScrollView>
             <View style={infoStyle.card}>
                 <Text style={infoStyle.cardTitle}>Описание проекта</Text>
-                <Text style={infoStyle.cardSubtitle}>Описание проекта будет сидеть тут. Какая-то разная инфа при создании проекта вот.</Text>
+                <Text style={infoStyle.cardSubtitle}>{project.about}</Text>
             </View>
             <View style={infoStyle.card}>
                 <Text style={infoStyle.cardTitle}>Официальное название</Text>
-                <Text style={infoStyle.cardSubtitle}>Большое длинное серьезное название город поселок эскиз проект 2020 стадия р ха</Text>
+                <Text style={infoStyle.cardSubtitle}>{project.offTitle}</Text>
             </View>
             <View style={infoStyle.cardFlex}>
                 <Text style={infoStyle.cardTitle}>Шифр</Text>
-                <Text style={infoStyle.cardSubtitle}>2939-20ч-ХХ</Text>
+                <Text style={infoStyle.cardSubtitle}>{project.crypter}</Text>
             </View>
             <View style={infoStyle.cardFlex}>
                 <Text style={infoStyle.cardTitle}>Бюджет</Text>
-                <Text style={infoStyle.cardSubtitle}>ссылка</Text>
+                <Text style={infoStyle.cardSubtitle}>ссылка {project.budget}</Text>
             </View>
             <View style={infoStyle.cardFlex}>
                 <Text style={infoStyle.cardTitle}>Документация</Text>
-                <Text style={infoStyle.cardSubtitle}>ссылка</Text>
+                <Text style={infoStyle.cardSubtitle}>ссылка {project.cusStorage}</Text>
             </View>
             <View style={infoStyle.cardFlex}>
                 <Text style={infoStyle.cardTitle}>График</Text>
-                <Text style={infoStyle.cardSubtitle}>ссылка</Text>
+                <Text style={infoStyle.cardSubtitle}>ссылка {project.schedule}</Text>
             </View>
             <View style={infoStyle.card}>
                 <Text style={infoStyle.cardTitle}>Заказчик</Text>
                 <Text style={infoStyle.cardSubtitle}>телефон</Text>
-                <Text style={infoStyle.cardSubtitle}>заказчик</Text>
+                <Text style={infoStyle.cardSubtitle}>заказчик: {project.customer}</Text>
                 <Text style={infoStyle.cardSubtitle}>почта</Text>
                 <Text style={infoStyle.cardSubtitle}>другие документы</Text>
             </View>

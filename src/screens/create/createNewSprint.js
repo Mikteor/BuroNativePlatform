@@ -11,7 +11,7 @@ import { loadUser } from '../../redux/actions/auth';
 import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../redux/actions/projects';
 
 
-const Project = ({project, navigation}) => {
+const Project = ({project}) => {
   const dispatch = useDispatch()
   const ref = useRef(null)
 
@@ -84,110 +84,16 @@ useEffect(()=>{
 
   return (
     
- 
 
-        <View style={sprintStyle.container}>
-          <View style={sprintStyle.sprints}>
-          <View style={{backgroundColor:'black', height:20,}}/>
-            <ScrollView style={{marginTop:-20,}}>
-          
-
-
-      {project.sprints
-      .filter(el => !el.status)
-      .map((el,i)=>{
-
-        let finishedTasks = 0
-            el.tasks.map((task,i)=>{
-              task.taskStatus==true && (finishedTasks += 1)
-            })
-        let percent = finishedTasks/el.tasks.length*100
-        let chosen = userSprints.some(id=>id==el._id)
-
-        const now = new Date()
-        const finish = new Date(el.dateClosePlan)
-
-        return(
-            <View key={'sprints'+i} style={sprintStyle.card}>
-              <View style={sprintStyle.topFlex}>
-                <Text style={sprintStyle.title}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
-                <Icon name='circle' color={now<finish? 'green' : now>finish && percent<100?'red': 'green'} size={14} style={sprintStyle.statusDot}/>
-                <Icon name='pencil-outline' color='black' size={16} style={{marginLeft: 5,}} onPress={()=>  dispatch(getSprint(el._id))}/>
-                <Text style={sprintStyle.status}>{Math.round(percent)}%</Text>
-              </View>
-              <Text style={sprintStyle.description}>{el.description}</Text>
-              <View style={sprintStyle.botFlex}>
-                <View style={sprintStyle.type}>
-                  <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
-                </View>
-                <Icon name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint(el._id)}/>
-              </View>
-            </View>
-        )
-      })}
-          </ScrollView>
-          </View>
-
-
-
-
-          <View style={{height: openHistory? 250 : 80,}}>
-              <View style={sprintStyle.histTitle} onTouchEnd={()=>setOpenHistory(!openHistory)}>
-                <Icon name='playlist-check' color='#7C7C7C' size={24}/>
-                <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>История</Text>
-                <ArrowIcon name={openHistory?'keyboard-arrow-down': 'keyboard-arrow-up'} color='#7C7C7C' size={24}/>
-              </View>
-            <ScrollView>
-              <DataTable>
-                    {project.sprints
-                      .filter(el => el.status)
-                      .map((el,i)=>{
-                      return(
-                        
-                        <DataTable.Row style={sprintStyle.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-                          <DataTable.Cell style={{flex: 1,}}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</DataTable.Cell>
-                         
-                          <DataTable.Cell  numeric>
-                            <View style={sprintStyle.projType}>
-                              <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
-                            </View>
-                          </DataTable.Cell>
-                          <DataTable.Cell style={{flex: .6}} numeric>
-                            <Icon name='circle' color='green' size={14}/>
-                          </DataTable.Cell>
-                        </DataTable.Row>
-                      )
-                      
-                    })}
-          </DataTable>
-          </ScrollView>
-          </View>
-
-
-          <FAB
-            style={sprintStyle.fab}
-            color='white'
-            icon="plus"
-            onPress={() => navigation.navigate('createSprint')}
-          />
-
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={openSprint}
-            onRequestClose={()=>setOpenSprint(false)} 
-            
-          >
+          <ScrollView>
               <View style={sprintStyle.modalCont} >
 
               <View style={sprintStyle.modalCard} >
                 <View style={sprintStyle.modalBtn}>
-                  <Text style={sprintStyle.modalBtnText} >Спринт {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+                  <Text style={sprintStyle.modalBtnText} >Создание нового спринта</Text>
                 </View>
-                <View style={sprintStyle.modalBtn}>
-                  <Text style={sprintStyle.modalBtnText}>{sprint && sprint.description}</Text>
-                </View>
-                {sprint && sprint.tasks.map((el,i)=>{
+                
+                {/* {sprint && sprint.tasks.map((el,i)=>{
                   return(
                     <View key={'tasks-el'+i} style={{flexDirection: 'row', alignItems: 'center'}}>
                       <CheckBox
@@ -209,7 +115,7 @@ useEffect(()=>{
                     />
                     <Icon name='cancel' size={24} style={{marginTop: 15}} onPress={()=>cancelNewTask()}/>
                 </View>
-                }
+                } */}
                 
                 
                 <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>
@@ -219,15 +125,11 @@ useEffect(()=>{
                 
             </View>
             </View>
-          </Modal>
+          </ScrollView>
 
 
 
 
-
-
-
-        </View>
 
   
 

@@ -10,7 +10,7 @@ const initialState = {
     loadedAllProj: false,
     sprints: [],
     loadSprints: false,
-    sprint: [],
+    sprint: null,
     tasks: [],
     tasksLoad: false,
     error: '',

@@ -233,40 +233,55 @@ export const deleteSprint = (id) => async dispatch => {
 
 
 
-export const addTasks = ({ sprintId,tasks}) => async dispatch  => {
-    // console.log(tasks, sprintId, 'retuuuuuuuuuuuurd')
-    
-    try {
-        // console.log(tasks, 'tasks', id, 'id')
-        const res = await innerBackend.post(`/projects/sprints/addtask/${sprintId}`, tasks)
-        dispatch({
-            type: ADD_TASKS,
-            payload: res.data
-        })
+export const addTask = ( id, task ) => async (dispatch) => {
 
-        }
-      catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        console.log('id:', id, 'task: ', task)
+    try {
+      let tasks = {
+        taskTitle: task,
+        workVolume: 0,
+        taskState: false,
+      };
+  
+  
+      console.log('tasks',tasks, id)
+      const res = await innerBackend.post(
+        `/projects/sprints/task/${id}`,
+        tasks
+      );
+  
+      console.log('part2')
+      dispatch({
+        type: ADD_TASKS,
+        payload: res.data,
+      });
+  
+      console.log(res.data)
+  
+    } catch (err) {
+        console.log('err',err)
+      const errors = err.response.data.err;
+     
+        return dispatch({
+          type: SPRINT_ERROR,
+          payload: errors.msg,
+        });
       
     }
-
-}
-
+  };
 
 
-export const finishTask = ({taskid, id}) => async dispatch  => {
+
+export const finishTask = (sprintId, taskId) => async dispatch  => {
     let body = {
-        taskid: taskid 
+        taskid: taskId 
     }
     try {
-        // console.log(tasks, 'tasks', id, 'id')
-        const res = await innerBackend.put(`projects/sprints/DAtask/${id}`, body)
+        console.log('finish 1','sprintId:', sprintId,'taskId: ', taskId)
+
+        const res = await innerBackend.put(`projects/sprints/DAtask/${sprintId}`, body)
+        console.log('finish 2')
+
         dispatch({
             type: FINISH_TASK,
             payload: res.data
@@ -274,6 +289,7 @@ export const finishTask = ({taskid, id}) => async dispatch  => {
 
         }
       catch (err) {
+          console.log('finish error: ', err)
         const errors = err.response.data.err;
         errors.map(error => {
            return dispatch({
@@ -285,6 +301,27 @@ export const finishTask = ({taskid, id}) => async dispatch  => {
     }
 
 }
+
+export const DeleteTask = ( id, taskId ) => async (dispatch) => {
+    try {
+      let body = {
+        taskid: taskId,
+      };
+      console.log(id)
+  
+      console.log(body)
+      const res = await innerBackend.put(
+        `projects/sprints/deltask/${id}`, body
+      );
+      console.log(res.data)
+      dispatch({
+        type: EDIT_TASK,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  }; 
 
 
 export const finishSprint = (id) => async dispatch  => {

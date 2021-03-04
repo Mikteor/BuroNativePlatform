@@ -6,6 +6,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import { DataTable } from 'react-native-paper';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import {url} from '../components/utils/axios'
 
 
 const Main = ({}) => {
@@ -63,7 +64,7 @@ useEffect(()=>{
                 tension={100} // These props are passed to the parent component (here TouchableScale)
                 activeScale={0.95} //
                 >
-                    <Image source={require('../../assets/ava.jpeg')} style={styles.avatar}/>
+                    <Image source={{uri: `${url+el.avatar}`} || require('../../assets/ava.jpeg')} style={styles.avatar}/>
                     <ListItem.Content>
                       <ListItem.Title>{el.fullname}</ListItem.Title>
                       <ListItem.Subtitle>{el.position}</ListItem.Subtitle>

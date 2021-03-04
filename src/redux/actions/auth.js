@@ -73,19 +73,22 @@ export const login = (formData) => async dispatch  => {
 }
 
 
-export const register = ({formData}) => async dispatch  => {
+export const register = (formData) => async dispatch  => {
 
 
     try {
+        console.log('register data' ,formData)
         const res = await instance.post('/users', formData)
+        console.log('res',res)
         dispatch({
             type: REGISTER,
             payload: res.data
         })
-         setAuthToken(localStorage.token);
+        //  setAuthToken(localStorage.token);
         
       }
       catch (err) {
+        console.log('error:::', err)
         const errors = err.response.data
  
     
