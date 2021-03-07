@@ -11,7 +11,9 @@ const Projects = ({navigation}) => {
 
   const projects = useSelector(state=>state.projects.projects)
   
-  const projectPress = (crypt) => {
+  const projectPress = (crypt, el) => {
+    console.log('crypt',crypt)
+    console.log('project',el)
     dispatch(selectedProject(crypt))
     navigation.navigate('project')
   }
@@ -38,7 +40,7 @@ const Projects = ({navigation}) => {
               el.sprints[i].status==true && (doneSprints += 1 )
             }
           return(
-          <DataTable.Row key={'projeccts'+i} onPress={()=>projectPress(el.crypt)} >
+          <DataTable.Row key={'projeccts'+i} onPress={()=>projectPress(el.crypt, el)} >
             <DataTable.Cell style={{flex: 4,}}>{el.title}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>{el.dateFinish ? el.dateFinish.slice(5,10).split('-').reverse().join('.') : '-'}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>

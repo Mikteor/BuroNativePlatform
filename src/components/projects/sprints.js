@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, Modal } from 'react-native';
-import { DataTable, FAB } from 'react-native-paper';
-import { Button, CheckBox, Input } from 'react-native-elements'
+import { DataTable, FAB, Portal, Provider } from 'react-native-paper';
+import { Button, CheckBox, colors, Input } from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,11 +24,12 @@ const Project = ({project, navigation}) => {
   const [newTaskFrom, setnewTaskFrom] = useState(false)
   const [newTaskData, setnewTaskData] = useState('')
   const [openSprint, setOpenSprint] = useState(false)
+  const [fabOpen, setFabOpen] = useState(false)
   const [openNewSprintForm, setOpenNewSprintForm] = useState(false)
 
-useEffect(()=>{
-  sprint && setOpenSprint(true)
-},[sprint])
+// useEffect(()=>{
+//   sprint && setOpenSprint(true)
+// },[sprint])
   
 
   const chosenSprint = (id) => {
@@ -36,8 +37,13 @@ useEffect(()=>{
     dispatch(addToChosen(id));
     dispatch(loadUser())
   }
+  const editSprint = (id) => {
+    
+    dispatch(getSprint(id))
+    setOpenSprint(true)
+  }
   const addNewTask = () => {
-    console.log(sprint._id, newTaskData)
+    // console.log(sprint._id, newTaskData)
     dispatch(addTask(sprint._id, newTaskData))
     setnewTaskFrom(false)
     ref.current.clear()
@@ -78,8 +84,9 @@ useEffect(()=>{
 
 
 
-  const addNewSprint = () => {
-
+  const closeSprint = () => {
+    setOpenSprint(false)
+    dispatch(getProject(project.crypt))
   }
 
   return (
@@ -112,7 +119,7 @@ useEffect(()=>{
               <View style={sprintStyle.topFlex}>
                 <Text style={sprintStyle.title}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
                 <Icon name='circle' color={now<finish? 'green' : now>finish && percent<100?'red': 'green'} size={14} style={sprintStyle.statusDot}/>
-                <Icon name='pencil-outline' color='black' size={16} style={{marginLeft: 5,}} onPress={()=>  dispatch(getSprint(el._id))}/>
+                <Icon name='pencil-outline' color='black' size={16} style={{marginLeft: 5,}} onPress={()=>editSprint(el._id)}/>
                 <Text style={sprintStyle.status}>{Math.round(percent)}%</Text>
               </View>
               <Text style={sprintStyle.description}>{el.description}</Text>
@@ -163,6 +170,32 @@ useEffect(()=>{
           </ScrollView>
           </View>
 
+    {/* <Provider>
+      <Portal>
+        <FAB.Group
+          color='white'
+          style={{}}
+          theme={{colors: {accent: 'red'}}}
+          open={fabOpen}
+          icon={fabOpen ? 'cancel' : 'plus'}
+          actions={[
+            {
+              icon: 'plus',
+              label: 'Создать спринт',
+              onPress: () => navigation.navigate('createSprint')
+              ,
+            },
+           
+          ]}
+          onStateChange={()=>setFabOpen(!fabOpen)}
+          onPress={() => {
+            if (fabOpen) {
+              // do something if the speed dial is open
+            }
+          }}
+        />
+      </Portal>
+    </Provider> */}
 
           <FAB
             style={sprintStyle.fab}
@@ -175,7 +208,7 @@ useEffect(()=>{
             animationType="slide"
             transparent={true}
             visible={openSprint}
-            onRequestClose={()=>setOpenSprint(false)} 
+            onRequestClose={()=>closeSprint()} 
             
           >
               <View style={sprintStyle.modalCont} >
@@ -203,7 +236,7 @@ useEffect(()=>{
                 <View style={{flexDirection: 'row', justifyContent: 'center', marginHorizontal: 30,}}>
                     <Icon name='check-bold' size={24} style={{marginTop: 15}} onPress={()=>addNewTask()}/>
                     <Input 
-                        placeholder='Описание спринта'
+                        placeholder='Описание задачи'
                         onChangeText={(text)=>setnewTaskData(text)}
                         ref={ref}
                     />
@@ -215,7 +248,7 @@ useEffect(()=>{
                 <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>
                 <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>
                 <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
-                <Button title='Отменить' type='clear' onPress={()=>setOpenSprint(false)}/>
+                <Button title='Закрыть' type='clear' onPress={()=>closeSprint()}/>
                 
             </View>
             </View>

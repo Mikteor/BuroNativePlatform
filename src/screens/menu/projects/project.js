@@ -14,8 +14,10 @@ import { getProject } from '../../../redux/actions/projects'
 const Project = ({navigation}) => {
   const dispatch = useDispatch()
   const project = useSelector(state => state.projects.project)
-  const [selectedButton, setButton] = useState(0)
   const cryptProject = useSelector(state => state.projects.selectedProject)
+  const user = useSelector(state => state.auth.user)
+  const [selectedButton, setButton] = useState(0)
+
   
   const buttons = ['Спринты', 'Команда','Модель','Информация']
   const sprints = [1,2,3,4,5,6,7,8]
@@ -66,7 +68,7 @@ if (!project) {
 
 
       {selectedButton==0? <SprintPage  project={project} navigation={navigation}/> : 
-       selectedButton==1? <TeamPage team={project.team}/> :
+       selectedButton==1? <TeamPage team={project.team2} crypt={cryptProject} user={user}/> :
        selectedButton==2? <Model /> :
        selectedButton==3 && <Info project={project} /> }
       

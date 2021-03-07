@@ -1,24 +1,31 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar } from 'react-native';
-import { DataTable } from 'react-native-paper';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, Button } from 'react-native';
+import {  DataTable } from 'react-native-paper';
 import { ListItem } from 'react-native-elements';
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import TouchableScale from 'react-native-touchable-scale';
 import {url} from '../utils/axios'
+import { getProject, joinTeam } from '../../redux/actions/projects';
+import { useDispatch } from 'react-redux';
 
-const Project = ({team}) => {
-
-
+const Project = ({team, crypt, user}) => {
+const dispatch = useDispatch()
+const userInTeam = team.some(el=> el.user._id==user._id)
   const flexs = ['OB', 'AP',]
 
+const joinTeamFunc = () => {
+ crypt && dispatch(joinTeam(crypt))
+ dispatch(getProject(crypt))
+}
 
   return (
     
  
-<View style={{flex:1}}>
-
+<View style={{flex:1, }}>
+  
       <ScrollView style={teamStyle.scrollView}>
+      {!userInTeam && <Button title='Вступить в команду' onPress={()=>joinTeamFunc()} />}
         {team.map((el,i)=>{
             return(
               <View
@@ -30,10 +37,10 @@ const Project = ({team}) => {
                 // tension={100} // These props are passed to the parent component (here TouchableScale)
                 // activeScale={0.95} //
                 >
-                    <Image source={el.avatar? {uri: `${url+el.avatar}`} : require('../../../assets/ava.jpeg')} style={teamStyle.avatar}/>
+                    <Image source={el.avatar? {uri: `${url+el.user.avatar}`} : require('../../../assets/ava.jpeg')} style={teamStyle.avatar}/>
           
                             <View>
-                                <Text style={teamStyle.name}>{el.fullname}</Text>
+                                <Text style={teamStyle.name}>{el.user.fullname}</Text>
                                 <Text style={teamStyle.pos}>{el.position}</Text>
                                 <View style={teamStyle.flex}>
                                     {flexs.map((el,i)=>{
@@ -53,6 +60,7 @@ const Project = ({team}) => {
               </View>
             )
         })}
+        
       </ScrollView>
       
   </View>

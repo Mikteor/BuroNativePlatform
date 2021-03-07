@@ -33,12 +33,12 @@ const [formData, setFormData ] = useState({
 
 useEffect(()=>{
   profile && setFormData({
-    name: profile.name || 'Name',
-    lastname: profile.lastname,
-    position: profile.position,
-		division: profile.division.divname,  
-    email: profile.email ,
-		report: profile.report , 
+    name: profile.name || 'Имя',
+    lastname: profile.lastname || 'Фамилия',
+    position: profile.position || 'Должность',
+		division: profile.division? profile.division.divname : 'Отдел',  
+    email: profile.email  || 'E-mail',
+		report: profile.report  || 'ссылка на отчетность', 
   })
 },[profile])
 

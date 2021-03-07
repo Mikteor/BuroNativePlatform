@@ -42,8 +42,8 @@ const scndGroup = [
     <ScrollView style={styles.container}>
       <View style={styles.avatar}>
           <ImageBackground source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avaBG}>
-            <Text style={styles.name}>{user.fullname}</Text>
-            <Text style={styles.postition}>{user.position}</Text>
+            <Text style={styles.name}>{user? user.fullname: 'Имя'}</Text>
+            <Text style={styles.postition}>{user? user.position: 'Должность'}</Text>
           </ImageBackground>
       </View>
 

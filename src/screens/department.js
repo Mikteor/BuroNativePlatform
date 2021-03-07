@@ -19,6 +19,7 @@ let projects = []
 
 const getAllProjects = () => {
   if(department){
+    if(department.members){
       let allProjs = department.members.map((el,i)=>{
                             return el.projects
                             })
@@ -32,12 +33,14 @@ const getAllProjects = () => {
           i+=1
         }
       }
+
       setDepProjects(inOneArr)
+    }
   }
 }
 
 useEffect(()=>{
-
+ department && console.log('dep',department)
     getAllProjects()
 },[department])
 
@@ -51,9 +54,10 @@ useEffect(()=>{
           <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
           <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела {user && user.division && user.division.divname}</Text>
       </View>
+  
 
       <ScrollView style={styles.scrollView}>
-        {!department? <Text>loading members</Text> : department.members.map((el,i)=>{
+        {!department? <Text>loading department</Text> : !department.members?  <Text>loading members</Text> : department.members.map((el,i)=>{
             return(
               <ListItem
                 style={{marginVertical: 2,}}

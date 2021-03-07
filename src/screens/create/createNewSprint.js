@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, Modal, } from 'react-native';
+import {Picker} from '@react-native-community/picker'
+
 import { DataTable, FAB } from 'react-native-paper';
 import { Button, CheckBox, Input } from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,79 +10,89 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../redux/actions/auth';
 import { usersPartition } from '../../redux/actions/user';
 import { loadUser } from '../../redux/actions/auth';
-import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../redux/actions/projects';
+import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint, addSprint } from '../../redux/actions/projects';
 
 
-const Project = ({project}) => {
+const Project = ({navigation}) => {
   const dispatch = useDispatch()
   const ref = useRef(null)
+  const refTag = useRef(null)
+
+  const project = useSelector(state => state.projects.project)
+  const cryptProject = useSelector(state => state.projects.selectedProject)
 
   const user = useSelector(state => state.auth.user)
   const userSprints = user.sprints.map(el=>el._id)
   const sprint = useSelector(state => state.projects.sprint)
 
 
-  const [openHistory, setOpenHistory] = useState(false)
   const [newTaskFrom, setnewTaskFrom] = useState(false)
   const [newTaskData, setnewTaskData] = useState('')
-  const [openSprint, setOpenSprint] = useState(false)
-  const [openNewSprintForm, setOpenNewSprintForm] = useState(false)
+  const [newTagFrom, setnewTagFrom] = useState(false)
+  const [newTagData, setnewTagData] = useState('')
+  const [sprintLength, setSprintLength] = useState(1)
+
+
+
+
+  const [sprintDescription, setSprintDescription] = useState('')
+  const [sprintDate, setSprintDate] = useState(null)
+  const [sprintTags, setSprintTags] = useState([])
+  const [sprintTasks, setSprintTasks] = useState([])
+
 
 useEffect(()=>{
-  sprint && setOpenSprint(true)
-},[sprint])
+  const now = Date.now()
+  const then = now + 604800000 * sprintLength
+  const deadLineDate = new Date(then)
+  setSprintDate(deadLineDate)
+
+},[sprintLength])
   
 
-  const chosenSprint = (id) => {
-
-    dispatch(addToChosen(id));
-    dispatch(loadUser())
-  }
   const addNewTask = () => {
-    console.log(sprint._id, newTaskData)
-    dispatch(addTask(sprint._id, newTaskData))
-    setnewTaskFrom(false)
+    // console.log(sprintTasks, newTaskData)
+    setSprintTasks([...sprintTasks, newTaskData])
     ref.current.clear()
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
   }
   const cancelNewTask = () => {
     setnewTaskFrom(false)
     ref.current.clear()
   }
-  const deleteSprintFunc = () => {
-    dispatch(deleteSprint(sprint._id))
-    setOpenSprint(false)
-    setTimeout(() => {
-      dispatch(getProject(project.crypt))
-    }, 300);
+  const addNewTag = () => {
+    // console.log(sprintTags, newTagData)
+    sprintTags.length>1 && setnewTagFrom(false)
+    setSprintTags([...sprintTags, newTagData])
+    refTag.current.clear()
+
   }
-  const finishSprintFunc = () => {
-    dispatch(finishSprint(sprint._id))
-    setOpenSprint(false)
-    setTimeout(() => {
-      dispatch(getProject(project.crypt))
-    }, 300);
-  }
-  const checkTaskStatus = (taskId) => {
-    dispatch(finishTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-  const deleteTaskFunc = (taskId) => {
-    dispatch(DeleteTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
+  const cancelNewTag = () => {
+    setnewTagFrom(false)
+    refTag.current.clear()
   }
 
 
-
-  const addNewSprint = () => {
-
+  const deleteTaskFunc = (i) => {
+    
+    let tasks = sprintTasks
+    tasks.splice(i, 1)
+    // console.log(tasks)
+    setSprintTasks(tasks)
   }
+  const deleteTagFunc = (i) => {
+    
+    let tags = sprintTags
+    tags.splice(i, 1)
+    // console.log(tags)
+    setSprintTags(tags)
+  }
+
+  const createSprint = () => {
+    dispatch(addSprint(cryptProject, sprintDescription, sprintDate, sprintTasks, sprintTags))
+    navigation.pop()
+    // console.log(cryptProject, sprintDescription.length, sprintDate, sprintTasks.length, sprintTags.length)
+  }
+
 
   return (
     
@@ -92,16 +104,27 @@ useEffect(()=>{
                 <View style={sprintStyle.modalBtn}>
                   <Text style={sprintStyle.modalBtnText} >Создание нового спринта</Text>
                 </View>
+
+                <Input 
+                        placeholder='Описание спринта'
+                        onChangeText={(text)=>setSprintDescription(text)}
+                        // ref={ref}
+                    />
+
+                <Picker
+                    selectedValue={sprintLength}
+                    onValueChange={(itemValue, itemIndex) => setSprintLength(itemValue)}
+                    >          
+                      <Picker.Item label={'1 неделя'} value={1} />
+                      <Picker.Item label={'2 недели'} value={2} />
+                </Picker>
                 
-                {/* {sprint && sprint.tasks.map((el,i)=>{
+                {sprintTasks.map((el,i)=>{
                   return(
                     <View key={'tasks-el'+i} style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <CheckBox
-                        checked={el.taskStatus}
-                        onPress={()=>checkTaskStatus(el._id)}
-                      />
-                      <Text style={{marginRight: 'auto'}}>{el.taskTitle}</Text>
-                      <Icon name='delete-outline' size={24}  onPress={()=>deleteTaskFunc(el._id)}/>
+                      
+                      <Text style={{marginRight: 'auto'}}>{el}</Text>
+                      <Icon name='delete-outline' size={24}  onPress={()=>deleteTaskFunc(i)}/>
                     </View>
                   )
                 })}
@@ -115,13 +138,49 @@ useEffect(()=>{
                     />
                     <Icon name='cancel' size={24} style={{marginTop: 15}} onPress={()=>cancelNewTask()}/>
                 </View>
-                } */}
-                
-                
+                }
+
                 <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>
-                <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>
-                <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
-                <Button title='Отменить' type='clear' onPress={()=>setOpenSprint(false)}/>
+
+
+
+
+
+                {sprintTags.map((el,i)=>{
+                  return(
+                    <View key={'tasks-el'+i} style={{flexDirection: 'row', alignItems: 'center'}}>
+                      
+                      <Text style={{marginRight: 'auto'}}>{el}</Text>
+                      <Icon name='delete-outline' size={24}  onPress={()=>deleteTagFunc(i)}/>
+                    </View>
+                  )
+                })}
+                {newTagFrom && 
+                <View style={{flexDirection: 'row', justifyContent: 'center', marginHorizontal: 30,}}>
+                    <Icon name='check-bold' size={24} style={{marginTop: 15}} onPress={()=>addNewTag()}/>
+                    <Input 
+                        placeholder='Описание спринта'
+                        onChangeText={(text)=>setnewTagData(text)}
+                        ref={refTag}
+                    />
+                    <Icon name='cancel' size={24} style={{marginTop: 15}} onPress={()=>cancelNewTag()}/>
+                </View>
+                }
+                
+                <Button disabled={sprintTags.length>2? true: false} title='Добавить тэг'  onPress={()=>setnewTagFrom(true)}/>
+                
+                <Button 
+                    disabled={
+                      sprintDescription.length>0 &&
+                      sprintDate &&
+                      sprintTasks.length>0 &&
+                      sprintTags.length>0 ? 
+                      false : true
+                    }
+                    title='Создать спринт'  
+                    onPress={()=>createSprint()}
+                />
+                <Button title='Отменить' type='clear' onPress={()=>navigation.pop()}/>
                 
             </View>
             </View>

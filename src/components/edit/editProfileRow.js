@@ -8,56 +8,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 const EditRow = ({content, placehold,onChangeT}) => {
-const dispatch = useDispatch()
-
-const profile = useSelector(state => state.auth.user)
-const departments = useSelector(state => state.departments.departments)
-
 
 const [edit, setEdit] = useState(false)
 
-
-const [formData, setFormData ] = useState({
-  name: '',
-  lastname: '',
-  position: '',
-  division:  '',  
-  email:  '', 
-  report:  '',
-
-});
-
-useEffect(()=>{
-console.log('profile',profile)
-  profile && setFormData({
-    name: profile.name || 'Name',
-    lastname: profile.lastname,
-    position: profile.position,
-		division: profile.division,  
-    email: profile.email ,
-		report: profile.report , 
-  })
-},[profile])
-
-
-const onSubmit = e => {
-  e.preventDefault();
-
-  
-
-  console.log(formData, 'formData')
-  dispatch(editProfile(formData))
-  dispatch(allPlayers(find='all',city=false))
-  dispatch(myInfo())
-
-  navigation.navigate('Menu')
-  }
-const cancel = (pla) =>{
-
-  pla=='name' && (setFormData({...formData, name: profile.name}), setName(false))
-  pla=='lastname' && (setFormData({...formData, lastname: profile.lastname}), setLastName(false))
-  pla=='city' && (setFormData({...formData, city: profile.city}), setCity(false))
-}
 
   return (
     <View>

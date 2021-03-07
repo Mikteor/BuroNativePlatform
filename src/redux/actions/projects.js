@@ -101,34 +101,50 @@ export const getProject = (id) => async dispatch  => {
 }
 
 
-export const addSprint = (id,formData,data) => async dispatch  => {
-    try {
-    
-
-        let body = {
-            description: formData.description,
-            date: formData.date,
-            tasks: data.tasks[0].taskTitle==""?[]:data.tasks
-        }
-        // console.log(data)
-        const res = await innerBackend.post(`/projects/sprints/new/${id}`,body)
-        dispatch({
-            type: ADD_SPRINT,
-            payload: res.data
-        })
-
-        }
-      catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+export const addSprint = (id,description, date ,tasks, tags) => async dispatch  => {
+  try {
+    let taskObjectArray = tasks.map(el => {return {
+      taskTitle: el,
+      workVolume: 0,
+      taskState: false,
+    }})
+    console.log('as 1')
+      let body = {
+          description: description,
+          date: date,
+          tasks: taskObjectArray,
+          tags: tags
+      }
       
-    }
+      console.log('body', body)
+      const res = await innerBackend.post(`/projects/sprints/new/${id}`,body)
+    console.log('as 2')
 
+      dispatch({
+          type: ADD_SPRINT,
+          payload: res.data
+      })
+    console.log('as 3')
+
+      dispatch({
+          type: GREEN_MSG,
+          payload: res.data
+      })
+    console.log('as 4')
+
+      }
+    catch (err) {
+      console.log('sprint create error', err)
+      // const errors = err.response.data.err;
+      // errors.map(error => {
+      //    return dispatch({
+      //     type: ERROR_MSG,
+      //     payload: error.msg
+      // })
+      // })            
+    
+  }
+ 
 }
 
 export const EditTask = ({editTask, id}) => async (dispatch) => {
@@ -444,8 +460,11 @@ export const deleteProject = (crypt) => async dispatch  => {
 export const joinTeam = (id) => async dispatch  => {
 
     try {
+      console.log('1', id)
 
         const res = await innerBackend.put(`/projects/jointeam/${id}`)
+        console.log('2')
+
         dispatch({
             type: JOIN_TEAM,
             payload: res.data
@@ -453,13 +472,14 @@ export const joinTeam = (id) => async dispatch  => {
 
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        console.log('join team error: ',err)
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
