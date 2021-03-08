@@ -29,6 +29,15 @@ build/
 local.properties
 *.iml
 
+#gradle 
+~/.android/gradle.properties
+*.android/gradle.properties
+android/gradle.properties
+*android/gradle.properties
+gradle.properties
+
+android/
+gradle.properties
 # node.js
 #
 node_modules/
