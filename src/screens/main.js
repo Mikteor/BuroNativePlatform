@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Provider, useDispatch, useSelector} from 'react-redux'
-import { StyleSheet, Text, View, Image, TextInput,   } from 'react-native';
-import {  Button } from 'react-native-elements'
+import { StyleSheet, Text, View, Image, TextInput, RefreshControl  } from 'react-native';
+import {  Button, ButtonGroup } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 
@@ -15,8 +15,9 @@ import { loadUser } from '../redux/actions/auth';
 import { allNews } from '../redux/actions/news';
 import { findDepartment } from '../redux/actions/department';
 import { likedProposes } from '../redux/actions/office';
-import { allProjects } from '../redux/actions/projects';
-
+import { allProjects, selectedProject } from '../redux/actions/projects';
+import News from './news'
+import MyProjects from '../components/main/myProjects'
 import {url} from '../components/utils/axios'
 
 
@@ -30,7 +31,20 @@ const liked = useSelector(state => state.office.likedProposes)
 const flexs = ['OB', 'AP', 'ПП','ПП','ПП']
 const projects = useSelector(state=> state.projects.projects)
 const [daysLeft, setDaysLeft] = useState(35)
+const [selectedButton, setButton] = useState(0)
 
+const buttons = ['Проекты','Новости']
+
+
+const [refreshing, setRefreshing] = React.useState(false);
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    loadAll()
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
 const loadAll = () => {
 
@@ -39,15 +53,20 @@ const loadAll = () => {
   user && user.division && dispatch(findDepartment(user.division.divname))
   dispatch(likedProposes())
   dispatch(allProjects())
-  // console.log(user)
+  // console.log('reloading')
 
 }
-const logAll = () => {
-  console.log(user)
-}
+
 useEffect(()=>{
   loadAll()
 },[])
+
+const projectPress = (crypt) => {
+  dispatch(selectedProject(crypt))
+  navigation.navigate('Меню')
+  navigation.navigate('projects')
+  navigation.navigate('project')
+}
 // useEffect(()=>{
 //   const now = new Date()
 //   const finish = new Date(project.dateFinish)
@@ -58,111 +77,55 @@ useEffect(()=>{
 
   return (
     
-<View style={styles.container}>
-      <View style={{height: 100, backgroundColor: 'black',}}/>
- 
-      <View style={styles.profileTop}>
-      {/* source={{uri: `${url+user.avatar}`}} */}
-        <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
-        <Text style={styles.name}>{user? user.fullname :'Mitya Pustovitenko'}</Text>
-        <Text style={styles.pos}>{user? user.position : 'position'}</Text>
-      </View>
-
-
-<ScrollView>
-  
-      <View style={styles.flexTop}>
-        {flexs.map((el,i)=>{
-          return(
-            <View key={'flexs'+i} style={styles.flexItem}>
-              <Text style={{color: '#7296FB'}}>{el}</Text>
-            </View>
-          )
-        })}
-      </View>
-<Button title='loadAll' onPress={()=>loadAll()}/>
-{/* <Button title='log' onPress={()=>logAll()}/> */}
-
-<View style={styles.scrollView}>
-
-      <View style={styles.title}>
-          <Icon name='playlist-check' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Новости</Text>
-          <Button title='Все новости' type='clear' onPress={()=>navigation.navigate('news')}
-                  titleStyle={{color: '#7C7C7C', fontSize: 14 }} 
-                  containerStyle={{height:30, justifyContent: 'center',}}
-                  icon={<ArrowIcon name='keyboard-arrow-right' color='#7C7C7C' size={18}/>}
-                  iconRight={true}
-                  />
-          
-      </View>
-
-      <DataTable>
-      {!news? <Text>loading news</Text> : news.map((el,i)=>{
-        if (i<3){
-        return(
-          
-          <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 2,}}>{el.title}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>
-              <View style={styles.projType}>
-                <Text style={{color: '#CA9E4D',}}>объявление</Text>
-              </View>
-            </DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>{el.postDate.slice(0,10).split('-').reverse().join('.')}</DataTable.Cell>
-          </DataTable.Row>
-        )} 
-        
-      })}
-      </DataTable>
-
-      <View style={styles.title}>
-          <Icon name='playlist-check' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Мои проекты</Text>
-          <Button title='Все проекты' type='clear' 
-                  titleStyle={{color: '#7C7C7C', fontSize: 14 }} 
-                  containerStyle={{height:30, justifyContent: 'center',}}
-                  icon={<ArrowIcon name='keyboard-arrow-right' color='#7C7C7C' size={18}/>}
-                  iconRight={true}
-                  />
-      </View>
-
-      <DataTable>
-      {user && (!user.projects? <Text>loading projects</Text> : user.projects.map((el,i)=>{
-        return(
-          
-          <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 1,}}>{el.title}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>{daysLeft} {daysLeft<1?'день': daysLeft<5? 'дня': 'дней'}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>
-              <View style={styles.projType}>
-                <Text style={{color: '#CA9E4D',}}>архитектура</Text>
-              </View>
-            </DataTable.Cell>
-            <DataTable.Cell style={{flex: .3}} numeric>
-              <Icon name='circle' color='green' size={14}/>
-            </DataTable.Cell>
-          </DataTable.Row>
-        )
-        
-      }))}
-      </DataTable>
-
-
-
-
-     
-
-
-</View>
-   
-    
-</ScrollView>
+<ScrollView  style={styles.container} 
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />}
+          stickyHeaderIndices={[0]}
+          >
       
-
+        <View style={{backgroundColor: 'white'}}>
+            <View style={{height: 100, backgroundColor: 'black',}}/>
   
+            <View style={styles.profileTop}>
+              <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
+              <Text style={styles.name}>{user? user.fullname :'Mitya Pustovitenko'}</Text>
+              <Text style={styles.pos}>{user? user.position : 'position'}</Text>
+            </View>
+        </View>
 
-    </View>
+        <View>
+              <View style={styles.flexTop}>
+                {flexs.map((el,i)=>{
+                  return(
+                    <View key={'flexs'+i} style={styles.flexItem}>
+                      <Text style={{color: '#7296FB'}}>{el}</Text>
+                    </View>
+                  )
+                })}
+              </View>
+
+              <ButtonGroup
+                    onPress={(e)=>setButton(e)}
+                    selectedIndex={selectedButton}
+                    buttons={buttons}
+                    containerStyle={btnStyles.container}
+                    buttonStyle={btnStyles.btn}
+                    selectedButtonStyle={btnStyles.selectedButton}
+                    textStyle={btnStyles.text}
+                    selectedTextStyle={btnStyles.selectedText}
+                    innerBorderStyle={btnStyles.innerBorders}
+                    />
+              {selectedButton == 0? 
+                  <MyProjects navigation={navigation} /> :
+              selectedButton == 1 &&
+                  <News noHeader /> 
+              }
+
+        </View>
+</ScrollView>
   );
 }
 export default Main
@@ -182,6 +145,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
       paddingVertical: 20,
       marginTop: -60,
+      // backgroundColor: 'red',
     },
     avatar: {
       width: 100,
@@ -266,3 +230,78 @@ const styles = StyleSheet.create({
     },
   });
 
+  const btnStyles = StyleSheet.create({
+    container: {
+      marginVertical: 20,
+      backgroundColor: '#F8FAFB',
+      borderWidth: 0,
+      borderRadius: 8,
+      
+    },
+
+    selectedButton: {
+      backgroundColor: '#3F496C',
+      // marginHorizontal: 10,
+      borderRadius: 8,
+
+    },
+    text: {
+      fontSize:14,
+      color: 'grey'
+    },
+    selectedText: {
+      color: 'white',
+    },
+    innerBorders: {
+      width: 0,
+    },
+    btn: {
+      // marginHorizontal: 10,
+    }
+    
+  });
+
+
+  
+//  <View style={styles.scrollView}>
+
+//       <View style={styles.title}>
+//           <Icon name='playlist-check' color='#7C7C7C' size={24}/>
+//           <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Новости</Text>
+//           <Button title='Все новости' type='clear' onPress={()=>navigation.navigate('news')}
+//                   titleStyle={{color: '#7C7C7C', fontSize: 14 }} 
+//                   containerStyle={{height:30, justifyContent: 'center',}}
+//                   icon={<ArrowIcon name='keyboard-arrow-right' color='#7C7C7C' size={18}/>}
+//                   iconRight={true}
+//                   />
+          
+//       </View>
+
+//       <DataTable>
+//       {!news? <Text>loading news</Text> : news.map((el,i)=>{
+//         if (i<3){
+//         return(
+          
+//           <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
+//             <DataTable.Cell style={{flex: 2,}}>{el.title}</DataTable.Cell>
+//             <DataTable.Cell style={styles.smallCell} numeric>
+//               <View style={styles.projType}>
+//                 <Text style={{color: '#CA9E4D',}}>объявление</Text>
+//               </View>
+//             </DataTable.Cell>
+//             <DataTable.Cell style={styles.smallCell} numeric>{el.postDate.slice(0,10).split('-').reverse().join('.')}</DataTable.Cell>
+//           </DataTable.Row>
+//         )} 
+        
+//       })}
+//       </DataTable> 
+
+     
+
+
+
+
+     
+
+
+// </View>

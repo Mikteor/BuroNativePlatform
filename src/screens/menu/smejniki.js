@@ -7,6 +7,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Alert } from 'react-native';
 import { ScrollView } from 'react-native';
+import CommonHeader from '../../components/header/commonHeader'
 
 const Smejniki = ({navigation}) => {
 const dispatch = useDispatch()
@@ -15,7 +16,7 @@ const dispatch = useDispatch()
   return (
     
     <ScrollView style={styles.container}>
-  
+      <CommonHeader navigation={navigation} />
 
     </ScrollView>
   );

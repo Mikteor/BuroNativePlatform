@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, RefreshControl } from 'react-native';
 import {  Button, ButtonGroup } from 'react-native-elements'
 import { DataTable } from 'react-native-paper';
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,6 +8,7 @@ import SprintPage from '../../../components/projects/sprints'
 import TeamPage from '../../../components/projects/projTeam'
 import Info from '../../../components/projects/info'
 import Model from '../../../components/projects/model'
+import History from '../../../components/projects/history'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProject } from '../../../redux/actions/projects'
 
@@ -19,9 +20,20 @@ const Project = ({navigation}) => {
   const [selectedButton, setButton] = useState(0)
 
   
-  const buttons = ['Спринты', 'Команда','Модель','Информация']
+  const buttons = ['Спринты', 'Команда','Модель','Информация', 'История']
   const sprints = [1,2,3,4,5,6,7,8]
   const history = [1,2,3,4,5,6,7,8]
+
+
+  const [refreshing, setRefreshing] = React.useState(false);
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    dispatch(getProject(cryptProject))
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   const btnGroup = (e) => {
     console.log('project',project)
@@ -45,22 +57,37 @@ if (!project) {
 
   return (
     
-    <View style={styles.container}>
+    <ScrollView style={styles.container}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+                stickyHeaderIndices={[0]}
+                >
         <View style={styles.picture}>
             <ImageBackground source={require('../../../../assets/mria.png')} style={styles.bg}>
               <View style={styles.darkenes}>
+                <View style={styles.header}>
+                    <Icon name='arrow-left' size={30} color={'white'} onPress={()=>navigation.pop()} />
+                    <Icon name='circle' size={24} color={'white'} onPress={()=>navigation.pop()} />
+                </View>
                 <Text style={styles.title}>{project.title}</Text>
-                <ButtonGroup
-                      onPress={(e)=>btnGroup(e)}
-                      selectedIndex={selectedButton}
-                      buttons={buttons}
-                      containerStyle={btnStyles.container}
-                      buttonStyle={btnStyles.btn}
-                      selectedButtonStyle={btnStyles.selectedButton}
-                      textStyle={btnStyles.text}
-                      selectedTextStyle={btnStyles.selectedText}
-                      innerBorderStyle={btnStyles.innerBorders}
-                      />
+                <ScrollView horizontal={true} >
+                    <ButtonGroup
+                          onPress={(e)=>btnGroup(e)}
+                          selectedIndex={selectedButton}
+                          buttons={buttons}
+                          containerStyle={btnStyles.container}
+                          buttonStyle={btnStyles.btn}
+                          selectedButtonStyle={btnStyles.selectedButton}
+                          textStyle={btnStyles.text}
+                          selectedTextStyle={btnStyles.selectedText}
+                          innerBorderStyle={btnStyles.innerBorders}
+                          />
+                </ScrollView>
+                
               </View>
               
             </ImageBackground>
@@ -70,11 +97,12 @@ if (!project) {
       {selectedButton==0? <SprintPage  project={project} navigation={navigation}/> : 
        selectedButton==1? <TeamPage team={project.team2} crypt={cryptProject} user={user}/> :
        selectedButton==2? <Model /> :
-       selectedButton==3 && <Info project={project} /> }
+       selectedButton==3? <Info project={project} /> :
+       selectedButton==4 && <History project={project}/>}
       
     
 
-    </View>
+    </ScrollView>
   );
 }
 export default Project
@@ -88,7 +116,7 @@ const styles = StyleSheet.create({
       // justifyContent: 'center',
     },
     picture:{
-      height:150,
+      height:172,
       
     },
     bg: {
@@ -100,6 +128,15 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(0,0,0,0.5)',
       alignItems: 'center',
       justifyContent: 'flex-end',
+    },
+    header: {
+      width: '100%',
+      paddingHorizontal: 20,
+      paddingTop: 10,
+      marginBottom: 8,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center'
     },
     title: {
       color: 'white',
@@ -114,10 +151,12 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent',
       borderWidth: 0,
       
+      
     },
 
     selectedButton: {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      marginHorizontal: 10,
     },
     text: {
       fontSize:14,
@@ -128,6 +167,9 @@ const styles = StyleSheet.create({
     },
     innerBorders: {
       width: 0,
+    },
+    btn: {
+      marginHorizontal: 10,
     }
     
   });

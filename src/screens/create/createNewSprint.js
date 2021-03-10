@@ -89,6 +89,7 @@ useEffect(()=>{
 
   const createSprint = () => {
     dispatch(addSprint(cryptProject, sprintDescription, sprintDate, sprintTasks, sprintTags))
+    dispatch(getProject(cryptProject))
     navigation.pop()
     // console.log(cryptProject, sprintDescription.length, sprintDate, sprintTasks.length, sprintTags.length)
   }
@@ -167,14 +168,14 @@ useEffect(()=>{
                 </View>
                 }
                 
-                <Button disabled={sprintTags.length>2? true: false} title='Добавить тэг'  onPress={()=>setnewTagFrom(true)}/>
+                <Button disabled={sprintTags.length>1? true: false} title='Добавить тэг'  onPress={()=>setnewTagFrom(true)}/>
                 
                 <Button 
                     disabled={
                       sprintDescription.length>0 &&
                       sprintDate &&
                       sprintTasks.length>0 &&
-                      sprintTags.length>0 ? 
+                      sprintTags.length>=0 ? 
                       false : true
                     }
                     title='Создать спринт'  

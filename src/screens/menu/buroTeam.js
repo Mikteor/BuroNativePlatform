@@ -9,6 +9,8 @@ import { Alert } from 'react-native';
 import { ScrollView } from 'react-native';
 import { allUsers } from '../../redux/actions/user'
 import {url} from '../../components/utils/axios'
+import CommonHeader from '../../components/header/commonHeader'
+
 const BuroTeam = ({navigation}) => {
 const dispatch = useDispatch()
 const team = useSelector(state => state.users.users)
@@ -22,6 +24,7 @@ useEffect(()=>{
   return (
     
    <ScrollView style={styles.scrollView}>
+     <CommonHeader navigation={navigation} />
         {!team? <Text>loading members</Text> : team.map((el,i)=>{
             return(
               <ListItem

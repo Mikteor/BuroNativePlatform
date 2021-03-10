@@ -8,7 +8,8 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import {Provider} from 'react-redux'
+import {Provider as ReduxProvider} from 'react-redux'
+import {Provider as PaperProvider} from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Application from './Application'
 import store from './src/redux/store';
@@ -23,9 +24,11 @@ const App: () => React$Node = () => {
   return (
     <NavigationContainer ref={navigationRef}>
         <SafeAreaProvider >
-            <Provider store={store}>
-                <Application />
-            </Provider>
+            <ReduxProvider store={store}>
+              <PaperProvider>
+                  <Application />
+              </PaperProvider>
+            </ReduxProvider>
         </SafeAreaProvider>
     </NavigationContainer>
 

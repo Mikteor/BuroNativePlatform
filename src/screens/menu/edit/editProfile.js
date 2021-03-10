@@ -14,6 +14,8 @@ import {loadUser} from '../../../redux/actions/auth'
 import {changeData, changeAvatar} from '../../../redux/actions/auth'
 import { allDepartments, joinDepartment, findDepartment } from "../../../redux/actions/department";
 import EditRow from '../../../components/edit/editProfileRow'
+import CommonHeader from '../../../components/header/commonHeader'
+
 
 const Profile = ({navigation}) => {
 const dispatch = useDispatch()
@@ -61,7 +63,12 @@ const onSubmit = e => {
 
 
   return (
+
+    <View style={{flex:1,}}>
+        <CommonHeader navigation={navigation}/>
+
     <View style={styles.container}>
+    
       <View style={styles.title}>
           <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
           <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Редактировать профиль</Text>
@@ -88,6 +95,7 @@ const onSubmit = e => {
  
       <Button title="Подтвердить" onPress={onSubmit}/>
  
+      </View>
  
     </View>
   );

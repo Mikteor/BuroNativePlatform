@@ -5,7 +5,7 @@ import { StyleSheet,  View, Button , Text} from 'react-native';
 
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import CommonHeader from '../header/commonHeader'
 
 const EditRow = ({content, placehold,onChangeT}) => {
 
@@ -14,7 +14,6 @@ const [edit, setEdit] = useState(false)
 
   return (
     <View>
-     
           {!edit?
           <View style={styles.textContainer}>
               <Text style={styles.texts} >

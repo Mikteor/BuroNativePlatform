@@ -28,6 +28,7 @@ import Projects from './src/screens/menu/projects/projects'
 import NewPropose from './src/screens/create/createPropose'
 import CreateNews from './src/screens/create/createNews'
 import CreateNewSprint from './src/screens/create/createNewSprint'
+import OpenSprint from './src/screens/menu/projects/openSprint'
 //
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -90,9 +91,10 @@ useEffect(() => {
     <View style={styles.container}> 
       <StatusBar hidden={true}/>
 
-    {/* <View style={{position: 'absolute', left: 0, top: 0, height: 100, width: 100, backgroundColor: 'black', zIndex:999}}>
-          <Text style={{color: 'white'}}>absolute</Text>
+    {/* <View style={{position: 'absolute', left: 0, top: 0, height: 50, width: '100%', backgroundColor: 'yellow', zIndex:999}}>
+          <Text style={{color: 'red'}}>absolute</Text>
       </View> */}
+
     {!isAuthenticated?  
       <Stack.Navigator headerMode='none'>
           <Stack.Screen name='login' component={Login}/>
@@ -141,7 +143,7 @@ useEffect(() => {
           <Tab.Screen 
                 name='Меню' 
                 options={{
-                  tabBarIcon : ({ color, size }) => (<Icon name="menu" color={color} size={24}  />),
+                  tabBarIcon : ({ color, size }) => (<Icon name="dots-horizontal" color={color} size={24}  />),
                   }}>
                   {props => 
                   <Stack.Navigator headerMode='none' >
@@ -154,6 +156,7 @@ useEffect(() => {
                     <Stack.Screen name='projects' component={Projects}/>
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='createSprint' component={CreateNewSprint}/>
+                    <Stack.Screen name='openSprint' component={OpenSprint}/>
                     {/* <Stack.Screen name='toto' component={}/> */}
                   </Stack.Navigator>
                   }

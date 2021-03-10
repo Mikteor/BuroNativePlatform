@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedProject } from '../../../redux/actions/projects'
+import CommonHeader from '../../../components/header/commonHeader'
 
 const Projects = ({navigation}) => {
 
@@ -21,6 +22,7 @@ const Projects = ({navigation}) => {
   return (
     
     <ScrollView style={styles.container}>
+      <CommonHeader navigation={navigation} />
         <Text style={styles.title} >Текущие проекты</Text>
 
       <DataTable>

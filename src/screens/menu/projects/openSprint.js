@@ -5,15 +5,17 @@ import { Button, CheckBox, colors, Input } from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux';
-import { addToChosen } from '../../redux/actions/auth';
-import { usersPartition } from '../../redux/actions/user';
-import { loadUser } from '../../redux/actions/auth';
-import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint, selectedProject } from '../../redux/actions/projects';
+import { addToChosen } from '../../../redux/actions/auth';
+import { usersPartition } from '../../../redux/actions/user';
+import { loadUser } from '../../../redux/actions/auth';
+import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../../redux/actions/projects';
+import CommonHeader from '../../../components/header/commonHeader'
 
-
-const Project = ({project, navigation}) => {
+const Project = ({ navigation}) => {
   const dispatch = useDispatch()
   const ref = useRef(null)
+  const cryptProject = useSelector(state => state.projects.selectedProject)
+
 
   const user = useSelector(state => state.auth.user)
   const userSprints = user.sprints.map(el=>el._id)
@@ -40,7 +42,7 @@ const Project = ({project, navigation}) => {
   const editSprint = (id) => {
     
     dispatch(getSprint(id))
-    navigation.navigate('openSprint',{project: project})
+    setOpenSprint(true)
   }
   const addNewTask = () => {
     // console.log(sprint._id, newTaskData)
@@ -57,16 +59,16 @@ const Project = ({project, navigation}) => {
   }
   const deleteSprintFunc = () => {
     dispatch(deleteSprint(sprint._id))
-    setOpenSprint(false)
+    navigation.pop()
     setTimeout(() => {
-      dispatch(getProject(project.crypt))
+      dispatch(getProject(cryptProject))
     }, 300);
   }
   const finishSprintFunc = () => {
     dispatch(finishSprint(sprint._id))
     setOpenSprint(false)
     setTimeout(() => {
-      dispatch(getProject(project.crypt))
+      dispatch(getProject(cryptProject))
     }, 300);
   }
   const checkTaskStatus = (taskId) => {
@@ -86,71 +88,59 @@ const Project = ({project, navigation}) => {
 
   const closeSprint = () => {
     setOpenSprint(false)
-    dispatch(getProject(project.crypt))
+    dispatch(getProject(cryptProject))
   }
 
   return (
     
  
-
+    
         <View style={sprintStyle.container}>
-          <View style={sprintStyle.sprints}>
-          <View style={{backgroundColor:'black', height:20,}}/>
-            <ScrollView style={{marginTop:-20,}}>
+            <CommonHeader navigation={navigation}/>
           
+              <View style={sprintStyle.modalCont} >
 
-
-      {project.sprints
-      .filter(el => !el.status)
-      .map((el,i)=>{
-
-        let finishedTasks = 0
-            el.tasks.map((task,i)=>{
-              task.taskStatus==true && (finishedTasks += 1)
-            })
-        let percent = finishedTasks/el.tasks.length*100
-        let chosen = userSprints.some(id=>id==el._id)
-
-        const now = new Date()
-        const finish = new Date(el.dateClosePlan)
-
-        return(
-            <View key={'sprints'+i} style={sprintStyle.card}>
-              <View style={sprintStyle.topFlex}>
-                <Text style={sprintStyle.title}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
-                <Icon name='circle' color={now<finish? 'green' : now>finish && percent<100?'red': 'green'} size={14} style={sprintStyle.statusDot}/>
-                <Icon name='pencil-outline' color='black' size={16} style={{marginLeft: 5,}} onPress={()=>editSprint(el._id)}/>
-                <Text style={sprintStyle.status}>{Math.round(percent)}%</Text>
-              </View>
-              <Text style={sprintStyle.description}>{el.description}</Text>
-              <View style={sprintStyle.botFlex}>
-                <View style={sprintStyle.type}>
-                  <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
+              <View style={sprintStyle.modalCard} >
+                <View style={sprintStyle.modalBtn}>
+                  <Text style={sprintStyle.modalBtnText} >Спринт {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
                 </View>
-                <Icon name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint(el._id)}/>
-              </View>
+                <View style={sprintStyle.modalBtn}>
+                  <Text style={sprintStyle.modalBtnText}>{sprint && sprint.description}</Text>
+                </View>
+                {sprint && sprint.tasks.map((el,i)=>{
+                  return(
+                    <View key={'tasks-el'+i} style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        checked={el.taskStatus}
+                        onPress={()=>checkTaskStatus(el._id)}
+                      />
+                      <Text style={{marginRight: 'auto'}}>{el.taskTitle}</Text>
+                      <Icon name='delete-outline' size={24}  onPress={()=>deleteTaskFunc(el._id)}/>
+                    </View>
+                  )
+                })}
+                {newTaskFrom && 
+                <View style={{flexDirection: 'row', justifyContent: 'center', marginHorizontal: 30,}}>
+                    <Icon name='check-bold' size={24} style={{marginTop: 15}} onPress={()=>addNewTask()}/>
+                    <Input 
+                        placeholder='Описание задачи'
+                        onChangeText={(text)=>setnewTaskData(text)}
+                        ref={ref}
+                    />
+                    <Icon name='cancel' size={24} style={{marginTop: 15}} onPress={()=>cancelNewTask()}/>
+                </View>
+                }
+                
+                
+                <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>
+                <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>
+                <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
+                
             </View>
-        )
-      })}
-          </ScrollView>
-          </View>
-
-
-
-
-        
-        {/* <Portal> */}
-            <FAB
-              style={sprintStyle.fab}
-              color='white'
-              icon="plus"
-              onPress={() => navigation.navigate('createSprint')}
-            />
-        {/* </Portal> */}
+            </View>
         
 
 
-      
 
 
 
@@ -255,7 +245,7 @@ export default Project
   fab: {
     position: 'absolute',
     margin: 16,
-    // marginBottom: 65,
+    marginBottom: 65,
     right: 0,
     bottom: 0,
     backgroundColor:'#3F496C'

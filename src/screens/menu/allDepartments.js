@@ -5,6 +5,8 @@ import { StyleSheet, Text, } from 'react-native';
 import { ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { allDepartments } from '../../redux/actions/department'
+import CommonHeader from '../../components/header/commonHeader'
+
 
 const AllDepartments = ({navigation}) => {
 const dispatch = useDispatch()
@@ -17,7 +19,7 @@ useEffect(()=>{
   return (
     
     <ScrollView style={styles.container}>
-  
+      <CommonHeader navigation={navigation}/>
   <DataTable>
         <DataTable.Header>
           <DataTable.Title sortDirection='descending' style={{flex: 4,}}>Название</DataTable.Title>
