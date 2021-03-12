@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
 import {  Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { likedProposes, likePropose } from '../redux/actions/office';
+import { deletePropose, likedProposes, likePropose } from '../redux/actions/office';
 
 
 const Profile = ({navigation}) => {
@@ -42,7 +42,7 @@ const proposes = [1,2,3,4,5]
         return(
             <View key={'proposrss'+i} style={styles.proposeCard}>
               <View style={styles.propCardFlex}>
-                  <Text>{el.user.fullname}</Text>
+                  <Text>{el.user && el.user.fullname}</Text>
                   <Text>{el.date.slice(5,10).split('-').reverse().join('.')}</Text>
               </View>
               <Text style={{fontWeight: 'bold',marginVertical: 5, fontSize: 15}}>{el.title}</Text>

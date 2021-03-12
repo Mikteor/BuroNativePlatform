@@ -19,7 +19,7 @@ useEffect(()=>{
   dispatch(allUsers('name', true))
 },[])
 useEffect(()=>{
-  console.log(team)
+  // console.log(team)
 },[team])
   return (
     

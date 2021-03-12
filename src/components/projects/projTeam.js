@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 
 const Project = ({team, crypt, user}) => {
 const dispatch = useDispatch()
-const userInTeam = team.some(el=> el.user._id==user._id)
+const userInTeam = team && team.some(el=> el.user._id==user._id)
   const flexs = ['OB', 'AP',]
 
 const joinTeamFunc = () => {
@@ -26,6 +26,7 @@ const joinTeamFunc = () => {
   
       <ScrollView style={teamStyle.scrollView}>
       {!userInTeam && <Button title='Вступить в команду' onPress={()=>joinTeamFunc()} />}
+      {userInTeam && <Button title='Выйти из команды' onPress={()=>joinTeamFunc()} />}
         {team.map((el,i)=>{
             return(
               <View

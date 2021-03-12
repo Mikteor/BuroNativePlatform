@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     paddingLeft: 10,
-
   },
   name: {
     marginTop: 'auto',

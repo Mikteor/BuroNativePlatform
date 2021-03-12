@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, RefreshControl } from 'react-native';
 import {  Button, ButtonGroup } from 'react-native-elements'
-import { DataTable } from 'react-native-paper';
+import { DataTable, FAB } from 'react-native-paper';
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import SprintPage from '../../../components/projects/sprints'
@@ -36,14 +36,14 @@ const wait = (timeout) => {
   }, []);
 
   const btnGroup = (e) => {
-    console.log('project',project)
-    console.log('sprints',project.sprints)
-    console.log(e)
+    // console.log('project',project)
+    // console.log('sprints',project.sprints)
+    // console.log(e)
     setButton(e)
   }
 
   useEffect(()=>{
-    console.log('cryptProject',cryptProject)
+    // console.log('cryptProject',cryptProject)
     dispatch(getProject(cryptProject))
   },[cryptProject])
 
@@ -56,7 +56,7 @@ if (!project) {
 } 
 
   return (
-    
+    <View style={{flex:1}}>
     <ScrollView style={styles.container}
                 refreshControl={
                   <RefreshControl
@@ -103,6 +103,14 @@ if (!project) {
     
 
     </ScrollView>
+    {selectedButton==0 &&
+            <FAB
+              style={styles.fab}
+              color='white'
+              icon="plus"
+              onPress={() => navigation.navigate('createSprint')}
+            />}
+    </View>
   );
 }
 export default Project
@@ -141,6 +149,13 @@ const styles = StyleSheet.create({
     title: {
       color: 'white',
       fontSize: 24,
+    },
+    fab: {
+      position: 'absolute',
+      margin: 16,
+      right: 0,
+      bottom: 0,
+      backgroundColor:'#3F496C'
     },
   });
 

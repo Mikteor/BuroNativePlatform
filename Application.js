@@ -59,7 +59,7 @@ const [createModal, setCreateModal] = useState(false)
 
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
-      console.log('result::::::::::::::::::',res)
+      // console.log('result::::::::::::::::::',res)
         res ? setIsAuthenticated(true) : setIsAuthenticated(false)
         setAuthToken(res)
     })    

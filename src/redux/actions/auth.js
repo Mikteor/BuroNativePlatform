@@ -39,14 +39,14 @@ export const errorAuthClear = ()=>dispatch => {
 }
 export const login = (formData) => async dispatch  => {
     try {
-      console.log(formData, 'data?')
+      // console.log(formData, 'data?')
       // console.log(axios, 'axios')
       const res = await instance.post('/auth', formData)
 
 
 
 
-        console.log(res, 'respond')
+        // console.log(res, 'respond')
         dispatch({
             type: LOGIN,
             payload: res.data
@@ -57,7 +57,7 @@ export const login = (formData) => async dispatch  => {
 
         }
       catch (err) {
-        console.log('err', err);
+        console.log('login error:::', err);
 
         // const errors = err.response.data.err;
         // errors.map(err => {
@@ -77,9 +77,9 @@ export const register = (formData) => async dispatch  => {
 
 
     try {
-        console.log('register data' ,formData)
+        // console.log('register data' ,formData)
         const res = await instance.post('/users', formData)
-        console.log('res',res)
+        // console.log('res',res)
         dispatch({
             type: REGISTER,
             payload: res.data
@@ -88,7 +88,7 @@ export const register = (formData) => async dispatch  => {
         
       }
       catch (err) {
-        console.log('error:::', err)
+        console.log('register error:::', err)
         const errors = err.response.data
  
     

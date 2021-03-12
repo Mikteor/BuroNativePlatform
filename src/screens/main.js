@@ -8,7 +8,7 @@ import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 // import  storage  from '../../components/localStorage/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import Icon from 'react-native-vector-icons/FontAwesome'
-import { ScrollView } from 'react-native';
+import { ScrollView, ImageBackground } from 'react-native';
 import Projects from './menu/projects/projects';
 import { DataTable } from 'react-native-paper';
 import { loadUser } from '../redux/actions/auth';
@@ -64,8 +64,8 @@ useEffect(()=>{
 const projectPress = (crypt) => {
   dispatch(selectedProject(crypt))
   navigation.navigate('Меню')
-  navigation.navigate('projects')
-  navigation.navigate('project')
+  navigation.push('projects')
+  navigation.push('project')
 }
 // useEffect(()=>{
 //   const now = new Date()
@@ -87,8 +87,9 @@ const projectPress = (crypt) => {
           >
       
         <View style={{backgroundColor: 'white'}}>
-            <View style={{height: 100, backgroundColor: 'black',}}/>
-  
+            <View style={{height: 100, backgroundColor: 'black',}}>
+                <ImageBackground  source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avaBG} blurRadius={50} />
+            </View>  
             <View style={styles.profileTop}>
               <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
               <Text style={styles.name}>{user? user.fullname :'Mitya Pustovitenko'}</Text>
@@ -138,13 +139,17 @@ const styles = StyleSheet.create({
       // alignItems: 'center',
       // justifyContent: 'center',
     },
-
+    avaBG : {
+      flex: 1,
+      resizeMode: "cover",
+      paddingLeft: 10,
+    },
     profileTop: {
       alignItems: 'center',
       justifyContent: 'center',
       paddingHorizontal: 20,
       paddingVertical: 20,
-      marginTop: -60,
+      marginTop: -95,
       // backgroundColor: 'red',
     },
     avatar: {

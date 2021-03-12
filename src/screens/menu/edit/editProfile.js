@@ -50,7 +50,7 @@ useEffect(()=>{
 
 const onSubmit = e => {
   e.preventDefault();
-  console.log(formData, 'formDataEdit')
+  // console.log(formData, 'formDataEdit')
 
   dispatch(joinDepartment(formData.division))
   dispatch(changeData(formData))

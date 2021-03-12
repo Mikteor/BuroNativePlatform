@@ -3,11 +3,11 @@ import axios from 'axios'
 import {NEW_IP} from '@env'
 
 export const url = NEW_IP;
-console.log(url,'uuuuuuuuuuuuuu')
+// console.log(url,'uuuuuuuuuuuuuu')
 
 
 export const setAuthToken = (token) => {
-    console.log(token, 'token')
+    // console.log(token, 'token')
 
     if(token){
         innerBackend.defaults.headers.common['auth-token'] = token;

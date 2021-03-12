@@ -58,7 +58,7 @@ export const usersPartition = (partition) => async dispatch =>  {
     let body = {
       partition: partition
     }
-    console.log(body);
+    // console.log(body);
 
     const res = await innerBackend.put('users/part', body)
 
@@ -68,7 +68,7 @@ export const usersPartition = (partition) => async dispatch =>  {
     })
 
   } catch (err) {
-    console.log('lol')
+    console.log('user partition error:::', err)
 
 
   }
@@ -129,7 +129,7 @@ export const addContractor = (formData) => async dispatch  => {
     }
   }
   try {
-      console.log(body)
+      // console.log(body)
       const res = await innerBackend.post(`/merc`, body)
       dispatch({
           type: ADD_CONTRACTOR,

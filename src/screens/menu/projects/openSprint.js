@@ -34,16 +34,6 @@ const Project = ({ navigation}) => {
 // },[sprint])
   
 
-  const chosenSprint = (id) => {
-
-    dispatch(addToChosen(id));
-    dispatch(loadUser())
-  }
-  const editSprint = (id) => {
-    
-    dispatch(getSprint(id))
-    setOpenSprint(true)
-  }
   const addNewTask = () => {
     // console.log(sprint._id, newTaskData)
     dispatch(addTask(sprint._id, newTaskData))
@@ -86,10 +76,7 @@ const Project = ({ navigation}) => {
 
 
 
-  const closeSprint = () => {
-    setOpenSprint(false)
-    dispatch(getProject(cryptProject))
-  }
+
 
   return (
     

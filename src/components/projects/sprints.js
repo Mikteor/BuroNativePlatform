@@ -8,28 +8,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../redux/actions/auth';
 import { usersPartition } from '../../redux/actions/user';
 import { loadUser } from '../../redux/actions/auth';
-import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint, selectedProject } from '../../redux/actions/projects';
+import {  getSprint } from '../../redux/actions/projects';
 
 
 const Project = ({project, navigation}) => {
   const dispatch = useDispatch()
-  const ref = useRef(null)
 
   const user = useSelector(state => state.auth.user)
-  const userSprints = user.sprints.map(el=>el._id)
-  const sprint = useSelector(state => state.projects.sprint)
+  const userSprints = user&& user.sprints && user.sprints.map(el=>el._id)
 
 
-  const [openHistory, setOpenHistory] = useState(false)
-  const [newTaskFrom, setnewTaskFrom] = useState(false)
-  const [newTaskData, setnewTaskData] = useState('')
-  const [openSprint, setOpenSprint] = useState(false)
-  const [fabOpen, setFabOpen] = useState(false)
-  const [openNewSprintForm, setOpenNewSprintForm] = useState(false)
-
-// useEffect(()=>{
-//   sprint && setOpenSprint(true)
-// },[sprint])
   
 
   const chosenSprint = (id) => {
@@ -42,52 +30,7 @@ const Project = ({project, navigation}) => {
     dispatch(getSprint(id))
     navigation.navigate('openSprint',{project: project})
   }
-  const addNewTask = () => {
-    // console.log(sprint._id, newTaskData)
-    dispatch(addTask(sprint._id, newTaskData))
-    setnewTaskFrom(false)
-    ref.current.clear()
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-  const cancelNewTask = () => {
-    setnewTaskFrom(false)
-    ref.current.clear()
-  }
-  const deleteSprintFunc = () => {
-    dispatch(deleteSprint(sprint._id))
-    setOpenSprint(false)
-    setTimeout(() => {
-      dispatch(getProject(project.crypt))
-    }, 300);
-  }
-  const finishSprintFunc = () => {
-    dispatch(finishSprint(sprint._id))
-    setOpenSprint(false)
-    setTimeout(() => {
-      dispatch(getProject(project.crypt))
-    }, 300);
-  }
-  const checkTaskStatus = (taskId) => {
-    dispatch(finishTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-  const deleteTaskFunc = (taskId) => {
-    dispatch(DeleteTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-
-
-
-  const closeSprint = () => {
-    setOpenSprint(false)
-    dispatch(getProject(project.crypt))
-  }
+ 
 
   return (
     
@@ -109,7 +52,7 @@ const Project = ({project, navigation}) => {
               task.taskStatus==true && (finishedTasks += 1)
             })
         let percent = finishedTasks/el.tasks.length*100
-        let chosen = userSprints.some(id=>id==el._id)
+        let chosen = userSprints? userSprints.some(id=>id==el._id) : false
 
         const now = new Date()
         const finish = new Date(el.dateClosePlan)
@@ -139,14 +82,7 @@ const Project = ({project, navigation}) => {
 
 
         
-        {/* <Portal> */}
-            <FAB
-              style={sprintStyle.fab}
-              color='white'
-              icon="plus"
-              onPress={() => navigation.navigate('createSprint')}
-            />
-        {/* </Portal> */}
+        
         
 
 
@@ -255,7 +191,7 @@ export default Project
   fab: {
     position: 'absolute',
     margin: 16,
-    // marginBottom: 65,
+    marginBottom: 65,
     right: 0,
     bottom: 0,
     backgroundColor:'#3F496C'

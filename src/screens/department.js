@@ -40,7 +40,7 @@ const getAllProjects = () => {
 }
 
 useEffect(()=>{
- department && console.log('dep',department)
+//  department && console.log('dep',department)
     getAllProjects()
 },[department])
 

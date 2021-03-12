@@ -17,7 +17,7 @@ const Project = ({}) => {
   const flexs = ['OB', 'AP',]
 
   const btnGroup = (e) => {
-    console.log(e)
+    // console.log(e)
     setButton(e)
   }
 

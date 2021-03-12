@@ -5,7 +5,7 @@ export const postModel = (formData) => async (dispatch) => {
   // formData.append('userName', 'Fred');
 
   try {
-    console.log(formData, 'data')
+    // console.log(formData, 'data')
     const form = new FormData();
 
     Object.keys(formData).map((el, index) => {
@@ -21,7 +21,7 @@ export const postModel = (formData) => async (dispatch) => {
         "auth-token": localStorage.token,
       },
     });
-    console.log(res)
+    // console.log(res)
     dispatch({
       type: GET_URN,
       payload: res.data,
@@ -66,7 +66,7 @@ export const Oauth = (crypt) => async (dispatch) => {
 
 export const Status = (crypt) => async (dispatch) => {
   try {
-     console.log('started')
+    //  console.log('started')
      let date = new Date().getMilliseconds();
     const res = await Axios.get(`/up/status/p/${crypt}`, {
       baseURL:url,

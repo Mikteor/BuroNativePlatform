@@ -13,8 +13,8 @@ const Projects = ({navigation}) => {
   const projects = useSelector(state=>state.projects.projects)
   
   const projectPress = (crypt, el) => {
-    console.log('crypt',crypt)
-    console.log('project',el)
+    // console.log('crypt',crypt)
+    // console.log('project',el)
     dispatch(selectedProject(crypt))
     navigation.navigate('project')
   }

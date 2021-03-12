@@ -22,7 +22,7 @@ export default function(state = initialState, action) {
         case REGISTER:
         case LOGIN:
             
-             AsyncStorage.setItem('token', payload.token).then(console.log('token placed')).catch(console.log('token fail'))
+             AsyncStorage.setItem('token', payload.token)
              
             return {
                 ...state,
