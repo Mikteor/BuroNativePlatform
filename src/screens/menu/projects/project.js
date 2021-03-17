@@ -98,7 +98,7 @@ if (!project) {
        selectedButton==1? <TeamPage team={project.team2} crypt={cryptProject} user={user}/> :
        selectedButton==2? <Model /> :
        selectedButton==3? <Info project={project} /> :
-       selectedButton==4 && <History project={project}/>}
+       selectedButton==4 && <History project={project} navigation={navigation}/>}
       
     
 

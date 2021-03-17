@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { StyleSheet, Text, View, Image, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button,RefreshControl } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectedProject } from '../../../redux/actions/projects'
+import { selectedProject, allProjects } from '../../../redux/actions/projects'
 import CommonHeader from '../../../components/header/commonHeader'
 
 const Projects = ({navigation}) => {
 
   const dispatch = useDispatch()
 
+  const [refreshing, setRefreshing] = useState(false)
+
+
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      dispatch(allProjects())
+      wait(2000).then(() => setRefreshing(false));
+      
+    }, []);
+  
   const projects = useSelector(state=>state.projects.projects)
   
   const projectPress = (crypt, el) => {
@@ -21,7 +34,12 @@ const Projects = ({navigation}) => {
 
   return (
     
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />}>
       <CommonHeader navigation={navigation} />
         <Text style={styles.title} >Текущие проекты</Text>
 

@@ -45,7 +45,7 @@ import { useNavigation } from '@react-navigation/native';
 import {navigationRef} from './RootNavigation';
 import * as RootNavigation from './RootNavigation';
 
-export default function App() {
+export default function App({deviceToken}) {
 const dispatch = useDispatch()
 // const navigation = useNavigation()
 // const Stack = createStackNavigator();
@@ -56,6 +56,7 @@ const user = useSelector(state=>state.auth.user)
 
 const [isAuthenticated, setIsAuthenticated] = useState(false)
 const [createModal, setCreateModal] = useState(false)
+const [redirect, setReditect] = useState(false)
 
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
@@ -63,7 +64,7 @@ useEffect(() => {
         res ? setIsAuthenticated(true) : setIsAuthenticated(false)
         setAuthToken(res)
     })    
-
+   
 
   },[tokenBoulean])
 
@@ -81,25 +82,27 @@ useEffect(() => {
   }
   useEffect(()=>{
     loadAll()
-  },[])
+  },[isAuthenticated])
+
 
   
-  // const mainIcon = <Icon name="home-outline" color={color} size={24}  />
 
   return (
     
     <View style={styles.container}> 
       <StatusBar hidden={true}/>
 
-    {/* <View style={{position: 'absolute', left: 0, top: 0, height: 50, width: '100%', backgroundColor: 'yellow', zIndex:999}}>
-          <Text style={{color: 'red'}}>absolute</Text>
-      </View> */}
-
     {!isAuthenticated?  
       <Stack.Navigator headerMode='none'>
-          <Stack.Screen name='login' component={Login}/>
-          <Stack.Screen name='registration' component={Registration}/>
+          <Stack.Screen name='login'>
+              {props => <Login {...props} deviceToken={deviceToken} />}
+          </Stack.Screen>
+          <Stack.Screen name='registration'>
+              {props => <Registration {...props} deviceToken={deviceToken} />}
+          </Stack.Screen>
       </Stack.Navigator>  :
+
+    user && !user.name? <EditProfile initial /> :
 
       <Tab.Navigator 
           tabBarOptions={{
@@ -157,7 +160,6 @@ useEffect(() => {
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='createSprint' component={CreateNewSprint}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
-                    {/* <Stack.Screen name='toto' component={}/> */}
                   </Stack.Navigator>
                   }
           </Tab.Screen>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { StyleSheet,  View, Button , Text, } from 'react-native';
+import { TextInput } from 'react-native-paper'
 import {Picker} from '@react-native-community/picker'
-import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { CheckBox, Divider } from 'react-native-elements'
 
@@ -17,12 +17,12 @@ import EditRow from '../../../components/edit/editProfileRow'
 import CommonHeader from '../../../components/header/commonHeader'
 
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation,initial}) => {
 const dispatch = useDispatch()
 
 const profile = useSelector(state => state.auth.user)
 const departments = useSelector(state => state.departments.departments)
-
+console.log('initial:' ,initial)
 const [formData, setFormData ] = useState({
   name: '',
   lastname: '',
@@ -35,12 +35,12 @@ const [formData, setFormData ] = useState({
 
 useEffect(()=>{
   profile && setFormData({
-    name: profile.name || 'Имя',
-    lastname: profile.lastname || 'Фамилия',
-    position: profile.position || 'Должность',
-		division: profile.division? profile.division.divname : 'Отдел',  
-    email: profile.email  || 'E-mail',
-		report: profile.report  || 'ссылка на отчетность', 
+    name: profile.name || null,
+    lastname: profile.lastname || null,
+    position: profile.position || null,
+		division: profile.division? profile.division.divname : null,  
+    email: profile.email  || null,
+		report: profile.report  || null, 
   })
 },[profile])
 
@@ -57,43 +57,83 @@ const onSubmit = e => {
   setTimeout(() => {
   dispatch(loadUser())
   profile && profile.division && dispatch(findDepartment(profile.division.divname))
-  navigation.pop()
+    console.log('ololo',formData)
+  !initial && navigation.pop()
   }, 300);
   }
-
-
+useEffect(()=>{
+  console.log('lol',formData.division)
+},[formData])
   return (
 
     <View style={{flex:1,}}>
-        <CommonHeader navigation={navigation}/>
+        {!initial && <CommonHeader navigation={navigation}/>}
 
     <View style={styles.container}>
     
-      <View style={styles.title}>
-          <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Редактировать профиль</Text>
-      </View>
-      
-      <EditRow  content={formData.name} placehold={'Имя'} onChangeT={(text) => setFormData({...formData, name: text})} />
-      <EditRow  content={formData.lastname} placehold={'Фамилия'} onChangeT={(text) => setFormData({...formData, lastname: text})} />
-      <EditRow  content={formData.position} placehold={'Должность'} onChangeT={(text) => setFormData({...formData, position: text})} />
-      <EditRow  content={formData.email} placehold={'E-mail'} onChangeT={(text) => setFormData({...formData, email: text})} />
-      <EditRow  content={formData.report} placehold={'Отчет'} onChangeT={(text) => setFormData({...formData, report: text})} />
+        <View style={styles.title}>
+            <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
+            <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Редактировать профиль</Text>
+        </View>
 
-      <Picker
-        selectedValue={formData.division}
-        onValueChange={(itemValue, itemIndex) =>
-          setFormData({...formData, division: itemValue})
-        }>
-          {departments && departments.map((el,i)=>{
-            return(
-            <Picker.Item label={el.divname} value={el.divname} />
-            )
-          })}
-       
-      </Picker>
- 
-      <Button title="Подтвердить" onPress={onSubmit}/>
+
+          <TextInput
+              label="Имя"
+              value={formData.name}
+              placeholder={'Имя'}
+              onChangeText={(text) => setFormData({...formData, name: text})}
+              />
+          <TextInput
+              label="Фамилия"
+              value={formData.lastname}
+              placeholder={'Фамилия'}
+              onChangeText={(text) => setFormData({...formData, lastname: text})}
+              />
+          <TextInput
+              label="Должность"
+              value={formData.position}
+              placeholder={'Должность'}
+              onChangeText={(text) => setFormData({...formData, position: text})}
+              />
+          <TextInput
+              label="E-mail"
+              value={formData.email}
+              placeholder={'E-mail'}
+              onChangeText={(text) => setFormData({...formData, email: text})}
+              />
+          <TextInput
+              label="Ссылка на отчетность"
+              value={formData.report}
+              placeholder={'http://...'}
+              onChangeText={(text) => setFormData({...formData, report: text})}
+              />
+
+          <Picker
+            selectedValue={formData.division}
+            onValueChange={(itemValue, itemIndex) =>
+              setFormData({...formData, division: itemValue})
+            }>
+                <Picker.Item label={'Выберите отдел'} value={''}  />
+              {departments && departments.map((el,i)=>{
+                return(
+                <Picker.Item key={'departmentsss'+i} label={el.divname} value={el.divname} />
+                )
+              })}
+          
+          </Picker>
+    
+          <Button 
+              title="Подтвердить" 
+              onPress={onSubmit}
+              disabled={
+                formData.name.length>1 &&
+                formData.lastname.length>1 &&
+                formData.position.length>1 &&
+                formData.division &&
+                formData.email.length>1 &&
+                formData.report.length>1 ? false : true
+              }
+              />
  
       </View>
  

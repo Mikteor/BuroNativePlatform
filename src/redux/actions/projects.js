@@ -17,13 +17,13 @@ export const newProject = (formData) => async dispatch  => {
 
         }
       catch (err) {
-        const errors = err.response.data.err
-        errors.map(error => {
-           return dispatch({
-            type: CREATE_FAIL,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: CREATE_FAIL,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -39,7 +39,7 @@ export const sortProjects = ({ query, orderSort }) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    alert("hahaha classic");
+    // alert("hahaha classic");
   }
 };
 
@@ -64,13 +64,13 @@ export const allProjects = () => async dispatch  => {
         })
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: CREATE_FAIL,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: CREATE_FAIL,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -88,13 +88,13 @@ export const getProject = (id) => async dispatch  => {
 
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: CREATE_FAIL,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: CREATE_FAIL,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -172,13 +172,13 @@ export const editProject = (formData, id) => async dispatch  => {
   
       }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: CREATE_FAIL,
-            payload: error.msg
-        })
-        })
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: CREATE_FAIL,
+        //     payload: error.msg
+        // })
+        // })
             
       } 
   
@@ -196,13 +196,13 @@ export const allSprints = (id) => async dispatch  => {
 
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -221,13 +221,13 @@ export const getSprint = (id) => async dispatch  => {
 
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -276,12 +276,12 @@ export const addTask = ( id, task ) => async (dispatch) => {
   
     } catch (err) {
         console.log('add task error::',err)
-      const errors = err.response.data.err;
+      // const errors = err.response.data.err;
      
-        return dispatch({
-          type: SPRINT_ERROR,
-          payload: errors.msg,
-        });
+      //   return dispatch({
+      //     type: SPRINT_ERROR,
+      //     payload: errors.msg,
+      //   });
       
     }
   };
@@ -295,7 +295,7 @@ export const finishTask = (sprintId, taskId) => async dispatch  => {
     try {
         // console.log('finish 1','sprintId:', sprintId,'taskId: ', taskId)
 
-        const res = await innerBackend.put(`projects/sprints/DAtask/${sprintId}`, body)
+        const res = await innerBackend.put(`projects/sprints/DAtask/test`, body)
         // console.log('finish 2')
 
         dispatch({
@@ -306,13 +306,13 @@ export const finishTask = (sprintId, taskId) => async dispatch  => {
         }
       catch (err) {
           console.log('finish task error::: ', err)
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -349,13 +349,13 @@ export const finishSprint = (id) => async dispatch  => {
         })
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -374,13 +374,13 @@ export const addInfoSprint = (id, form) => async dispatch  => {
         })
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -418,13 +418,13 @@ export const finishProject = (id) => async dispatch  => {
         })
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: CREATE_FAIL,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: CREATE_FAIL,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 
@@ -442,13 +442,13 @@ export const deleteProject = (crypt) => async dispatch  => {
 
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-            type: SPRINT_ERROR,
-            payload: error.msg
-        })
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //     type: SPRINT_ERROR,
+        //     payload: error.msg
+        // })
+        // })            
       
     }
 

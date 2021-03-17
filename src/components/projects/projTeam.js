@@ -8,6 +8,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import {url} from '../utils/axios'
 import { getProject, joinTeam } from '../../redux/actions/projects';
 import { useDispatch } from 'react-redux';
+import { loadUser } from '../../redux/actions/auth';
 
 const Project = ({team, crypt, user}) => {
 const dispatch = useDispatch()
@@ -16,7 +17,10 @@ const userInTeam = team && team.some(el=> el.user._id==user._id)
 
 const joinTeamFunc = () => {
  crypt && dispatch(joinTeam(crypt))
+ setTimeout(() => {
  dispatch(getProject(crypt))
+ dispatch(loadUser())
+ }, 300);
 }
 
   return (
@@ -27,7 +31,7 @@ const joinTeamFunc = () => {
       <ScrollView style={teamStyle.scrollView}>
       {!userInTeam && <Button title='Вступить в команду' onPress={()=>joinTeamFunc()} />}
       {userInTeam && <Button title='Выйти из команды' onPress={()=>joinTeamFunc()} />}
-        {team.map((el,i)=>{
+        {team && team.map((el,i)=>{
             return(
               <View
                 style={teamStyle.card}

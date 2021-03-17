@@ -35,7 +35,6 @@ const [selectedButton, setButton] = useState(0)
 
 const buttons = ['Проекты','Новости']
 
-
 const [refreshing, setRefreshing] = React.useState(false);
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -92,14 +91,14 @@ const projectPress = (crypt) => {
             </View>  
             <View style={styles.profileTop}>
               <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
-              <Text style={styles.name}>{user? user.fullname :'Mitya Pustovitenko'}</Text>
-              <Text style={styles.pos}>{user? user.position : 'position'}</Text>
+              <Text style={styles.name}>{user? user.fullname :'Имя Фамилия'}</Text>
+              <Text style={styles.pos}>{user? user.position : 'Должность'}</Text>
             </View>
         </View>
 
         <View>
               <View style={styles.flexTop}>
-                {flexs.map((el,i)=>{
+                {user && user.partition.map((el,i)=>{
                   return(
                     <View key={'flexs'+i} style={styles.flexItem}>
                       <Text style={{color: '#7296FB'}}>{el}</Text>

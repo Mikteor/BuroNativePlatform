@@ -1,21 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import {useSelector} from 'react-redux'
-import { StyleSheet, Text, View, ScrollView, Image, TextInput } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux'
+import { StyleSheet, Text, View, ScrollView, Image, TextInput,RefreshControl } from 'react-native';
 import {Button, ListItem, } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale';
 import { DataTable } from 'react-native-paper';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {url} from '../components/utils/axios'
-
+import { loadUser } from '../redux/actions/auth';
+import { findDepartment } from '../redux/actions/department';
 
 const Main = ({}) => {
-
+const dispatch = useDispatch()
 const user = useSelector(state=>state.auth.user)
 const department = useSelector(state => state.departments.findDep)
 const [departmentProjects, setDepProjects] = useState([])
+const [refreshing, setRefreshing] = useState(false);
+
 const team = [1,2,3,4,5,6,7,8,]
 let projects = []
+
+const onRefresh = React.useCallback(() => {
+  setRefreshing(true);
+  dispatch(loadUser())
+  user && user.division && dispatch(findDepartment(user.division.divname))
+  setTimeout(()=>{
+    setRefreshing(false)
+  },2000)
+}, []);
+
+useEffect(()=>{
+  user && user.division && dispatch(findDepartment(user.division.divname))
+},[user])
 
 const getAllProjects = () => {
   if(department){
@@ -47,7 +63,12 @@ useEffect(()=>{
 
   return (
     
-  <View style={styles.container}>
+  <ScrollView style={styles.container} 
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />}>
 
     <View style={{flex:1}}>
       <View style={styles.title}>
@@ -121,7 +142,7 @@ useEffect(()=>{
       
         
 
-    </View>
+    </ScrollView>
   );
 }
 export default Main

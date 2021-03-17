@@ -7,7 +7,7 @@ import CommonHeader from '../header/commonHeader'
 
 
 
-const Registration = ({navigation}) => {
+const Registration = ({navigation, deviceToken}) => {
 
 const dispatch = useDispatch()
 
@@ -16,6 +16,7 @@ const [formData, setFormData ] = useState({
         
   email: '',
   rocketname: '',
+  dev_id: deviceToken
 
 });
 

@@ -54,6 +54,8 @@ useEffect(()=>{
     // console.log(sprintTasks, newTaskData)
     setSprintTasks([...sprintTasks, newTaskData])
     ref.current.clear()
+    setnewTaskFrom(false)
+
   }
   const cancelNewTask = () => {
     setnewTaskFrom(false)
@@ -64,6 +66,7 @@ useEffect(()=>{
     sprintTags.length>1 && setnewTagFrom(false)
     setSprintTags([...sprintTags, newTagData])
     refTag.current.clear()
+    setnewTagFrom(false)
 
   }
   const cancelNewTag = () => {
@@ -89,8 +92,11 @@ useEffect(()=>{
 
   const createSprint = () => {
     dispatch(addSprint(cryptProject, sprintDescription, sprintDate, sprintTasks, sprintTags))
+    setTimeout(() => {
     dispatch(getProject(cryptProject))
     navigation.pop()
+      
+    }, 300);
     // console.log(cryptProject, sprintDescription.length, sprintDate, sprintTasks.length, sprintTags.length)
   }
 
@@ -133,6 +139,7 @@ useEffect(()=>{
                 <View style={{flexDirection: 'row', justifyContent: 'center', marginHorizontal: 30,}}>
                     <Icon name='check-bold' size={24} style={{marginTop: 15}} onPress={()=>addNewTask()}/>
                     <Input 
+                        onAccessibilityEscape={()=>ref.current.clear()}
                         placeholder='Описание спринта'
                         onChangeText={(text)=>setnewTaskData(text)}
                         ref={ref}

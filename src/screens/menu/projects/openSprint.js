@@ -11,11 +11,11 @@ import { loadUser } from '../../../redux/actions/auth';
 import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../../redux/actions/projects';
 import CommonHeader from '../../../components/header/commonHeader'
 
-const Project = ({ navigation}) => {
+const Project = ({ navigation, route}) => {
   const dispatch = useDispatch()
   const ref = useRef(null)
   const cryptProject = useSelector(state => state.projects.selectedProject)
-
+  const { historyScreen } = route.params;
 
   const user = useSelector(state => state.auth.user)
   const userSprints = user.sprints.map(el=>el._id)
@@ -52,6 +52,7 @@ const Project = ({ navigation}) => {
     navigation.pop()
     setTimeout(() => {
       dispatch(getProject(cryptProject))
+      navigation.pop()
     }, 300);
   }
   const finishSprintFunc = () => {
@@ -59,7 +60,9 @@ const Project = ({ navigation}) => {
     setOpenSprint(false)
     setTimeout(() => {
       dispatch(getProject(cryptProject))
+      navigation.pop()
     }, 300);
+
   }
   const checkTaskStatus = (taskId) => {
     dispatch(finishTask(sprint._id, taskId))
@@ -98,11 +101,12 @@ const Project = ({ navigation}) => {
                   return(
                     <View key={'tasks-el'+i} style={{flexDirection: 'row', alignItems: 'center'}}>
                       <CheckBox
+                        disabled={historyScreen? true : false}
                         checked={el.taskStatus}
                         onPress={()=>checkTaskStatus(el._id)}
                       />
                       <Text style={{marginRight: 'auto'}}>{el.taskTitle}</Text>
-                      <Icon name='delete-outline' size={24}  onPress={()=>deleteTaskFunc(el._id)}/>
+                      {!historyScreen && <Icon name='delete-outline' size={24}  onPress={()=>deleteTaskFunc(el._id)}/>}
                     </View>
                   )
                 })}
@@ -119,8 +123,8 @@ const Project = ({ navigation}) => {
                 }
                 
                 
-                <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>
-                <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>
+                {!historyScreen && <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>}
+                {!historyScreen && <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>}
                 <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
                 
             </View>

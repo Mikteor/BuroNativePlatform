@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import { ScrollView } from 'react-native';
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, RefreshControl } from 'react-native';
 import {  Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { deletePropose, likedProposes, likePropose } from '../redux/actions/office';
@@ -15,6 +15,8 @@ const loaded = useSelector(state => state.office.loaded)
 const reload = useSelector(state => state.office.reload)
 const user = useSelector(state => state.auth.user)
 
+const [refreshing, setRefreshing] = useState(false);
+
 
 const likeButton =(id) =>{
   dispatch(likePropose(id))
@@ -24,18 +26,31 @@ useEffect(()=>{
   dispatch(likedProposes())
 },[reload])
 
+const onRefresh = React.useCallback(() => {
+  setRefreshing(true);
+  dispatch(likedProposes())
+  setTimeout(()=>{
+    setRefreshing(false)
+  },2000)
+}, []);
+
 const proposes = [1,2,3,4,5]
 
   return (
     
-    <View style={styles.container}>
+    <ScrollView style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />}>
 
       <View style={styles.title}>
           <Icon name='puzzle-plus' color='#7C7C7C' size={24}/>
           <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Предложения</Text>
       </View>
 
-    <ScrollView>
+    <View>
       {!liked? <Text>Предложений пока нет</Text> : 
         liked.map((el,i)=>{
           const likeTrue =  el.likes.some(el => el.user == user._id)
@@ -54,10 +69,10 @@ const proposes = [1,2,3,4,5]
             </View>
         )
       })}
-    </ScrollView>
+    </View>
      
 
-    </View>
+    </ScrollView>
   );
 }
 export default Profile

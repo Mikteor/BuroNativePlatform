@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../redux/actions/auth'
 import { ImageBackground } from 'react-native';
@@ -28,7 +28,7 @@ const buttons = [
   navigate: 'buroTeam'
   },
     {
-  name: "Смежники",
+  name: "Субподрядчики",
   navigate: 'smejniki'
   },
 ]
@@ -36,6 +36,8 @@ const scndGroup = [
   {name:'Изменить профиль',
   navigate: 'editProfile'
   },]
+
+
 
   return (
     

@@ -7,7 +7,7 @@
  */
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Provider as ReduxProvider} from 'react-redux'
 import {Provider as PaperProvider} from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -22,12 +22,14 @@ import PushNotification from 'react-native-push-notification'
 
 const App: () => React$Node = () => {
 
- const chanel1 =  PushNotification.createChannel(
+  const [devToken, setToken] = useState('')
+
+  PushNotification.createChannel(
     {
       channelId: "channel-id", // (required)
       channelName: "My channel", // (required)
       channelDescription: "A channel to categorise your notifications", // (optional) default: undefined.
-      playSound: false, // (optional) default: true
+      playSound: true, // (optional) default: true
       soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
       importance: 4, // (optional) default: 4. Int value of the Android notification importance
       vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
@@ -35,6 +37,16 @@ const App: () => React$Node = () => {
     (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
   );
 
+  useEffect(()=>{
+    getToken()
+    const mes = messaging().onMessage(getPushData);
+  },[])
+
+  const getToken = async() => {
+    const token = await messaging().getToken()
+    console.log('token::',token)
+    setToken(token)
+  }
 
     const getPushData = (message) => {
       console.log('message: ', message)
@@ -55,31 +67,13 @@ const App: () => React$Node = () => {
     //   console.log('message: ', message)
     // }
 
-    useEffect(()=>{
-    const mes = messaging().onMessage(getPushData);
-    },[])
-     
-
-
-
-
-  // const getToken = async() => {
-   
-
-  //   const token = await messaging().getToken()
-  //   console.log('token::',token)
-  // }
-  // useEffect(()=>{
-  //   getToken()
-  // },[])
-
 
   return (
     <NavigationContainer ref={navigationRef}>
         <SafeAreaProvider >
             <ReduxProvider store={store}>
               <PaperProvider>
-                  <Application />
+                  <Application deviceToken={devToken} />
               </PaperProvider>
             </ReduxProvider>
         </SafeAreaProvider>

@@ -8,16 +8,16 @@ import { Input, Button } from 'react-native-elements';
 
 
 
-const Login = ({navigation}) => {
+const Login = ({navigation, deviceToken}) => {
 
 const dispatch = useDispatch()
-
 
  
 const [formData, setFormData ] = useState({
         
   email: '',
-  password: ''
+  password: '',
+  dev_id: deviceToken
 
 
 });
