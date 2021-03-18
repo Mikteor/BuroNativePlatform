@@ -6,8 +6,9 @@ import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import TouchableScale from 'react-native-touchable-scale';
 
-const Project = ({project}) => {
+const Project = ({project, user}) => {
 
+    
   const [selectedButton, setButton] = useState(0)
 
   
@@ -44,10 +45,10 @@ const Project = ({project}) => {
                 <Text style={infoStyle.cardTitle}>Шифр</Text>
                 <Text style={infoStyle.cardSubtitle}>{project.crypter}</Text>
             </View>
-            <View style={infoStyle.cardFlex}>
+            {user.permission=='admin' && <View style={infoStyle.cardFlex}>
                 <Text style={infoStyle.cardTitle}>Бюджет</Text>
                 <Text style={infoStyle.cardSubtitle}>ссылка {project.budget}</Text>
-            </View>
+            </View>}
             <View style={infoStyle.cardFlex}>
                 <Text style={infoStyle.cardTitle}>Документация</Text>
                 <Text style={infoStyle.cardSubtitle}>ссылка {project.cusStorage}</Text>

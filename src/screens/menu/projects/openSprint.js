@@ -85,17 +85,16 @@ const Project = ({ navigation, route}) => {
     
  
     
-        <View style={sprintStyle.container}>
+        <View style={style.container}>
             <CommonHeader navigation={navigation}/>
           
-              <View style={sprintStyle.modalCont} >
 
-              <View style={sprintStyle.modalCard} >
-                <View style={sprintStyle.modalBtn}>
-                  <Text style={sprintStyle.modalBtnText} >Спринт {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+              <View style={style.main} >
+                <View style={style.modalBtn}>
+                  <Text style={style.title} >Спринт {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
                 </View>
-                <View style={sprintStyle.modalBtn}>
-                  <Text style={sprintStyle.modalBtnText}>{sprint && sprint.description}</Text>
+                <View style={style.modalBtn}>
+                  <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
                 </View>
                 {sprint && sprint.tasks.map((el,i)=>{
                   return(
@@ -128,7 +127,6 @@ const Project = ({ navigation, route}) => {
                 <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
                 
             </View>
-            </View>
         
 
 
@@ -148,108 +146,17 @@ export default Project
 
 
 
-  const sprintStyle =  StyleSheet.create({
+  const style =  StyleSheet.create({
    container:{
      flex:1,
+     backgroundColor: 'white',
    },
-   sprints:{
-    // backgroundColor: 'green',
-    flex: 1
-    },
-   card:{
-    backgroundColor: 'white',
-    elevation: 8,
-    // marginVertical: 10,
-    marginBottom:20,
-    marginHorizontal: 40,
-    borderRadius: 8,
-    shadowColor: 'black',
-    // marginTop: -20,
-    paddingHorizontal:10,
-    paddingVertical:5,
-  },
-  topFlex:{
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusDot: {
-    marginLeft: 5,
-  },
-  botFlex:{
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title:{
-    fontSize: 18,
-  },
-  status:{
-    fontSize: 18,
-    marginLeft: 'auto',
+   main: {
+     padding: 10,
+   },
+   title: {
+     fontWeight: 'bold',
+     fontSize: 24,
+   },
 
-  },
-  description:{
-    marginBottom: 8,
-  },
-  type:{
-      backgroundColor: '#F2ECE1',
-      borderRadius: 4,
-      paddingHorizontal: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-
-  history:{
-    // backgroundColor: 'yellow',
-  },
-  histTitle: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginHorizontal: 15,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#DDDDDD',
-    marginBottom: 5,
-    paddingBottom: 3,
-  },
-  tableRow: {
-    backgroundColor: 'white',
-    marginVertical: 2,
-    padding: 0,
-  },
-  projType: {
-    backgroundColor: '#F2ECE1',
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  projType2: {
-    backgroundColor: '#E1E7F2',
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    marginBottom: 65,
-    right: 0,
-    bottom: 0,
-    backgroundColor:'#3F496C'
-  },
-  modalCont: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  modalCard: {
-    backgroundColor: 'white',
-    marginHorizontal: 30,
-    borderRadius: 10,
-    padding: 10,
-    elevation: 5,
-  }
   });

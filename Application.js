@@ -29,6 +29,7 @@ import NewPropose from './src/screens/create/createPropose'
 import CreateNews from './src/screens/create/createNews'
 import CreateNewSprint from './src/screens/create/createNewSprint'
 import OpenSprint from './src/screens/menu/projects/openSprint'
+import TeamMateProfile from './src/screens/menu/teamMateProfile'
 //
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -112,14 +113,8 @@ useEffect(() => {
                 inactiveBackgroundColor: '#3F496C',
                 }}>
                   
-          <Tab.Screen name='Главная' options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}}>
-            {e => 
-            <Stack.Navigator headerMode='none'>
-                <Stack.Screen name='main' component={Main}/>
-                <Stack.Screen name='news' component={News}/>
-            </Stack.Navigator>
-            }
-          </Tab.Screen>
+          <Tab.Screen name='Главная' component={Main} options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}} />
+         
 
           <Tab.Screen name='Отдел' component={Department} options={{tabBarIcon : ({ color, size }) => (<Icon name="account-group-outline" color={color} size={24}  />)}}/>
           
@@ -160,6 +155,8 @@ useEffect(() => {
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='createSprint' component={CreateNewSprint}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
+                    <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
+
                   </Stack.Navigator>
                   }
           </Tab.Screen>

@@ -18,8 +18,6 @@ const Project = ({project, navigation}) => {
   const userSprints = user&& user.sprints && user.sprints.map(el=>el._id)
 
 
-  
-
   const chosenSprint = (id) => {
 
     dispatch(addToChosen(id));
@@ -36,10 +34,8 @@ const Project = ({project, navigation}) => {
     
  
 
-        <View style={sprintStyle.container}>
-          <View style={sprintStyle.sprints}>
-          <View style={{backgroundColor:'black', height:20,}}/>
-            <ScrollView style={{marginTop:-20,}}>
+  <View style={sprintStyle.container}>
+      <ScrollView>
           
 
 
@@ -56,43 +52,33 @@ const Project = ({project, navigation}) => {
 
         const now = new Date()
         const finish = new Date(el.dateClosePlan)
-
         return(
-            <View key={'sprints'+i} style={sprintStyle.card}>
-              <View style={sprintStyle.topFlex}>
-                <Text style={sprintStyle.title}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
-                <Icon name='circle' color={now<finish? 'green' : now>finish && percent<100?'red': 'green'} size={14} style={sprintStyle.statusDot}/>
-                <Icon name='pencil-outline' color='black' size={16} style={{marginLeft: 5,}} onPress={()=>editSprint(el._id)}/>
-                <Text style={sprintStyle.status}>{Math.round(percent)}%</Text>
-              </View>
-              <Text style={sprintStyle.description}>{el.description}</Text>
-              <View style={sprintStyle.botFlex}>
-                <View style={sprintStyle.type}>
-                  <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
+            <View key={'sprints'+i} style={sprintStyle.mainFlex}>
+
+              <Icon style={sprintStyle.icon} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint(el._id)}/>
+              
+              <View style={sprintStyle.cardFlex} onTouchEnd={(e)=>editSprint(el._id)}>
+                <View style={sprintStyle.cardCenter}>
+                  <Text style={sprintStyle.title}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={sprintStyle.type}  >
+                      <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
+                    </View>
+                  </View>
                 </View>
-                <Icon name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint(el._id)}/>
+
+                <View>
+                  <Text style={sprintStyle.status}>{Math.round(percent)}%</Text>
+                </View>
               </View>
+
             </View>
         )
       })}
           </ScrollView>
-          </View>
 
 
-
-
-        
-        
-        
-
-
-      
-
-
-
-
-
-        </View>
+  </View>
 
   
 
@@ -107,22 +93,31 @@ export default Project
    container:{
      flex:1,
    },
-   sprints:{
-    // backgroundColor: 'green',
-    flex: 1
+  
+    mainFlex: {
+      flexDirection: 'row',
+      backgroundColor: 'white',
+      alignItems: 'center',
+      borderBottomWidth: 0.5,
+
     },
-   card:{
-    backgroundColor: 'white',
-    elevation: 8,
-    // marginVertical: 10,
-    marginBottom:20,
-    marginHorizontal: 40,
-    borderRadius: 8,
-    shadowColor: 'black',
-    // marginTop: -20,
-    paddingHorizontal:10,
-    paddingVertical:5,
-  },
+    cardFlex: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flex: 1,
+      paddingRight: 10,
+      paddingVertical: 5,
+      backgroundColor: 'white',
+    },
+    icon: {
+      marginHorizontal: 10,
+    },
+    cardCenter: {
+      marginVertical:8,
+    },
+   
   topFlex:{
     display: 'flex',
     flexDirection: 'row',
@@ -139,6 +134,7 @@ export default Project
   },
   title:{
     fontSize: 18,
+    marginBottom: 5,
   },
   status:{
     fontSize: 18,

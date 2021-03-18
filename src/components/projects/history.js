@@ -12,82 +12,7 @@ import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask
 
 
 const Project = ({project, navigation}) => {
-  const dispatch = useDispatch()
-  const ref = useRef(null)
 
-  const user = useSelector(state => state.auth.user)
-  const userSprints = user.sprints.map(el=>el._id)
-  const sprint = useSelector(state => state.projects.sprint)
-
-
-  const [openHistory, setOpenHistory] = useState(false)
-  const [newTaskFrom, setnewTaskFrom] = useState(false)
-  const [newTaskData, setnewTaskData] = useState('')
-  const [openSprint, setOpenSprint] = useState(false)
-  const [fabOpen, setFabOpen] = useState(false)
-  const [openNewSprintForm, setOpenNewSprintForm] = useState(false)
-
-// useEffect(()=>{
-//   sprint && setOpenSprint(true)
-// },[sprint])
-  
-
-  const chosenSprint = (id) => {
-
-    dispatch(addToChosen(id));
-    dispatch(loadUser())
-  }
-  const editSprint = (id) => {
-    
-    dispatch(getSprint(id))
-    navigation.navigate('openSprint')
-  }
-  const addNewTask = () => {
-    // console.log(sprint._id, newTaskData)
-    dispatch(addTask(sprint._id, newTaskData))
-    setnewTaskFrom(false)
-    ref.current.clear()
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-  const cancelNewTask = () => {
-    setnewTaskFrom(false)
-    ref.current.clear()
-  }
-  const deleteSprintFunc = () => {
-    dispatch(deleteSprint(sprint._id))
-    setOpenSprint(false)
-    setTimeout(() => {
-      dispatch(getProject(project.crypt))
-    }, 300);
-  }
-  const finishSprintFunc = () => {
-    dispatch(finishSprint(sprint._id))
-    setOpenSprint(false)
-    setTimeout(() => {
-      dispatch(getProject(project.crypt))
-    }, 300);
-  }
-  const checkTaskStatus = (taskId) => {
-    dispatch(finishTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-  const deleteTaskFunc = (taskId) => {
-    dispatch(DeleteTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-
-
-
-  const closeSprint = () => {
-    setOpenSprint(false)
-    dispatch(getProject(project.crypt))
-  }
 
   return (
     
@@ -97,11 +22,6 @@ const Project = ({project, navigation}) => {
        
 
           <View>
-              <View style={sprintStyle.histTitle} onTouchEnd={()=>setOpenHistory(!openHistory)}>
-                <Icon name='playlist-check' color='#7C7C7C' size={24}/>
-                <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>История</Text>
-                <ArrowIcon name={'keyboard-arrow-down'} color='#7C7C7C' size={24}/>
-              </View>
             <ScrollView>
               <DataTable>
                     {project.sprints
@@ -130,6 +50,7 @@ const Project = ({project, navigation}) => {
 
 
     
+                {/* <Icon name='circle' color={now<finish? 'green' : now>finish && percent<100?'red': 'green'} size={14} style={sprintStyle.statusDot}/> */}
 
 
 

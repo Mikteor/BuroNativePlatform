@@ -35,6 +35,7 @@ useEffect(()=>{
                 friction={90} //
                 tension={100} // These props are passed to the parent component (here TouchableScale)
                 activeScale={0.95} //
+                onPress={()=>navigation.navigate('teamMateProfile', {user: el})}
                 >
                     <Image source={el.avatar? {uri: `${url+el.avatar}`} : require('../../../assets/ava.jpeg')} style={styles.avatar}/>
                     <ListItem.Content>

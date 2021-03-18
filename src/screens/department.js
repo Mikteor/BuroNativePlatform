@@ -10,7 +10,7 @@ import {url} from '../components/utils/axios'
 import { loadUser } from '../redux/actions/auth';
 import { findDepartment } from '../redux/actions/department';
 
-const Main = ({}) => {
+const Main = ({navigation}) => {
 const dispatch = useDispatch()
 const user = useSelector(state=>state.auth.user)
 const department = useSelector(state => state.departments.findDep)
@@ -88,6 +88,7 @@ useEffect(()=>{
                 friction={90} //
                 tension={100} // These props are passed to the parent component (here TouchableScale)
                 activeScale={0.95} //
+                onPress={()=>navigation.navigate('Меню', { screen: 'teamMateProfile', params: {user: el} })}
                 >
                     <Image source={{uri: `${url+el.avatar}`} || require('../../assets/ava.jpeg')} style={styles.avatar}/>
                     <ListItem.Content>
