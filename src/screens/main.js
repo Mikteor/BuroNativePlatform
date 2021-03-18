@@ -91,7 +91,7 @@ useEffect(()=>{
                     innerBorderStyle={btnStyles.innerBorders}
                     />
               {selectedButton == 0? 
-                  <MyProjects navigation={navigation} user={user} /> :
+                  <MyProjects navigation={navigation} projects={user && user.projects} /> :
               selectedButton == 1 &&
                   <News noHeader /> 
               }

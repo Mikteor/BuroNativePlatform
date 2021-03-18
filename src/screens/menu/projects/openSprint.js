@@ -9,7 +9,7 @@ import { addToChosen } from '../../../redux/actions/auth';
 import { usersPartition } from '../../../redux/actions/user';
 import { loadUser } from '../../../redux/actions/auth';
 import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../../redux/actions/projects';
-import CommonHeader from '../../../components/header/commonHeader'
+import CommonHeader from '../../../components/common/header/commonHeader'
 
 const Project = ({ navigation, route}) => {
   const dispatch = useDispatch()

@@ -15,7 +15,7 @@ import { likedProposes } from '../../redux/actions/office';
 import { allProjects, selectedProject } from '../../redux/actions/projects';
 import MyProjects from '../../components/main/myProjects'
 import {url} from '../../components/utils/axios'
-import CommonHeader from '../../components/header/commonHeader'
+import CommonHeader from '../../components/common/header/commonHeader'
 
 
 const TeamMateProfile = ({navigation, route}) => {

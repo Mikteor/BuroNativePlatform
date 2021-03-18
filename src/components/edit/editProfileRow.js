@@ -5,7 +5,7 @@ import { StyleSheet,  View, Button , Text} from 'react-native';
 
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import CommonHeader from '../header/commonHeader'
+import CommonHeader from '../common/header/commonHeader'
 
 const EditRow = ({content, placehold,onChangeT}) => {
 

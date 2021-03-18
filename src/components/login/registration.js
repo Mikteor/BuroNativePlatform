@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { register } from '../../redux/actions/auth'
 import { StyleSheet, View, Button } from 'react-native';
 import { Input } from 'react-native-elements';
-import CommonHeader from '../header/commonHeader'
+import CommonHeader from '../common/header/commonHeader'
 
 
 

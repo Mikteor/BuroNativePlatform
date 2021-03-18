@@ -9,7 +9,7 @@ import { Alert } from 'react-native';
 import { ScrollView } from 'react-native';
 import { allUsers } from '../../redux/actions/user'
 import {url} from '../../components/utils/axios'
-import CommonHeader from '../../components/header/commonHeader'
+import CommonHeader from '../../components/common/header/commonHeader'
 
 const BuroTeam = ({navigation}) => {
 const dispatch = useDispatch()

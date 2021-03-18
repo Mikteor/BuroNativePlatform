@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 
 import { useSelector } from 'react-redux';
-import CommonHeader from '../components/header/commonHeader'
+import CommonHeader from '../components/common/header/commonHeader'
 import { DataTable } from 'react-native-paper';
 
 const Main = ({navigation, noHeader}) => {

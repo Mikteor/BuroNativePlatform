@@ -15,7 +15,7 @@ import { allProjects, selectedProject } from '../../redux/actions/projects';
 
 
 
-const Main = ({navigation, user}) => {
+const Main = ({navigation, projects}) => {
 const dispatch = useDispatch()
 
 
@@ -33,7 +33,7 @@ return (
 <View style={styles.scrollView}>
 
 
-{user && (!user.projects? <Text>loading projects</Text> : user.projects.map((el,i)=>{
+{!projects? <Text>loading projects</Text> : projects.map((el,i)=>{
  const now = new Date()
  const finish = new Date(el.dateFinish)
  const left = (finish.getTime() - now.getTime()) / (1000*60*60*24)
@@ -60,7 +60,7 @@ return (
       </View>
       )
 
-}))}
+})}
 </View> 
   );
 }

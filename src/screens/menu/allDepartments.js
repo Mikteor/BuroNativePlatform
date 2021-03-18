@@ -5,7 +5,7 @@ import { StyleSheet, Text, } from 'react-native';
 import { ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { allDepartments } from '../../redux/actions/department'
-import CommonHeader from '../../components/header/commonHeader'
+import CommonHeader from '../../components/common/header/commonHeader'
 
 
 const AllDepartments = ({navigation}) => {

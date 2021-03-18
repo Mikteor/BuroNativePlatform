@@ -14,7 +14,7 @@ import {loadUser} from '../../../redux/actions/auth'
 import {changeData, changeAvatar} from '../../../redux/actions/auth'
 import { allDepartments, joinDepartment, findDepartment } from "../../../redux/actions/department";
 import EditRow from '../../../components/edit/editProfileRow'
-import CommonHeader from '../../../components/header/commonHeader'
+import CommonHeader from '../../../components/common/header/commonHeader'
 
 
 const Profile = ({navigation,initial}) => {

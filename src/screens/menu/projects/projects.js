@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TextInput, Button,RefreshControl } from 
 import { DataTable } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedProject, allProjects } from '../../../redux/actions/projects'
-import CommonHeader from '../../../components/header/commonHeader'
+import CommonHeader from '../../../components/common/header/commonHeader'
 
 const Projects = ({navigation}) => {
 

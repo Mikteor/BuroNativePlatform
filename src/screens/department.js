@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {url} from '../components/utils/axios'
 import { loadUser } from '../redux/actions/auth';
 import { findDepartment } from '../redux/actions/department';
+import CommonTitle from '../components/common/titles'
+import ProjectItem from '../components/main/myProjects'
 
 const Main = ({navigation}) => {
 const dispatch = useDispatch()
@@ -70,15 +72,13 @@ useEffect(()=>{
             onRefresh={onRefresh}
           />}>
 
-    <View style={{flex:1}}>
-      <View style={styles.title}>
-          <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Команда отдела {user && user.division && user.division.divname}</Text>
-      </View>
-  
-
-      <ScrollView style={styles.scrollView}>
-        {!department? <Text>loading department</Text> : !department.members?  <Text>loading members</Text> : department.members.map((el,i)=>{
+      
+      <View style={styles.scrollView}>
+        
+        <CommonTitle icon='account-group-outline' title={`Команда отдела "${user && user.division && user.division.divname}"`} />
+        {!department? <Text>loading department</Text> : 
+        !department.members?  <Text>loading members</Text> : 
+        department.members.map((el,i)=>{
             return(
               <ListItem
                 style={{marginVertical: 2,}}
@@ -99,47 +99,15 @@ useEffect(()=>{
               </ListItem>
             )
         })}
-      </ScrollView>
       
-  </View>
-  <View style={{flex:1}}>
 
-      <View style={styles.title}>
-          <Icon name='playlist-check' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Проекты отдела</Text>
-          <Button title='Все проекты' type='clear' 
-                  titleStyle={{color: '#7C7C7C', fontSize: 14 }} 
-                  containerStyle={{height:30, justifyContent: 'center',}}
-                  icon={<ArrowIcon name='keyboard-arrow-right' color='#7C7C7C' size={18}/>}
-                  iconRight={true}
-                  />
-      </View>
-      <ScrollView style={styles.scrollView}>
-        {/* <Button title='allProjs' onPress={()=>getAllProjects()}/> */}
-      <DataTable>
+      
+      <CommonTitle icon='account-group-outline' title='Проекты отдела' button={{title: 'Все проекты', onPress: ()=>navigation.navigate('Меню',{screen: 'projects'})}} />
+
       {!department? <Text>loading</Text> : 
-      (departmentProjects.length==0? <Text>У отдела пока нет проектов</Text> : 
-      departmentProjects.map((el,i)=>{
-        return(
-          
-          <DataTable.Row style={styles.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 1,}}>{el.title}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>35 дней</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>
-              <View style={styles.projType}>
-                <Text style={{color: '#CA9E4D',}}>архитектура</Text>
-              </View>
-            </DataTable.Cell>
-            <DataTable.Cell style={{flex: .3}} numeric>
-              <Icon name='circle' color='green' size={14}/>
-            </DataTable.Cell>
-          </DataTable.Row>
-        )
-        
-      }))}
-      </DataTable>
-      </ScrollView>
-  </View>
+      departmentProjects.length==0? <Text>У отдела пока нет проектов</Text> : 
+      <ProjectItem navigation={navigation} projects={departmentProjects} />}
+      </View>
       
         
 

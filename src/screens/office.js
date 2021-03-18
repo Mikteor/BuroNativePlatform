@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image, TextInput, RefreshControl } from 'react-
 import {  Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { deletePropose, likedProposes, likePropose } from '../redux/actions/office';
+import CommonTitle from '../components/common/titles'
 
 
 const Profile = ({navigation}) => {
@@ -45,10 +46,8 @@ const proposes = [1,2,3,4,5]
             onRefresh={onRefresh}
           />}>
 
-      <View style={styles.title}>
-          <Icon name='puzzle-plus' color='#7C7C7C' size={24}/>
-          <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Предложения</Text>
-      </View>
+    <CommonTitle icon='puzzle-plus' title='Предложения' />
+
 
     <View>
       {!liked? <Text>Предложений пока нет</Text> : 
