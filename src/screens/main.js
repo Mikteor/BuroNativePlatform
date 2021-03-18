@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
       borderRadius: 100,
     },
     name: {
-      fontSize: 18,
+      fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',
     },
