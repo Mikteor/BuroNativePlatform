@@ -18,9 +18,7 @@ import { allProjects, selectedProject } from '../../redux/actions/projects';
 const Main = ({navigation, projects}) => {
 const dispatch = useDispatch()
 
-console.log(projects)
 const projectPress = (crypt) => {
-  console.log('1')
   dispatch(selectedProject(crypt))
   navigation.navigate('project')
   // navigation.push('projects')

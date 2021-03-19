@@ -24,7 +24,7 @@ import Smejniki from './src/screens/menu/smejniki'
 import Projects from './src/screens/menu/projects/projects'
 import NewPropose from './src/screens/create/createPropose'
 import CreateNews from './src/screens/create/createNews'
-import CreateNewSprint from './src/screens/create/createNewSprint'
+// import CreateNewSprint from './src/screens/create/createNewSprint'
 import OpenSprint from './src/screens/menu/projects/openSprint'
 import TeamMateProfile from './src/screens/menu/teamMateProfile'
 import Department from './src/screens/menu/department'
@@ -104,7 +104,7 @@ useEffect(() => {
     user && !user.name? <EditProfile initial /> :
 
 
-    
+
       <Tab.Navigator detachInactiveScreens={true}
           tabBarOptions={{
                 activeTintColor: 'white', 
@@ -119,7 +119,7 @@ useEffect(() => {
                     <Stack.Screen name='main' component={Main}/>
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
-                    <Stack.Screen name='createSprint' component={CreateNewSprint}/>
+                    {/* <Stack.Screen name='createSprint' component={CreateNewSprint}/> */}
                   </Stack.Navigator>
                   }
           </Tab.Screen>
@@ -130,7 +130,7 @@ useEffect(() => {
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
-                    <Stack.Screen name='createSprint' component={CreateNewSprint}/>
+                    {/* <Stack.Screen name='createSprint' component={CreateNewSprint}/> */}
                   </Stack.Navigator>
                   }
           </Tab.Screen>
@@ -166,7 +166,7 @@ useEffect(() => {
                     <Stack.Screen name='editProfile' component={EditProfile}/>
                     <Stack.Screen name='projects' component={Projects}/>
                     <Stack.Screen name='project' component={Project}/>
-                    <Stack.Screen name='createSprint' component={CreateNewSprint}/>
+                    {/* <Stack.Screen name='createSprint' component={CreateNewSprint}/> */}
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
                     <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
                     <Stack.Screen name='dep' component={Department}/>

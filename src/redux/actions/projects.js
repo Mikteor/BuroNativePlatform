@@ -101,18 +101,19 @@ export const getProject = (id) => async dispatch  => {
 }
 
 
-export const addSprint = (id,description, date ,tasks, tags) => async dispatch  => {
+export const addSprint = (id, title,description, date, tags) => async dispatch  => {
   try {
-    let taskObjectArray = tasks.map(el => {return {
-      taskTitle: el,
-      workVolume: 0,
-      taskState: false,
-    }})
+    // let taskObjectArray = tasks.map(el => {return {
+    //   taskTitle: el,
+    //   workVolume: 0,
+    //   taskState: false,
+    // }})
     // console.log('as 1')
       let body = {
+          title: title,
           description: description,
           date: date,
-          tasks: taskObjectArray,
+          tasks: [],
           tags: tags
       }
       
@@ -147,15 +148,21 @@ export const addSprint = (id,description, date ,tasks, tags) => async dispatch  
  
 }
 
-export const EditTask = ({editTask, id}) => async (dispatch) => {
+export const EditTask = (editTask, id, crypt) => async (dispatch) => {
     try {
-        const res = await innerBackend.put(`projects/sprints/taskedit/${id}`, editTask);
+      const data = {
+        taskid:id,
+        taskTitle:editTask,
+        deadline:'2011-11-11',
+    }
+    console.log('data',data, crypt)
+        const res = await innerBackend.put(`projects/sprints/taskedit/${crypt}`, data);
         dispatch({
             type: EDIT_TASK,
             payload: res.data
         })
     } catch (err) {
-        
+        console.log('task edit error::', err)
     }
 } 
 

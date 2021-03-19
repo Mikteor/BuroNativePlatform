@@ -37,26 +37,29 @@ const App: () => React$Node = () => {
     (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
   );
 
+  const getPushData = (message) => {
+    console.log('message: ', message)
+   const alTitle = message.notification.title
+   const alBody = message.notification.body
+
+    Alert.alert(
+      alTitle, alBody
+      )
+  }
+
+
   useEffect(()=>{
     getToken()
     const mes = messaging().onMessage(getPushData);
   },[])
-
+  messaging().onMessage(getPushData);
   const getToken = async() => {
     const token = await messaging().getToken()
     console.log('token::',token)
     setToken(token)
   }
 
-    const getPushData = (message) => {
-      console.log('message: ', message)
-     const alTitle = message.notification.title
-     const alBody = message.notification.body
-
-      Alert.alert(
-        alTitle, alBody
-        )
-    }
+ 
     // const getBackgroundPushData = (message) => {
     //   PushNotification.localNotification({
     //     channelId: 'channel-id',

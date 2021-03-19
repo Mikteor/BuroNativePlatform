@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, Modal } from 'react-native';
-import { DataTable, FAB, Portal, Provider } from 'react-native-paper';
+import { StyleSheet, Text, View, ScrollView, Image, ImageBackground, StatusBar, Modal } from 'react-native';
+import { DataTable, FAB, Portal, Provider, TextInput } from 'react-native-paper';
 import { Button, CheckBox, colors, Input } from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
@@ -10,6 +10,7 @@ import { usersPartition } from '../../../redux/actions/user';
 import { loadUser } from '../../../redux/actions/auth';
 import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../../redux/actions/projects';
 import CommonHeader from '../../../components/common/header/commonHeader'
+import TaskRow from '../../../components/projects/sprintTaskRow'
 
 const Project = ({ navigation, route}) => {
   const dispatch = useDispatch()
@@ -37,7 +38,8 @@ const Project = ({ navigation, route}) => {
   const addNewTask = () => {
     // console.log(sprint._id, newTaskData)
     dispatch(addTask(sprint._id, newTaskData))
-    setnewTaskFrom(false)
+    setnewTaskData('')
+    // setnewTaskFrom(false)
     ref.current.clear()
     setTimeout(() => {
       dispatch(getSprint(sprint._id))
@@ -91,22 +93,15 @@ const Project = ({ navigation, route}) => {
 
               <View style={style.main} >
                 <View style={style.modalBtn}>
-                  <Text style={style.title} >Спринт {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+                  <Text style={style.title} >{sprint&&sprint.title && sprint.title} {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
                 </View>
                 <View style={style.modalBtn}>
                   <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
                 </View>
                 {sprint && sprint.tasks.map((el,i)=>{
                   return(
-                    <View key={'tasks-el'+i} style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <CheckBox
-                        disabled={historyScreen? true : false}
-                        checked={el.taskStatus}
-                        onPress={()=>checkTaskStatus(el._id)}
-                      />
-                      <Text style={{marginRight: 'auto'}}>{el.taskTitle}</Text>
-                      {!historyScreen && <Icon name='delete-outline' size={24}  onPress={()=>deleteTaskFunc(el._id)}/>}
-                    </View>
+      
+      <TaskRow key={'taskrow'+i} task={el} historyScreen={historyScreen} checkTask={()=>checkTaskStatus(el.id)} deleteTask={()=>deleteTaskFunc(el.id)} dispatchSprint={()=>dispatch(getSprint(sprint._id))} cryptProject={cryptProject} />
                   )
                 })}
                 {newTaskFrom && 
@@ -120,9 +115,15 @@ const Project = ({ navigation, route}) => {
                     <Icon name='cancel' size={24} style={{marginTop: 15}} onPress={()=>cancelNewTask()}/>
                 </View>
                 }
+                {!historyScreen &&<TextInput 
+                  label='Новая задача'
+                  placeholder='Введите новую задачу'
+                  value={newTaskData}
+                  onChangeText={(text)=>setnewTaskData(text)}
+                  ref={ref}
+                />}
                 
-                
-                {!historyScreen && <Button title='Добавить задачу' onPress={()=>setnewTaskFrom(true)}/>}
+                {!historyScreen && <Button disabled={newTaskData.length>0? false : true} title='Добавить задачу' onPress={()=>addNewTask()}/>}
                 {!historyScreen && <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>}
                 <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
                 

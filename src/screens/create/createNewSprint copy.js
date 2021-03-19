@@ -97,7 +97,6 @@ useEffect(()=>{
     navigation.pop()
       
     }, 300);
-    // console.log(cryptProject, sprintDescription.length, sprintDate, sprintTasks.length, sprintTags.length)
   }
 
 

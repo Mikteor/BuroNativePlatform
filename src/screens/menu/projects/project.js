@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TextInput, ImageBackground, StatusBar, RefreshControl, Modal } from 'react-native';
 import {  Button, ButtonGroup } from 'react-native-elements'
 import { DataTable, FAB } from 'react-native-paper';
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,7 +11,7 @@ import Model from '../../../components/projects/model'
 import History from '../../../components/projects/history'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProject } from '../../../redux/actions/projects'
-
+import CreateNewSprint from '../../../components/projects/createNewSprint'
 
 const Project = ({navigation}) => {
   const dispatch = useDispatch()
@@ -19,11 +19,12 @@ const Project = ({navigation}) => {
   const cryptProject = useSelector(state => state.projects.selectedProject)
   const user = useSelector(state => state.auth.user)
   const [selectedButton, setButton] = useState(0)
+  const [plusOpen, setPlusOpen] = useState(false)
+  const [newSprint, setNewSprint] = useState(false)
 
   
   const buttons = ['Спринты', 'Команда','Модель','Информация', 'История']
-  const sprints = [1,2,3,4,5,6,7,8]
-  const history = [1,2,3,4,5,6,7,8]
+
 
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -115,9 +116,29 @@ if (!project) {
               style={styles.fab}
               color='white'
               icon="plus"
-              onPress={() => navigation.navigate('createSprint')}
+              onPress={() => setPlusOpen(!plusOpen)}
+              // onPress={() => navigation.navigate('createSprint')}
             />}
-    </View>
+
+  <Modal
+        animationType="slide"
+        transparent={true}
+        visible={plusOpen}
+        onRequestClose={()=>setPlusOpen(false)} 
+      
+      >
+        <View style={styles.modalCont} onTouchEnd={()=>setPlusOpen(false)}>
+          <View style={styles.modalCard}>
+            <View style={styles.modalBtn}>
+              <Text style={styles.modalBtnText} onPress={()=>setNewSprint(true)}>Спринт</Text>
+            </View>
+          </View>
+        </View>
+  </Modal>
+
+    <CreateNewSprint navigation={navigation} visible={newSprint} closeModal={()=>setNewSprint(false)} />
+</View>
+ 
   );
 }
 export default Project
@@ -164,6 +185,30 @@ const styles = StyleSheet.create({
       bottom: 0,
       backgroundColor:'#3F496C'
     },
+    modalCont: {
+      flex:1,
+      backgroundColor: 'transparent',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+    },
+    modalCard: {
+  
+      marginBottom: 130,
+      marginRight: 16,
+    },
+    modalBtn:{
+      alignSelf: 'flex-end',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      borderRadius: 10,
+      marginBottom: 10,
+  
+    },
+    modalBtnText: {
+      color: 'white',
+      fontSize: 20,
+    },
   });
 
 
@@ -196,100 +241,3 @@ const styles = StyleSheet.create({
     
   });
 
-
-  const sprintStyle = StyleSheet.create({
-   container:{
-    //  backgroundColor: 'red',
-     flex:1
-   },
-   sprints:{
-    // backgroundColor: 'green',
-    flex: 1
-    },
-   card:{
-    backgroundColor: 'white',
-    elevation: 8,
-    // marginVertical: 10,
-    marginBottom:20,
-    marginHorizontal: 40,
-    borderRadius: 8,
-    shadowColor: 'black',
-    // marginTop: -20,
-    paddingHorizontal:10,
-    paddingVertical:5,
-  },
-  topFlex:{
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusDot: {
-    marginLeft: 5,
-    marginRight: 'auto',
-  },
-  botFlex:{
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title:{
-    fontSize: 18,
-  },
-  status:{
-    fontSize: 18,
-  },
-  description:{
-    marginBottom: 8,
-  },
-  type:{
-      backgroundColor: '#F2ECE1',
-      borderRadius: 4,
-      paddingHorizontal: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-
-  history:{
-    // backgroundColor: 'yellow',
-    height: 250,
-  },
-  histTitle: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginHorizontal: 15,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#DDDDDD',
-    marginBottom: 5,
-    paddingBottom: 3,
-  },
-  tableRow: {
-    backgroundColor: 'white',
-    marginVertical: 2,
-    padding: 0,
-  },
-  projType: {
-    backgroundColor: '#F2ECE1',
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  projType2: {
-    backgroundColor: '#E1E7F2',
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  });
-  const teamStyle = StyleSheet.create({
-
-  });
-  const modelStyle = StyleSheet.create({
-   
-  });
-  const infoStyle = StyleSheet.create({
-   
-  });

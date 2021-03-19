@@ -42,14 +42,12 @@ const Project = ({project, navigation}) => {
       {project.sprints
       .filter(el => !el.status)
       .map((el,i)=>{
-
         let finishedTasks = 0
             el.tasks.map((task,i)=>{
               task.taskStatus==true && (finishedTasks += 1)
             })
-        let percent = finishedTasks/el.tasks.length*100
+        let percent = el.tasks.length!=0 ? (finishedTasks/el.tasks.length*100) : 0
         let chosen = userSprints? userSprints.some(id=>id==el._id) : false
-
         const now = new Date()
         const finish = new Date(el.dateClosePlan)
         return(
@@ -59,7 +57,7 @@ const Project = ({project, navigation}) => {
               
               <View style={sprintStyle.cardFlex} onTouchEnd={(e)=>editSprint(el._id)}>
                 <View style={sprintStyle.cardCenter}>
-                  <Text style={sprintStyle.title}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+                  <Text style={sprintStyle.title}>{el.title&&el.title} {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
                   <View style={{flexDirection: 'row'}}>
                     <View style={sprintStyle.type}  >
                       <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
