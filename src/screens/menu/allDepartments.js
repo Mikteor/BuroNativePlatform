@@ -4,7 +4,7 @@ import { StyleSheet, Text, } from 'react-native';
 
 import { ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
-import { allDepartments } from '../../redux/actions/department'
+import { allDepartments, findDepartment } from '../../redux/actions/department'
 import CommonHeader from '../../components/common/header/commonHeader'
 
 
@@ -16,6 +16,12 @@ useEffect(()=>{
   dispatch(allDepartments())
 
 },[])
+const depPress = (divname) => {
+  dispatch(findDepartment(divname))
+  navigation.navigate('dep')
+}
+
+
   return (
     
     <ScrollView style={styles.container}>
@@ -32,7 +38,7 @@ useEffect(()=>{
           departments.map((el,i)=>{
            
           return(
-          <DataTable.Row key={'projeccts'+i} onPress={()=>projectPress(el.crypt)} >
+          <DataTable.Row key={'projeccts'+i} onPress={()=>depPress(el.divname)} >
             <DataTable.Cell style={{flex: 4,}}>{el.divname}</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>1</DataTable.Cell>
             <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>

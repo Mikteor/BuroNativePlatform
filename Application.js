@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {Provider, useDispatch, useSelector} from 'react-redux'
-import { login } from './src/redux/actions/auth'
+import { useDispatch, useSelector} from 'react-redux'
 import {loadUser} from './src/redux/actions/auth'
-import { StyleSheet, Text, View, Image, TextInput, Button, StatusBar, Modal } from 'react-native';
+import { StyleSheet, Text, View,  StatusBar, Modal } from 'react-native';
 
 // import { Icon } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import { setAuthToken } from './src/components/utils/axios';
 
 //login
@@ -16,8 +14,7 @@ import Registration from './src/components/login/registration'
 // screens 
 import Main from './src/screens/main'
 import Project from './src/screens/menu/projects/project'
-import Department from './src/screens/department'
-import News from './src/screens/news'
+import MyDepartment from './src/screens/myDepartment'
 import Office from './src/screens/office'
 import Menu from './src/screens/menu'
 import EditProfile from './src/screens/menu/edit/editProfile';
@@ -30,6 +27,7 @@ import CreateNews from './src/screens/create/createNews'
 import CreateNewSprint from './src/screens/create/createNewSprint'
 import OpenSprint from './src/screens/menu/projects/openSprint'
 import TeamMateProfile from './src/screens/menu/teamMateProfile'
+import Department from './src/screens/menu/department'
 //
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -42,8 +40,6 @@ import { allNews } from './src/redux/actions/news';
 import { allDepartments, findDepartment } from './src/redux/actions/department';
 import { likedProposes } from './src/redux/actions/office';
 import { allProjects } from './src/redux/actions/projects';
-import { useNavigation } from '@react-navigation/native';
-import {navigationRef} from './RootNavigation';
 import * as RootNavigation from './RootNavigation';
 
 export default function App({deviceToken}) {
@@ -103,9 +99,13 @@ useEffect(() => {
           </Stack.Screen>
       </Stack.Navigator>  :
 
+
+
     user && !user.name? <EditProfile initial /> :
 
-      <Tab.Navigator 
+
+    
+      <Tab.Navigator detachInactiveScreens={true}
           tabBarOptions={{
                 activeTintColor: 'white', 
                 inactiveTintColor: 'grey', 
@@ -113,11 +113,27 @@ useEffect(() => {
                 inactiveBackgroundColor: '#3F496C',
                 }}>
                   
-          <Tab.Screen name='Главная' component={Main} options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}} />
-         
-
-          <Tab.Screen name='Отдел' component={Department} options={{tabBarIcon : ({ color, size }) => (<Icon name="account-group-outline" color={color} size={24}  />)}}/>
-          
+          <Tab.Screen name='Главная' options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}} >
+                {e => 
+                  <Stack.Navigator headerMode='none' >
+                    <Stack.Screen name='main' component={Main}/>
+                    <Stack.Screen name='project' component={Project}/>
+                    <Stack.Screen name='openSprint' component={OpenSprint}/>
+                    <Stack.Screen name='createSprint' component={CreateNewSprint}/>
+                  </Stack.Navigator>
+                  }
+          </Tab.Screen>
+          <Tab.Screen name='Отдел' options={{tabBarIcon : ({ color, size }) => (<Icon name="account-group-outline" color={color} size={24}  />)}}>
+                {e => 
+                  <Stack.Navigator headerMode='none' >
+                    <Stack.Screen name='department' component={MyDepartment}/>
+                    <Stack.Screen name='project' component={Project}/>
+                    <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
+                    <Stack.Screen name='openSprint' component={OpenSprint}/>
+                    <Stack.Screen name='createSprint' component={CreateNewSprint}/>
+                  </Stack.Navigator>
+                  }
+          </Tab.Screen>
           <Tab.Screen  
                 name='Create'  
                 options={{
@@ -135,37 +151,29 @@ useEffect(() => {
                   </Stack.Navigator>
                   }
           </Tab.Screen>
-
           <Tab.Screen name='Офис' component={Office} options={{tabBarIcon : ({ color, size }) => (<Icon name="human-greeting" color={color} size={24}/>)}}/>
-          
           <Tab.Screen 
                 name='Меню' 
                 options={{
                   tabBarIcon : ({ color, size }) => (<Icon name="dots-horizontal" color={color} size={24}  />),
                   }}>
                   {props => 
-                  <Stack.Navigator headerMode='none' >
+                  <Stack.Navigator headerMode='none'>
                     <Stack.Screen name='menu' component={Menu}/>
                     <Stack.Screen name='allDepartments' component={AllDepartments}/>
                     <Stack.Screen name='buroTeam' component={BuroTeam}/>
                     <Stack.Screen name='smejniki' component={Smejniki}/>
-                    
                     <Stack.Screen name='editProfile' component={EditProfile}/>
                     <Stack.Screen name='projects' component={Projects}/>
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='createSprint' component={CreateNewSprint}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
                     <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
-
+                    <Stack.Screen name='dep' component={Department}/>
                   </Stack.Navigator>
                   }
           </Tab.Screen>
-
       </Tab.Navigator>
-  
-
-                  
-
     }
       
 
@@ -184,9 +192,6 @@ useEffect(() => {
             <View style={styles.modalBtn}>
               <Text style={styles.modalBtnText} onPress={()=>RootNavigation.navigate('Create', { screen: 'createPropose' })}>Предложение</Text>
             </View>
-            {/* <View style={styles.modalBtn}>
-              <Text style={styles.modalBtnText}>Хрень</Text>
-            </View> */}
           </View>
         </View>
       </Modal>

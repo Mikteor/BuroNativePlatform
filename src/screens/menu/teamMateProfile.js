@@ -19,7 +19,6 @@ import CommonHeader from '../../components/common/header/commonHeader'
 
 
 const TeamMateProfile = ({navigation, route}) => {
-const dispatch = useDispatch()
 const { user } = route.params;
 
 
@@ -34,20 +33,7 @@ const wait = (timeout) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-const loadAll = () => {
 
-  dispatch(loadUser())
-  dispatch(allNews())
-  user && user.division && dispatch(findDepartment(user.division.divname))
-  dispatch(likedProposes())
-  dispatch(allProjects())
-  // console.log('reloading')
-
-}
-
-useEffect(()=>{
-  loadAll()
-},[])
 
 
 
@@ -88,7 +74,7 @@ useEffect(()=>{
 
           
             
-                  <MyProjects navigation={navigation} /> 
+                  <MyProjects navigation={navigation} projects={user.projects}/> 
         
         </View>
 </ScrollView>

@@ -12,6 +12,7 @@ import History from '../../../components/projects/history'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProject } from '../../../redux/actions/projects'
 
+
 const Project = ({navigation}) => {
   const dispatch = useDispatch()
   const project = useSelector(state => state.projects.project)
@@ -47,6 +48,12 @@ const wait = (timeout) => {
     dispatch(getProject(cryptProject))
   },[cryptProject])
 
+  const backHandler = ()=> {
+
+   navigation.goBack() 
+  }
+
+
 if (!project) {
   return(
   <View style={{flex: 1,justifyContent:'center', alignContent: 'center'}}>
@@ -70,7 +77,7 @@ if (!project) {
             <ImageBackground source={require('../../../../assets/mria.png')} style={styles.bg}>
               <View style={styles.darkenes}>
                 <View style={styles.header}>
-                    <Icon name='arrow-left' size={30} color={'white'} onPress={()=>navigation.pop()} />
+                    <Icon name='arrow-left' size={30} color={'white'} onPress={()=>backHandler()} />
                     <Icon name='circle' size={24} color={'white'} onPress={()=>navigation.pop()} />
                 </View>
                 <Text style={styles.title}>{project.title}</Text>

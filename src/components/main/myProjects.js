@@ -18,12 +18,13 @@ import { allProjects, selectedProject } from '../../redux/actions/projects';
 const Main = ({navigation, projects}) => {
 const dispatch = useDispatch()
 
-
+console.log(projects)
 const projectPress = (crypt) => {
+  console.log('1')
   dispatch(selectedProject(crypt))
-  navigation.navigate('Меню')
-  navigation.push('projects')
-  navigation.push('project')
+  navigation.navigate('project')
+  // navigation.push('projects')
+  // navigation.push('project')
 }
 
 
@@ -41,11 +42,11 @@ return (
 
     return(
  
-      <View style={styles.tableRow} key={'projj'+i} onPress={()=>projectPress(el.crypt)} >
+      <View style={styles.tableRow} key={'projj'+i}>
         <View style={styles.circle}>
             <Icon name='circle' color='green' size={10}/>
         </View>
-        <View style={styles.projMain}>
+        <View style={styles.projMain} onTouchEnd={()=>projectPress(el.crypt)} >
             <View style={styles.topLine}>
               <Text style={styles.title}>{el.title}</Text>
               <Text style={styles.daysLeft}>{days} {days<2?'день': days<5? 'дня': 'дней'}</Text>
