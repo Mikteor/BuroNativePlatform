@@ -129,8 +129,8 @@ useEffect(()=>{
                 formData.lastname.length>0 &&
                 formData.position.length>0 &&
                 formData.division.length>0 &&
-                formData.email.length>0 &&
-                formData.report.length>0 ? false : true
+                formData.email.length>0 ?
+                 false : true
               }
               />
  

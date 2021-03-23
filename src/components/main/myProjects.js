@@ -40,11 +40,16 @@ return (
               <Text style={styles.title}>{el.title}</Text>
               <Text style={styles.daysLeft}>{days} {days<2?'день': days<5? 'дня': 'дней'}</Text>
             </View>
-            <Text style={styles.description} numberOfLines={2}>рш{el.about}</Text>
+            {el.about && <Text style={styles.description} numberOfLines={2}>{el.about}</Text>}
             <View style={styles.types}>
-              <View style={styles.projType}>
-                <Text style={{color: '#CA9E4D',}}>архитектура</Text>
-              </View>
+              {el.type && 
+              <View style={ {...styles.projType,  backgroundColor: '#F2ECE1'}}>
+                <Text style={{color: '#CA894D',}}>{el.type}</Text>
+              </View>}
+              {el.stage&&
+              <View style={{...styles.projType, backgroundColor: '#E1E7F2'}}>
+                <Text style={{color: '#4D87CA',}}>{el.stage}</Text>
+              </View>}
             </View>
         </View>
       </View>
@@ -80,8 +85,9 @@ const styles = StyleSheet.create({
       marginTop: 19,
     },
     projMain: {
+      flex:1,
       borderBottomWidth: 0.5,
-      marginRight: 35,
+      marginRight: 5,
       paddingVertical: 10,
     },
     title: {
@@ -99,9 +105,9 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
     },
     projType: {
-      backgroundColor: '#F2ECE1',
       borderRadius: 4,
       paddingHorizontal: 5,
+      marginRight:8,
       justifyContent: 'center',
       alignItems: 'center',
     },

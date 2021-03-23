@@ -101,7 +101,7 @@ export const getProject = (id) => async dispatch  => {
 }
 
 
-export const addSprint = (id, title,description, date, tags) => async dispatch  => {
+export const addSprint = (id, title,description, tags) => async dispatch  => {
   try {
     // let taskObjectArray = tasks.map(el => {return {
     //   taskTitle: el,
@@ -112,7 +112,7 @@ export const addSprint = (id, title,description, date, tags) => async dispatch  
       let body = {
           title: title,
           description: description,
-          date: date,
+          date: '2011-11-11',
           tasks: [],
           tags: tags
       }

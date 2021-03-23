@@ -34,7 +34,10 @@ const modalOpen = (e) => {
   setModalTop(e.nativeEvent.pageY) 
 }
 // useEffect(()=>{
-
+const cancel = () => {
+  setEdit(false)
+  setTaskData(task.taskTitle)
+}
 
 
 
@@ -81,7 +84,7 @@ const modalOpen = (e) => {
                 ref={ref}
             />
             <Button title='Редактировать' onPress={()=>editTask()}/>
-            <Button title='Отмена' onPress={()=>setEdit(false)}/>
+            <Button title='Отмена' onPress={()=>cancel()}/>
         </View>
         }
     </View>

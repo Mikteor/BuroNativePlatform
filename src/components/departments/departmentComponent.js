@@ -11,22 +11,27 @@ const DepartmentComponent = ({navigation, department}) => {
 const [departmentProjects, setDepProjects] = useState([])
 
 
-const getAllProjects = () => {
+const getDepartmentProjects = () => {
   if(department){
     if(department.members){
       let allProjs = department.members.map((el,i)=>{
                             return el.projects
                             })
+// console.log('allProjs',allProjs) создает массив с подмассивами проектов пользователей
       let inOneArr = [].concat.apply([], allProjs)
-
-      for (let i=0; i<inOneArr.length; i=i){
+// console.log('inOneArr', inOneArr) объеденяет подмассивы в единый массив
+      for (let i=0; i<inOneArr.length;){
         if(inOneArr.some((item,index)=>item._id===inOneArr[i]._id && index>i)){
           inOneArr.splice(i,1)
           i=0
+          // console.log('i=0') если нашел такой-же проект - удаляет текущий, начинает поиск заново
         } else {
           i+=1
+          // console.log('i+=1') если не нашел (проект уникальный) - переходит к следующему
+
         }
       }
+// console.log('inOneArr2', inOneArr)  
 
       setDepProjects(inOneArr)
     }
@@ -34,7 +39,7 @@ const getAllProjects = () => {
 }
 
 useEffect(()=>{
-    getAllProjects()
+    getDepartmentProjects()
 },[department])
 
 
