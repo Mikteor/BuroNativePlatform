@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {useDispatch, useSelector} from 'react-redux'
-import { StyleSheet, Text, View, ScrollView, Image, TextInput,RefreshControl } from 'react-native';
-import {Button, ListItem, } from 'react-native-elements'
+import { StyleSheet, Text, View,  Image, } from 'react-native';
+import { ListItem, } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale';
-import { DataTable } from 'react-native-paper';
-import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {url} from '../utils/axios'
-import { loadUser } from '../../redux/actions/auth';
-import { findDepartment } from '../../redux/actions/department';
 import CommonTitle from '../common/titles'
 import ProjectItem from '../main/myProjects'
 
-const Main = ({navigation, department}) => {
-const dispatch = useDispatch()
+const DepartmentComponent = ({navigation, department}) => {
 
 const [departmentProjects, setDepProjects] = useState([])
 
@@ -84,7 +77,7 @@ useEffect(()=>{
       
   );
 }
-export default Main
+export default DepartmentComponent
 
 const styles = StyleSheet.create({
   container: {

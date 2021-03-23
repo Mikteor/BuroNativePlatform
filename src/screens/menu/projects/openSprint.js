@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, ImageBackground, StatusBar, Modal } from 'react-native';
 import { DataTable, FAB, Portal, Provider, TextInput } from 'react-native-paper';
-import { Button, CheckBox, colors, Input } from 'react-native-elements'
+import { Button, CheckBox, colors, Input, Tooltip } from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ const Project = ({ navigation, route}) => {
   const user = useSelector(state => state.auth.user)
   const userSprints = user.sprints.map(el=>el._id)
   const sprint = useSelector(state => state.projects.sprint)
-
+  let chosen = sprint && userSprints? userSprints.some(id=>id==sprint._id) : false
 
   const [openHistory, setOpenHistory] = useState(false)
   const [newTaskFrom, setnewTaskFrom] = useState(false)
@@ -33,7 +33,11 @@ const Project = ({ navigation, route}) => {
 // useEffect(()=>{
 //   sprint && setOpenSprint(true)
 // },[sprint])
-  
+const chosenSprint = () => {
+
+  dispatch(addToChosen(sprint._id));
+  dispatch(loadUser())
+}
 
   const addNewTask = () => {
     // console.log(sprint._id, newTaskData)
@@ -86,22 +90,33 @@ const Project = ({ navigation, route}) => {
   return (
     
  
-    
+
         <View style={style.container}>
             <CommonHeader navigation={navigation}/>
           
 
               <View style={style.main} >
-                <View style={style.modalBtn}>
-                  <Text style={style.title} >{sprint&&sprint.title && sprint.title} {sprint &&  sprint.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+                <View style={style.topRow}>
+                    <Text>Назад</Text>
+                    <Icon style={style.iconChosen} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint()}/>
                 </View>
-                <View style={style.modalBtn}>
-                  <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
+                <View style={style.nameBlock}> 
+                    <Text style={style.title} >{sprint&&sprint.title && sprint.title}</Text>
+                    <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
                 </View>
+
+                <Text style={style.tasksTitle}>Задачи</Text>
                 {sprint && sprint.tasks.map((el,i)=>{
                   return(
-      
-      <TaskRow key={'taskrow'+i} task={el} historyScreen={historyScreen} checkTask={()=>checkTaskStatus(el.id)} deleteTask={()=>deleteTaskFunc(el.id)} dispatchSprint={()=>dispatch(getSprint(sprint._id))} cryptProject={cryptProject} />
+                    
+                        <TaskRow 
+                            key={'taskrow'+i} 
+                            task={el} 
+                            historyScreen={historyScreen} 
+                            checkTask={()=>checkTaskStatus(el.id)} 
+                            deleteTask={()=>deleteTaskFunc(el.id)} 
+                            dispatchSprint={()=>dispatch(getSprint(sprint._id))} 
+                            cryptProject={cryptProject} />
                   )
                 })}
                 {newTaskFrom && 
@@ -155,9 +170,20 @@ export default Project
    main: {
      padding: 10,
    },
+   topRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+   },
+   nameBlock: {
+    alignItems: 'center'
+
+   },
    title: {
      fontWeight: 'bold',
      fontSize: 24,
    },
-
+   tasksTitle: {
+    marginTop: 50,
+    marginBottom: 10,
+   },
   });

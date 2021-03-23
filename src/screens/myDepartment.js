@@ -24,7 +24,7 @@ const [refreshing, setRefreshing] = useState(false);
 const onRefresh = React.useCallback(() => {
   setRefreshing(true);
   dispatch(loadUser())
-  user && user.division && dispatch(findDepartment(user.division.divname))
+  
   setTimeout(()=>{
     setRefreshing(false)
   },2000)

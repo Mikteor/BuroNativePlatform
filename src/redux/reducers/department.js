@@ -47,11 +47,11 @@ export default function(state = initialState, action) {
                 }
 
             case JOIN_DEPARTMENT:
-// console.log('join4' , payload)
                 
                 return {
                     ...state,
-                    msg: payload,
+                    findDep: payload.division,
+                    msg: payload.msg,
                     reload: !state.reload,
 
                     error: ''

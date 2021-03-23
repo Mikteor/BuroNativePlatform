@@ -63,9 +63,9 @@ export default function(state = initialState, action) {
                 case CHANGE_USERDATA:
                     return {
                         ...state,
-                      
-                        loaded: false,
-                        msg: payload.msg
+                        user: payload,
+                        loaded: true,
+                        
                     }
                     case CHANGE_AVATAR:
                         return {

@@ -22,7 +22,7 @@ const dispatch = useDispatch()
 
 const profile = useSelector(state => state.auth.user)
 const departments = useSelector(state => state.departments.departments)
-console.log('initial:' ,initial)
+// console.log('initial:' ,initial)
 const [formData, setFormData ] = useState({
   name: '',
   lastname: '',
@@ -34,13 +34,15 @@ const [formData, setFormData ] = useState({
 });
 
 useEffect(()=>{
+// console.log('what')
+
   profile && setFormData({
-    name: profile.name || null,
-    lastname: profile.lastname || null,
-    position: profile.position || null,
-		division: profile.division? profile.division.divname : null,  
-    email: profile.email  || null,
-		report: profile.report  || null, 
+    name: profile.name || '',
+    lastname: profile.lastname || '',
+    position: profile.position || '',
+		division: profile.division? profile.division.divname : '',  
+    email: profile.email  || '',
+		report: profile.report  || '', 
   })
 },[profile])
 
@@ -50,15 +52,12 @@ useEffect(()=>{
 
 const onSubmit = e => {
   e.preventDefault();
-  // console.log(formData, 'formDataEdit')
+  // console.log( 'formDataEdit',formData)
 
   dispatch(joinDepartment(formData.division))
   dispatch(changeData(formData))
   setTimeout(() => {
-  dispatch(loadUser())
-  profile && profile.division && dispatch(findDepartment(profile.division.divname))
-    console.log('ololo',formData)
-  !initial && navigation.pop()
+    !initial && navigation.pop()
   }, 300);
   }
 useEffect(()=>{
@@ -126,12 +125,12 @@ useEffect(()=>{
               title="Подтвердить" 
               onPress={onSubmit}
               disabled={
-                formData.name.length>1 &&
-                formData.lastname.length>1 &&
-                formData.position.length>1 &&
-                formData.division &&
-                formData.email.length>1 &&
-                formData.report.length>1 ? false : true
+                formData.name.length>0 &&
+                formData.lastname.length>0 &&
+                formData.position.length>0 &&
+                formData.division.length>0 &&
+                formData.email.length>0 &&
+                formData.report.length>0 ? false : true
               }
               />
  

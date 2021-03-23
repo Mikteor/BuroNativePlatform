@@ -30,7 +30,7 @@ const Project = ({project, navigation}) => {
                       return(
                         
                         <DataTable.Row style={sprintStyle.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('openSprint', {historyScreen: true})} >
-                          <DataTable.Cell style={{flex: 1,}}>Спринт {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</DataTable.Cell>
+                          <DataTable.Cell style={{flex: 1,}}>{el.title&&el.title}</DataTable.Cell>
                          
                           <DataTable.Cell  numeric>
                             <View style={sprintStyle.projType}>

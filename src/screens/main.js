@@ -17,12 +17,11 @@ import {url} from '../components/utils/axios'
 const Main = ({navigation}) => {
 const dispatch = useDispatch()
 const user = useSelector(state=>state.auth.user)
-
-const [selectedButton, setButton] = useState(0)
-
 const buttons = ['Проекты','Новости']
+console.log('auth Projects',user && user.projects)
+const [selectedButton, setButton] = useState(0)
+const [refreshing, setRefreshing] = useState(false);
 
-const [refreshing, setRefreshing] = React.useState(false);
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -42,7 +41,7 @@ const loadAll = () => {
 }
 
 useEffect(()=>{
-  loadAll()
+  user && loadAll()
 },[])
 
 

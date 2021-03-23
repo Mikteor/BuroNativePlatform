@@ -57,7 +57,7 @@ const Project = ({project, navigation}) => {
               
               <View style={sprintStyle.cardFlex} onTouchEnd={(e)=>editSprint(el._id)}>
                 <View style={sprintStyle.cardCenter}>
-                  <Text style={sprintStyle.title}>{el.title&&el.title} {el.dateOpen.slice(5,10).split('-').reverse().join('.')}</Text>
+                  <Text style={sprintStyle.title}>{el.title&&el.title} </Text>
                   <View style={{flexDirection: 'row'}}>
                     <View style={sprintStyle.type}  >
                       <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>

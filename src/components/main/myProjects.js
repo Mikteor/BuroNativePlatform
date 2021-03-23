@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {Provider, useDispatch, useSelector} from 'react-redux'
-import { StyleSheet, Text, View, Image, TextInput, RefreshControl  } from 'react-native';
-import {  Button, ButtonGroup } from 'react-native-elements'
+import {useDispatch, } from 'react-redux'
+import { StyleSheet, Text, View,  } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 
-
-import { DataTable } from 'react-native-paper';
-import { loadUser } from '../../redux/actions/auth';
-import { allNews } from '../../redux/actions/news';
-import { findDepartment } from '../../redux/actions/department';
-import { likedProposes } from '../../redux/actions/office';
-import { allProjects, selectedProject } from '../../redux/actions/projects';
+import { selectedProject } from '../../redux/actions/projects';
 
 
 
@@ -21,8 +13,7 @@ const dispatch = useDispatch()
 const projectPress = (crypt) => {
   dispatch(selectedProject(crypt))
   navigation.navigate('project')
-  // navigation.push('projects')
-  // navigation.push('project')
+
 }
 
 
@@ -38,7 +29,7 @@ return (
  const left = (finish.getTime() - now.getTime()) / (1000*60*60*24)
  const days = Math.floor(left)
 
-    return(
+ return(
  
       <View style={styles.tableRow} key={'projj'+i}>
         <View style={styles.circle}>
@@ -49,7 +40,7 @@ return (
               <Text style={styles.title}>{el.title}</Text>
               <Text style={styles.daysLeft}>{days} {days<2?'день': days<5? 'дня': 'дней'}</Text>
             </View>
-            <Text style={styles.description} numberOfLines={2}>{el.about}</Text>
+            <Text style={styles.description} numberOfLines={2}>рш{el.about}</Text>
             <View style={styles.types}>
               <View style={styles.projType}>
                 <Text style={{color: '#CA9E4D',}}>архитектура</Text>
