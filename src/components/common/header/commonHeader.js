@@ -12,7 +12,7 @@ const backHandler = () =>{
   return (
     
    
-      <View style={{ height: 70, width: '100%', backgroundColor: '#3F496C', zIndex:999, paddingLeft: 20, justifyContent: 'center'}}>
+      <View style={{ height: 70, width: '100%', backgroundColor: 'black', zIndex:999, paddingLeft: 20, justifyContent: 'center'}}>
           <Icon name='arrow-left' size={30} color={'white'} onPress={()=>backHandler()} />
       </View>
 

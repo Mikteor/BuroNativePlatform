@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
             case NEW_PROPOSE:
                 return {
                     ...state,
-                    newPropose: payload,
+                    likedProposes: payload,
                     reload: !state.reload,
                     
                     
@@ -35,6 +35,7 @@ export default function(state = initialState, action) {
                 }
             
             case LIKED_PROPOSES:
+                
                 return {
                     ...state,
                     likedProposes: payload,
@@ -62,6 +63,7 @@ export default function(state = initialState, action) {
                 }
 
             case LIKE_PROPOSE:
+                console.log('likes',payload)
                 return {
                     ...state,
                     msg: payload,

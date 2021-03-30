@@ -18,10 +18,8 @@ import {url} from '../../components/utils/axios'
 import CommonHeader from '../../components/common/header/commonHeader'
 
 
-const TeamMateProfile = ({navigation, route}) => {
-const { user } = route.params;
-
-
+const TeamMateProfile = ({navigation,}) => {
+const user = useSelector(state=>state.users.user)
 
 const [refreshing, setRefreshing] = React.useState(false);
 const wait = (timeout) => {
@@ -74,7 +72,7 @@ const wait = (timeout) => {
 
           
             
-                  <MyProjects navigation={navigation} projects={user.projects}/> 
+                  <MyProjects navigation={navigation} projects={user && user.projects}/> 
         
         </View>
 </ScrollView>

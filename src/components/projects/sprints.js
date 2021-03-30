@@ -11,7 +11,7 @@ import { loadUser } from '../../redux/actions/auth';
 import {  getSprint } from '../../redux/actions/projects';
 
 
-const Project = ({project, navigation}) => {
+const SprintsTab = ({project, navigation}) => {
   const dispatch = useDispatch()
 
   const user = useSelector(state => state.auth.user)
@@ -19,12 +19,9 @@ const Project = ({project, navigation}) => {
 
 
   const chosenSprint = (id) => {
-
     dispatch(addToChosen(id));
-    dispatch(loadUser())
   }
   const editSprint = (id) => {
-    
     dispatch(getSprint(id))
     navigation.navigate('openSprint',{project: project})
   }
@@ -59,9 +56,17 @@ const Project = ({project, navigation}) => {
                 <View style={sprintStyle.cardCenter}>
                   <Text style={sprintStyle.title}>{el.title&&el.title} </Text>
                   <View style={{flexDirection: 'row'}}>
-                    <View style={sprintStyle.type}  >
-                      <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
-                    </View>
+                  {el.tags.map((el,i)=>{
+                              if(el.length>0){
+                                return(
+                                  <View key={'histTag'+i} style={sprintStyle.projType}>
+                                    <Text style={{color: '#CA9E4D',}}>{el.length>14 ? el.slice(0,15)+'...' : el}</Text>
+                                  </View>
+                                )
+                              }
+                              
+                              
+                            })}
                   </View>
                 </View>
 
@@ -83,7 +88,7 @@ const Project = ({project, navigation}) => {
 
   );
 }
-export default Project
+export default SprintsTab
 
 
 
@@ -174,6 +179,7 @@ export default Project
     paddingHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight:5,
   },
   projType2: {
     backgroundColor: '#E1E7F2',

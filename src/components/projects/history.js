@@ -12,8 +12,11 @@ import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask
 
 
 const Project = ({project, navigation}) => {
-
-
+const dispatch = useDispatch()
+const sprintClick = (id) => {
+  dispatch(getSprint(id))
+  navigation.navigate('openSprint', {historyScreen: true})
+}
   return (
     
  
@@ -27,18 +30,28 @@ const Project = ({project, navigation}) => {
                     {project.sprints
                       .filter(el => el.status)
                       .map((el,i)=>{
+                        let done = el.tasks.every(el=>el.taskStatus==true)
                       return(
                         
-                        <DataTable.Row style={sprintStyle.tableRow} key={'projj'+i} onPress={()=>navigation.navigate('openSprint', {historyScreen: true})} >
+                        <DataTable.Row style={sprintStyle.tableRow} key={'projj'+i} onPress={()=>sprintClick(el._id)} >
                           <DataTable.Cell style={{flex: 1,}}>{el.title&&el.title}</DataTable.Cell>
                          
                           <DataTable.Cell  numeric>
-                            <View style={sprintStyle.projType}>
-                              <Text style={{color: '#CA9E4D',}}>{project.stage}</Text>
-                            </View>
+                            {el.tags.map((el,i)=>{
+                              if(el.length>0){
+                                return(
+                                  <View key={'histTag'+i} style={sprintStyle.projType}>
+                                    <Text style={{color: '#CA9E4D',}}>{el.length>3 ? el.slice(0,4)+'...' : el}</Text>
+                                  </View>
+                                )
+                              }
+                              
+                              
+                            })}
+                            
                           </DataTable.Cell>
                           <DataTable.Cell style={{flex: .6}} numeric>
-                            <Icon name='circle' color='green' size={14}/>
+                            <Icon name='circle' color={done?'green':'firebrick'} size={14}/>
                           </DataTable.Cell>
                         </DataTable.Row>
                       )

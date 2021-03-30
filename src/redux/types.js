@@ -35,6 +35,7 @@ export const UPDATE_PROJECT = 'project_updated';
 export const PROJECT_ID = 'project_updated';
 export const DELETE_PROJECT = 'delete_project'
 export const FINISH_PROJECT = 'finish_project'
+export const ADD_USER_TO_TASK = 'add_user_to_task'
 // for mobile
 export const SELECTED_PROJECT = 'selected_project_in_mobile'
 

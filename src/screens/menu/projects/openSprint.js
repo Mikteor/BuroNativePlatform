@@ -11,76 +11,50 @@ import { loadUser } from '../../../redux/actions/auth';
 import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../../redux/actions/projects';
 import CommonHeader from '../../../components/common/header/commonHeader'
 import TaskRow from '../../../components/projects/sprintTaskRow'
+import Confirm from '../../../components/common/confirm'
 
 const Project = ({ navigation, route}) => {
   const dispatch = useDispatch()
   const ref = useRef(null)
-  const cryptProject = useSelector(state => state.projects.selectedProject)
   const { historyScreen } = route.params;
 
   const user = useSelector(state => state.auth.user)
-  const userSprints = user.sprints.map(el=>el._id)
   const sprint = useSelector(state => state.projects.sprint)
-  let chosen = sprint && userSprints? userSprints.some(id=>id==sprint._id) : false
+  let chosen = sprint && user.sprints? user.sprints.some(el=>el._id==sprint._id) : false
 
-  const [openHistory, setOpenHistory] = useState(false)
-  const [newTaskFrom, setnewTaskFrom] = useState(false)
+
   const [newTaskData, setnewTaskData] = useState('')
-  const [openSprint, setOpenSprint] = useState(false)
-  const [fabOpen, setFabOpen] = useState(false)
-  const [openNewSprintForm, setOpenNewSprintForm] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [finishConfirm, setFinishConfirm] = useState(false)
 
-// useEffect(()=>{
-//   sprint && setOpenSprint(true)
-// },[sprint])
 const chosenSprint = () => {
-
   dispatch(addToChosen(sprint._id));
-  dispatch(loadUser())
+  // dispatch(loadUser())
 }
 
   const addNewTask = () => {
-    // console.log(sprint._id, newTaskData)
     dispatch(addTask(sprint._id, newTaskData))
     setnewTaskData('')
-    // setnewTaskFrom(false)
-    ref.current.clear()
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
-  }
-  const cancelNewTask = () => {
-    setnewTaskFrom(false)
-    ref.current.clear()
+    ref.current.focus()
+    
   }
   const deleteSprintFunc = () => {
     dispatch(deleteSprint(sprint._id))
-    navigation.pop()
     setTimeout(() => {
-      dispatch(getProject(cryptProject))
       navigation.pop()
-    }, 300);
+    }, 100);
   }
   const finishSprintFunc = () => {
     dispatch(finishSprint(sprint._id))
-    setOpenSprint(false)
     setTimeout(() => {
-      dispatch(getProject(cryptProject))
       navigation.pop()
-    }, 300);
-
+    }, 100);
   }
   const checkTaskStatus = (taskId) => {
     dispatch(finishTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
   }
   const deleteTaskFunc = (taskId) => {
     dispatch(DeleteTask(sprint._id, taskId))
-    setTimeout(() => {
-      dispatch(getSprint(sprint._id))
-    }, 300);
   }
 
 
@@ -90,14 +64,11 @@ const chosenSprint = () => {
   return (
     
  
-
+    <View style={{flex:1}}>
         <View style={style.container}>
-            <CommonHeader navigation={navigation}/>
           
-
-              <View style={style.main} >
                 <View style={style.topRow}>
-                    <Text>Назад</Text>
+                    <Text onPress={()=>navigation.pop()}>Назад</Text>
                     <Icon style={style.iconChosen} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint()}/>
                 </View>
                 <View style={style.nameBlock}> 
@@ -105,7 +76,11 @@ const chosenSprint = () => {
                     <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
                 </View>
 
-                <Text style={style.tasksTitle}>Задачи</Text>
+
+              <Text style={style.tasksTitle}>Задачи</Text>
+              <ScrollView style={style.main} >
+                
+
                 {sprint && sprint.tasks.map((el,i)=>{
                   return(
                     
@@ -113,36 +88,35 @@ const chosenSprint = () => {
                             key={'taskrow'+i} 
                             task={el} 
                             historyScreen={historyScreen} 
-                            checkTask={()=>checkTaskStatus(el.id)} 
-                            deleteTask={()=>deleteTaskFunc(el.id)} 
-                            dispatchSprint={()=>dispatch(getSprint(sprint._id))} 
-                            cryptProject={cryptProject} />
+                            checkTask={()=>checkTaskStatus(el._id)} 
+                            deleteTask={()=>deleteTaskFunc(el._id)} 
+                            />
                   )
                 })}
-                {newTaskFrom && 
-                <View style={{flexDirection: 'row', justifyContent: 'center', marginHorizontal: 30,}}>
-                    <Icon name='check-bold' size={24} style={{marginTop: 15}} onPress={()=>addNewTask()}/>
-                    <Input 
-                        placeholder='Описание задачи'
-                        onChangeText={(text)=>setnewTaskData(text)}
-                        ref={ref}
-                    />
-                    <Icon name='cancel' size={24} style={{marginTop: 15}} onPress={()=>cancelNewTask()}/>
+                
+                {!historyScreen &&
+                <View style={{flexDirection:'row',marginBottom: 100, }}>
+                  <View style={{ width:'85%', borderBottomWidth:0,}}>
+                      <TextInput 
+                          underlineColor='white' 
+                          style={{backgroundColor:'white'}}
+                          placeholder='Введите новую задачу'
+                          value={newTaskData}
+                          onChangeText={(text)=>setnewTaskData(text)}
+                          ref={ref}
+                      />
+                  </View>
+                  <View style={{marginRight:0, width:'15%', justifyContent:'center', alignItems:'center', backgroundColor:'white'}} onTouchEnd={()=>newTaskData.length>0 && addNewTask()} >
+                      <Icon name='check' size={30} color={newTaskData.length>0 ? 'black' : 'grey'}/>
+                  </View>
+                
+                    
                 </View>
                 }
-                {!historyScreen &&<TextInput 
-                  label='Новая задача'
-                  placeholder='Введите новую задачу'
-                  value={newTaskData}
-                  onChangeText={(text)=>setnewTaskData(text)}
-                  ref={ref}
-                />}
                 
-                {!historyScreen && <Button disabled={newTaskData.length>0? false : true} title='Добавить задачу' onPress={()=>addNewTask()}/>}
-                {!historyScreen && <Button title='Завершить спринт' type='clear' onPress={()=>finishSprintFunc()}/>}
-                <Button title='Удалить спринт' type='clear' onPress={()=>deleteSprintFunc()}/>
                 
-            </View>
+                
+            </ScrollView>
         
 
 
@@ -153,6 +127,33 @@ const chosenSprint = () => {
 
         </View>
 
+            <View style={{backgroundColor:'white'}}>
+                {!historyScreen && <Button containerStyle={{borderRadius:50, marginHorizontal:20,}} title='Завершить спринт'  onPress={()=>setFinishConfirm(true)}/>}
+                <Button title='Удалить спринт' type='clear' onPress={()=>setDeleteConfirm(true)}/>
+            </View>
+
+
+            <Confirm 
+                visible={finishConfirm} 
+                closeModal={()=>setFinishConfirm(false)} 
+                title={'Вы уверены, что хотите завершить спринт "'+ (sprint && sprint.title)+'"?'} 
+                subtitle=''
+                confirm={()=>finishSprintFunc()}
+                reject={()=>setFinishConfirm(false)}
+                finish
+                />
+            <Confirm 
+                visible={deleteConfirm} 
+                closeModal={()=>setDeleteConfirm(false)} 
+                title={'Вы уверены, что хотите удалить спринт "'+ (sprint && sprint.title)+'"?'} 
+                subtitle='Вы не сможете восстановить его.'
+                confirm={()=>deleteSprintFunc()}
+                reject={()=>setDeleteConfirm(false)}
+                delet
+                />
+            
+
+        </View>
   
 
 
@@ -171,11 +172,17 @@ export default Project
      padding: 10,
    },
    topRow: {
+     marginTop: 20,
+     marginHorizontal: 15,
+     marginBottom: 15,
       flexDirection: 'row',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      backgroundColor: 'white',
    },
    nameBlock: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'white',
+
 
    },
    title: {
@@ -185,5 +192,6 @@ export default Project
    tasksTitle: {
     marginTop: 50,
     marginBottom: 10,
+    marginHorizontal:15,
    },
   });

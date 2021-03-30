@@ -49,10 +49,12 @@ const App: () => React$Node = () => {
 
 
   useEffect(()=>{
-    getToken()
-    const mes = messaging().onMessage(getPushData);
+    // getToken()
+    // const mes = messaging().onMessage(getPushData);
   },[])
+
   messaging().onMessage(getPushData);
+
   const getToken = async() => {
     const token = await messaging().getToken()
     console.log('token::',token)

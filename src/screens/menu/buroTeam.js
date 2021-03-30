@@ -7,7 +7,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Alert } from 'react-native';
 import { ScrollView } from 'react-native';
-import { allUsers } from '../../redux/actions/user'
+import { allUsers, getUser } from '../../redux/actions/user'
 import {url} from '../../components/utils/axios'
 import CommonHeader from '../../components/common/header/commonHeader'
 
@@ -21,6 +21,11 @@ useEffect(()=>{
 useEffect(()=>{
   // console.log(team)
 },[team])
+
+const teamClick = (id) => {
+  dispatch(getUser(id))
+  navigation.navigate('teamMateProfile')
+}
   return (
     
    <ScrollView style={styles.scrollView}>
@@ -35,7 +40,7 @@ useEffect(()=>{
                 friction={90} //
                 tension={100} // These props are passed to the parent component (here TouchableScale)
                 activeScale={0.95} //
-                onPress={()=>navigation.navigate('teamMateProfile', {user: el})}
+                onPress={()=>teamClick(el._id)}
                 >
                     <Image source={el.avatar? {uri: `${url+el.avatar}`} : require('../../../assets/ava.jpeg')} style={styles.avatar}/>
                     <ListItem.Content>

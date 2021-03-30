@@ -30,10 +30,7 @@ const onSubmit = e => {
 
   setTimeout(() => {
     navigation.navigate('Главная')
-    setTimeout(()=>{
-        dispatch(allNews())
-    },300)
-  }, 300);
+  }, 100);
   }
 
 

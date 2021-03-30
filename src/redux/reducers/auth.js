@@ -1,5 +1,5 @@
 
-import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED, CHANGE_USERDATA, CHANGE_AVATAR, CHANGE_LOADED, ADD_SPRINT_TO_CHOSEN, CLEAR_MSG, CLEAR_ERROR, LOG_OUT} from '../types'
+import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED, CHANGE_USERDATA, CHANGE_AVATAR, CHANGE_LOADED, ADD_SPRINT_TO_CHOSEN, CLEAR_MSG, CLEAR_ERROR, LOG_OUT, JOIN_DEPARTMENT} from '../types'
 // import  storage  from '../../components/localStorage/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -75,13 +75,22 @@ export default function(state = initialState, action) {
                             msg: payload.msg
                         }
                 case ADD_SPRINT_TO_CHOSEN:
-                    // console.log('here is payload',payload)    
+                    console.log('here is payload',payload)    
                 
                 return {
+
                         ...state,
                         chosenSprint:!state.chosenSprint,
-                        msg: payload.msg
+                        // msg: payload.msg,
+                        user: payload
                     }
+                    case JOIN_DEPARTMENT:
+                        return{
+                            ...state,
+                            user: payload.user
+                        }
+                            
+                        
             case AUTH_ERROR:
                 // console.log('here is payload',payload) 
                 return {

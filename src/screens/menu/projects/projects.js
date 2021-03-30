@@ -5,7 +5,8 @@ import { DataTable } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedProject, allProjects } from '../../../redux/actions/projects'
 import CommonHeader from '../../../components/common/header/commonHeader'
-
+import CommonTitle from '../../../components/common/titles'
+import ProjectRow from '../../../components/main/myProjects'
 const Projects = ({navigation}) => {
 
   const dispatch = useDispatch()
@@ -41,64 +42,19 @@ const Projects = ({navigation}) => {
               onRefresh={onRefresh}
             />}>
       <CommonHeader navigation={navigation} />
-        <Text style={styles.title} >Текущие проекты</Text>
+        <CommonTitle title='Текущие проекты' icon='home' />
 
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title sortDirection='descending' style={{flex: 4,}}>Название</DataTable.Title>
-          <DataTable.Title style={styles.smallHeadCell}>Дедлайн</DataTable.Title>
-          <DataTable.Title style={styles.smallHeadCell}>Статус</DataTable.Title>
-          <DataTable.Title style={styles.smallHeadCell}>Спринты</DataTable.Title>
-        </DataTable.Header>
-      
-        {!projects? <Text>Нет проектов</Text> : 
-          projects
-          .filter((project) => !project.status)
-          .map((el,i)=>{
-            let doneSprints = 0
-            for(let i=0; i<el.sprints.length; i++){
-              el.sprints[i].status==true && (doneSprints += 1 )
+            {!projects? <Text>Нет проектов</Text> : 
+            <ProjectRow navigation={navigation} projects={projects.filter((project) => !project.status)} />  
             }
-          return(
-          <DataTable.Row key={'projeccts'+i} onPress={()=>projectPress(el.crypt, el)} >
-            <DataTable.Cell style={{flex: 4,}}>{el.title}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>{el.dateFinish ? el.dateFinish.slice(5,10).split('-').reverse().join('.') : '-'}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>{doneSprints +'/'+ el.sprints.length}</DataTable.Cell>
-          </DataTable.Row>
-          )
-          
-        })}
 
         <View style={{marginVertical: 30}}/>
 
-        <Text style={styles.title}>Завершенные проекты</Text>
-        <DataTable.Header>
-          <DataTable.Title sortDirection='descending' style={{flex: 4,}}>Название</DataTable.Title>
-          <DataTable.Title style={styles.smallHeadCell}>Дедлайн</DataTable.Title>
-          <DataTable.Title style={styles.smallHeadCell}>Статус</DataTable.Title>
-          <DataTable.Title style={styles.smallHeadCell}>Спринты</DataTable.Title>
-        </DataTable.Header>
-        {!projects? <Text>Нет проектов</Text> : 
-          projects
-          .filter((project) => project.status)
-          .map((el,i)=>{
-            let doneSprints = 0
-            for(let i=0; i<el.sprints.length; i++){
-              el.sprints[i].status==true && (doneSprints += 1 )
+        <CommonTitle title='Завершенные проекты' icon='home' /> 
+            
+            {!projects? <Text>Нет проектов</Text> : 
+            <ProjectRow navigation={navigation} projects={projects.filter((project) => project.status)} />  
             }
-          return(
-            <DataTable.Row key={'finishedProjects'+i} onPress={()=>navigation.navigate('project')} >
-            <DataTable.Cell style={{flex: 4,}}>{el.title}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>{el.dateFinish && el.dateFinish.slice(5,10).split('-').reverse().join('.')}</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>...</DataTable.Cell>
-            <DataTable.Cell style={styles.smallCell} numeric>{doneSprints +'/'+ el.sprints.length}</DataTable.Cell>
-          </DataTable.Row>
-          )
-         
-     
-        })}
-        </DataTable> 
 
     </ScrollView>
   );
@@ -108,7 +64,7 @@ export default Projects
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#F1F5FF',
+      backgroundColor: 'white',
       // alignItems: 'center',
       // justifyContent: 'center',
     },

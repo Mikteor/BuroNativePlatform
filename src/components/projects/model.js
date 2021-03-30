@@ -24,25 +24,28 @@ const Project = ({}) => {
   return (
     
  
-<View style={{flex:1}}>
+<View style={{flex:1, height:530, backgroundColor:'white', }}>
 
+    {/* <Text style={{alignSelf: 'center', marginVertical: '50%'}}>В разработке</Text> */}
 
-<View style={modelStyle.controlPanelContainer}>
-    <View style={modelStyle.controlPanel}>
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-    </View>
-    <View style={modelStyle.controlPanel}>
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-    </View>
-    <View style={modelStyle.controlPanel}>
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-        <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
-    </View>
-</View>
+    <Image source={require('../../../assets/development.png')} style={{alignSelf: 'center', marginTop: 40, }} />
+
+    {/* <View style={modelStyle.controlPanelContainer}>
+        <View style={modelStyle.controlPanel}>
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+        </View>
+        <View style={modelStyle.controlPanel}>
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+        </View>
+        <View style={modelStyle.controlPanel}>
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+            <Icon style={modelStyle.icon} name='camera-control' color='white' size={24} />
+        </View>
+    </View> */}
         
 </View>
   
@@ -52,11 +55,11 @@ const Project = ({}) => {
 export default Project
 
 
-  const modelStyle = StyleSheet.create({
+  const styles = StyleSheet.create({
    
     controlPanelContainer: {
         position: 'absolute',
-        bottom: 5,
+        bottom: 50,
         height: 40,
         width: '100%',
         display: 'flex',

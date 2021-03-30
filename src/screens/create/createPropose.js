@@ -28,10 +28,7 @@ const onSubmit = e => {
 
   setTimeout(() => {
     navigation.navigate('Офис')
-    setTimeout(()=>{
-        dispatch(likedProposes())
-    },300)
-  }, 300);
+  }, 100);
   }
 
 

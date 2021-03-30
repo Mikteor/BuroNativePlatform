@@ -21,7 +21,6 @@ const [refreshing, setRefreshing] = useState(false);
 
 const likeButton =(id) =>{
   dispatch(likePropose(id))
-  // dispatch(likedProposes())
 }
 useEffect(()=>{
   dispatch(likedProposes())
@@ -52,7 +51,7 @@ const proposes = [1,2,3,4,5]
     <View>
       {!liked? <Text>Предложений пока нет</Text> : 
         liked.map((el,i)=>{
-          const likeTrue =  el.likes.some(el => el.user == user._id)
+          const likeTrue = user && el.likes.some(el => el.user == user._id)
         return(
             <View key={'proposrss'+i} style={styles.proposeCard}>
               <View style={styles.propCardFlex}>

@@ -27,10 +27,10 @@ const buttons = [
   name: "Сотрудники",
   navigate: 'buroTeam'
   },
-    {
-  name: "Субподрядчики",
-  navigate: 'smejniki'
-  },
+  //   {
+  // name: "Субподрядчики",
+  // navigate: 'smejniki'
+  // },
 ]
 const scndGroup = [ 
   {name:'Изменить профиль',

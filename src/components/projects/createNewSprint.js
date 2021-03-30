@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProject, addSprint } from '../../redux/actions/projects';
 
 
-const CreateNewSprint = ({navigation, visible, closeModal}) => {
+const CreateNewSprint = ({navigation, visible, closeModal, project}) => {
   const dispatch = useDispatch()
 
   const cryptProject = useSelector(state => state.projects.selectedProject)
@@ -22,12 +22,23 @@ const CreateNewSprint = ({navigation, visible, closeModal}) => {
     const sprintTags = [tag1, tag2] 
     dispatch(addSprint(cryptProject, sprintTitle, sprintDescription,  sprintTags))
     setTimeout(() => {
-    dispatch(getProject(cryptProject))
-    closeModal()
-      
+        setSprintDescription(''),
+        setSprintTitle(''),
+        setTag1('')
+        setTag2('')
+        closeModal()
+    }, 150);
+    setTimeout(() => {
+      navigation.navigate('openSprint',{project: project})
     }, 300);
   }
-
+const cancel = () => {
+  setSprintDescription(''),
+  setSprintTitle(''),
+  setTag1('')
+  setTag2('')
+  closeModal()
+}
 
   return (
     
@@ -80,7 +91,7 @@ const CreateNewSprint = ({navigation, visible, closeModal}) => {
                     title='Создать спринт'  
                     onPress={()=>createSprint()}
                 />
-                <Button title='Отменить' type='clear' onPress={closeModal}/>
+                <Button title='Отменить' type='clear' onPress={()=>cancel()}/>
                 
             </View>
             </View>

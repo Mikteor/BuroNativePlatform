@@ -5,9 +5,11 @@ import TouchableScale from 'react-native-touchable-scale';
 import {url} from '../utils/axios'
 import CommonTitle from '../common/titles'
 import ProjectItem from '../main/myProjects'
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../redux/actions/user';
 
 const DepartmentComponent = ({navigation, department}) => {
-
+const dispatch = useDispatch()
 const [departmentProjects, setDepProjects] = useState([])
 
 
@@ -34,11 +36,14 @@ useEffect(()=>{
     getDepartmentProjects()
 },[department])
 
-useEffect(()=>{
-  console.log('hi',departmentProjects)
-},[departmentProjects])
-  return (
 
+
+const teamClick =(id) => {
+  dispatch(getUser(id))
+  navigation.navigate( 'teamMateProfile' )
+}
+
+  return (
   <View style={styles.scrollView}>
         
         <CommonTitle icon='account-group-outline' title={`Команда отдела "${department && department.divname}"`} />
@@ -54,7 +59,7 @@ useEffect(()=>{
                     friction={90} //
                     tension={100} // These props are passed to the parent component (here TouchableScale)
                     activeScale={0.95} //
-                    onPress={()=>navigation.navigate( 'teamMateProfile', {user: el} )}
+                    onPress={()=>teamClick(el._id)}
                     >
                         <Image source={{uri: `${url+el.avatar}`} || require('../../../assets/ava.jpeg')} style={styles.avatar}/>
                         <ListItem.Content>
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   scrollView:{
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
   },
     card: {
       backgroundColor: 'white',

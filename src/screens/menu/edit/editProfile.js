@@ -15,6 +15,7 @@ import {changeData, changeAvatar} from '../../../redux/actions/auth'
 import { allDepartments, joinDepartment, findDepartment } from "../../../redux/actions/department";
 import EditRow from '../../../components/edit/editProfileRow'
 import CommonHeader from '../../../components/common/header/commonHeader'
+import { ScrollView } from 'react-native';
 
 
 const Profile = ({navigation,initial}) => {
@@ -29,6 +30,7 @@ const [formData, setFormData ] = useState({
   position: '',
   division:  '',  
   email:  '', 
+  phone:  '', 
   report:  '',
 
 });
@@ -42,6 +44,7 @@ useEffect(()=>{
     position: profile.position || '',
 		division: profile.division? profile.division.divname : '',  
     email: profile.email  || '',
+    phone: profile.phone  || '',
 		report: profile.report  || '', 
   })
 },[profile])
@@ -56,9 +59,7 @@ const onSubmit = e => {
 
   dispatch(joinDepartment(formData.division))
   dispatch(changeData(formData))
-  setTimeout(() => {
-    !initial && navigation.pop()
-  }, 300);
+  !initial && navigation.pop()
   }
 useEffect(()=>{
   console.log('lol',formData.division)
@@ -68,7 +69,7 @@ useEffect(()=>{
     <View style={{flex:1,}}>
         {!initial && <CommonHeader navigation={navigation}/>}
 
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
     
         <View style={styles.title}>
             <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
@@ -101,6 +102,12 @@ useEffect(()=>{
               onChangeText={(text) => setFormData({...formData, email: text})}
               />
           <TextInput
+              label="Телефон"
+              value={formData.phone}
+              placeholder={'Телефон'}
+              onChangeText={(text) => setFormData({...formData, phone: text})}
+              />
+          <TextInput
               label="Ссылка на отчетность"
               value={formData.report}
               placeholder={'http://...'}
@@ -128,13 +135,14 @@ useEffect(()=>{
                 formData.name.length>0 &&
                 formData.lastname.length>0 &&
                 formData.position.length>0 &&
-                formData.division.length>0 &&
+                formData.phone.length>0 &&
+                // formData.division.length>0 &&
                 formData.email.length>0 ?
                  false : true
               }
               />
  
-      </View>
+      </ScrollView>
  
     </View>
   );

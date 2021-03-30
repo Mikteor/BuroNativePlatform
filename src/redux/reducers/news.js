@@ -25,14 +25,15 @@ export default function(state = initialState, action) {
                 return {
                     ...state,
                     loaded: true,
-                    news: payload,
+                    news: payload.reverse(),
                     // loadNews: true,
                     error: ''
                 }
                 case CREATE_NEWS:
                     return {
                         ...state,
-                        getNews: payload,
+                        news: payload.allNews,
+                        getNews: payload.news,
                         // loadNews: true,
                         msg:payload.msg,
                         error: ''

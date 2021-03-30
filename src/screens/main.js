@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     },
 
     selectedButton: {
-      backgroundColor: '#3F496C',
+      backgroundColor: 'black',
       borderRadius: 8,
 
     },
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
       width: 0,
     },
     btn: {
+      
     }
     
   });

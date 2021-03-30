@@ -107,10 +107,13 @@ useEffect(() => {
 
       <Tab.Navigator detachInactiveScreens={true}
           tabBarOptions={{
+                style:{height:70,},
+                labelStyle:{marginBottom: 20, marginTop:0 },
+                iconStyle:{marginBottom:-10},
                 activeTintColor: 'white', 
                 inactiveTintColor: 'grey', 
-                activeBackgroundColor: '#3F496C', 
-                inactiveBackgroundColor: '#3F496C',
+                activeBackgroundColor: 'black', 
+                inactiveBackgroundColor: 'black',
                 }}>
                   
           <Tab.Screen name='Главная' options={{tabBarIcon : ({ color, size }) => (<Icon name="home-outline" color={color} size={24}  />)}} >
@@ -139,8 +142,8 @@ useEffect(() => {
                 options={{
                   tabBarLabel: '',
                   tabBarButton:()=>
-                  <View style={{ backgroundColor: '#3F496C'}}>
-                    <Icon name="plus" color={'white'} size={50} style={{marginHorizontal: 10}}  onPress={()=>setCreateModal(true)} />
+                  <View style={{ backgroundColor: 'black'}}>
+                    <Icon name="plus" color={'white'} size={55} style={{marginHorizontal: 10}}  onPress={()=>setCreateModal(true)} />
                   </View>
                   }}
                   >
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
 
-    marginBottom: 60
+    marginBottom: 80
   },
   modalBtn:{
     alignSelf: 'center',

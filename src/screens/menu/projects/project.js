@@ -136,7 +136,7 @@ if (!project) {
         </View>
   </Modal>
 
-    <CreateNewSprint navigation={navigation} visible={newSprint} closeModal={()=>setNewSprint(false)} />
+    <CreateNewSprint navigation={navigation} visible={newSprint} closeModal={()=>setNewSprint(false)} project={project} />
 </View>
  
   );
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     },
     modalCard: {
   
-      marginBottom: 130,
+      marginBottom: 145,
       marginRight: 16,
     },
     modalBtn:{
