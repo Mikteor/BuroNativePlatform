@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {  Badge } from 'react-native-elements'
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,8 +24,10 @@ const close = () => {
     
    <View>
        <View style={{width:34, height: 34}}>
-            <Icon name='bell-outline' color='black' size ={34} style={{ width: 34, }} onPress={()=>setvis(true)} />
-            {counter>0&&<Badge value={counter} status="error" onPress={()=>setvis(true)} containerStyle={{ position: 'absolute', top: 1, right: -1 }} />}
+            <Icon name='bell-outline' color='white' size={34} style={{ width: 34,}} onPress={()=>setvis(true)} />
+            {counter>0 && 
+            <Badge value={counter} status="error" onPress={()=>setvis(true)} containerStyle={{ position: 'absolute', top: 1, right: -1 }} />
+            }
        </View>
 
 
@@ -46,8 +48,8 @@ const close = () => {
                         <View key={'notification'+i} style={styles.noteCard}>
                             <Image source={require('../../../../assets/ava.jpeg')} width={40} height={40} style={styles.image}/>
                             <View>
-                                <Text style={styles.title}>Title</Text>
-                                <Text style={styles.text}>text text text text text text text text text text text text text text text </Text>
+                                <Text style={styles.title}>{el.notification.title}</Text>
+                                <Text style={styles.text}>{el.notification.body}</Text>
                             </View>
                             
                         </View>

@@ -37,7 +37,7 @@ const onRefresh = React.useCallback(() => {
             refreshing={refreshing}
             onRefresh={onRefresh}
           />}>
-      <CommonHeader navigation={navigation} />
+      <CommonHeader navigation={navigation} title={'Отдел "'+department.divname+'"'}/>
       <DepartmentComponent navigation={navigation} department={department} />
   </ScrollView>
   );

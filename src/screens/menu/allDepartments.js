@@ -27,7 +27,7 @@ const depPress = (divname) => {
   return (
     
     <ScrollView style={styles.container}>
-      <CommonHeader navigation={navigation}/>
+      <CommonHeader navigation={navigation} title='Все отделы'/>
       <CommonTitle title='Все отделы' icon='account-group-outline' />
       
         {!departments? <Text>loading...</Text> : 

@@ -46,7 +46,7 @@ const wait = (timeout) => {
             />}
           stickyHeaderIndices={[0]}
           >
-     <CommonHeader navigation={navigation} />
+     <CommonHeader navigation={navigation} title='Профиль сотрудника'/>
       
         <View style={{backgroundColor: 'white'}}>
             <View style={{height: 100, backgroundColor: 'black',}}>

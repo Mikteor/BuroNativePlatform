@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { deletePropose, likedProposes, likePropose } from '../redux/actions/office';
 import CommonTitle from '../components/common/titles'
 import Loading from '../components/common/loadingScreen'
+import TabHeader from '../components/common/header/tabHeader'
 
 const Profile = ({navigation}) => {
 const dispatch = useDispatch()
@@ -45,7 +46,10 @@ if(!user || !liked){
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-          />}>
+          />}
+          stickyHeaderIndices={[0]}
+          >
+      <TabHeader navigation={navigation} title={'Офис'} />
 
     <CommonTitle icon='puzzle-plus' title='Предложения' />
 

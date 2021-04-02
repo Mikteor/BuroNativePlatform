@@ -29,7 +29,7 @@ const teamClick = (id) => {
   return (
     
    <ScrollView style={styles.scrollView}>
-     <CommonHeader navigation={navigation} />
+     <CommonHeader navigation={navigation} title='Сотрудники'/>
         {!team? <Text>loading members</Text> : team.map((el,i)=>{
             return(
               <ListItem

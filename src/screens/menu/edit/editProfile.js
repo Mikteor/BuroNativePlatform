@@ -67,7 +67,7 @@ useEffect(()=>{
   return (
 
     <View style={{flex:1,}}>
-        {!initial && <CommonHeader navigation={navigation}/>}
+        {!initial && <CommonHeader navigation={navigation} title='Редактировать профиль'/>}
 
     <ScrollView style={styles.container}>
     

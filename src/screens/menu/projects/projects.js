@@ -41,7 +41,7 @@ const Projects = ({navigation}) => {
               refreshing={refreshing}
               onRefresh={onRefresh}
             />}>
-      <CommonHeader navigation={navigation} />
+      <CommonHeader navigation={navigation} title='Все проекты' />
         <CommonTitle title='Текущие проекты' icon='home' />
 
             {!projects? <Text>Нет проектов</Text> : 

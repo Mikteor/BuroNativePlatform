@@ -13,7 +13,7 @@ import CommonTitle from '../components/common/titles'
 import ProjectItem from '../components/main/myProjects'
 import DepartmentComponent from '../components/departments/departmentComponent'
 import Loading from '../components/common/loadingScreen';
-
+import TabHeader from '../components/common/header/tabHeader'
 
 
 const Main = ({navigation}) => {
@@ -49,7 +49,10 @@ if(!user || !department){
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-          />}>
+          />}
+          stickyHeaderIndices={[0]}
+          >
+      <TabHeader navigation={navigation} title={'Мой отдел'} />
       <DepartmentComponent navigation={navigation} department={department} />
   </ScrollView>
   );

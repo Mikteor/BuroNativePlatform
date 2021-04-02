@@ -16,7 +16,7 @@ const dispatch = useDispatch()
   return (
     
     <ScrollView style={styles.container}>
-      <CommonHeader navigation={navigation} />
+      <CommonHeader navigation={navigation} title='Субподрядчики' />
 
     </ScrollView>
   );
