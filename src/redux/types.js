@@ -117,6 +117,9 @@ export const CLEAR_MODEL_DATA = 'clear_model_data'
 export const CLEAR_DEPS = 'clear_deps'
 
 
+/// notifications
+export const NEW_NOTIFICATION = 'new_notification'
+export const CLEAR_NOTIFICATIONS = 'clear_notifications'
 
 ///errors
 

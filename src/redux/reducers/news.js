@@ -25,7 +25,7 @@ export default function(state = initialState, action) {
                 return {
                     ...state,
                     loaded: true,
-                    news: payload.reverse(),
+                    news: payload,
                     // loadNews: true,
                     error: ''
                 }

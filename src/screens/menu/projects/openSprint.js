@@ -95,20 +95,17 @@ const chosenSprint = () => {
                 })}
                 
                 {!historyScreen &&
-                <View style={{flexDirection:'row',marginBottom: 100, }}>
-                  <View style={{ width:'85%', borderBottomWidth:0,}}>
+                <View style={{flexDirection:'row',marginBottom: 100, backgroundColor:'white'}}>
+                 
                       <TextInput 
                           underlineColor='white' 
-                          style={{backgroundColor:'white'}}
+                          style={{backgroundColor:'white', flex:1}}
                           placeholder='Введите новую задачу'
                           value={newTaskData}
                           onChangeText={(text)=>setnewTaskData(text)}
                           ref={ref}
                       />
-                  </View>
-                  <View style={{marginRight:0, width:'15%', justifyContent:'center', alignItems:'center', backgroundColor:'white'}} onTouchEnd={()=>newTaskData.length>0 && addNewTask()} >
-                      <Icon name='check' size={30} color={newTaskData.length>0 ? 'black' : 'grey'}/>
-                  </View>
+                      <Icon onPress={()=>newTaskData.length>0 && addNewTask()}  name='check' size={30} color={newTaskData.length>0 ? 'black' : 'grey'} style={{alignSelf: 'center', marginRight: 10,}}/>
                 
                     
                 </View>

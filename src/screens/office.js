@@ -6,7 +6,7 @@ import {  Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { deletePropose, likedProposes, likePropose } from '../redux/actions/office';
 import CommonTitle from '../components/common/titles'
-
+import Loading from '../components/common/loadingScreen'
 
 const Profile = ({navigation}) => {
 const dispatch = useDispatch()
@@ -22,9 +22,6 @@ const [refreshing, setRefreshing] = useState(false);
 const likeButton =(id) =>{
   dispatch(likePropose(id))
 }
-useEffect(()=>{
-  dispatch(likedProposes())
-},[reload])
 
 const onRefresh = React.useCallback(() => {
   setRefreshing(true);
@@ -36,6 +33,11 @@ const onRefresh = React.useCallback(() => {
 
 const proposes = [1,2,3,4,5]
 
+if(!user || !liked){
+  return(
+    <Loading />
+  )
+}
   return (
     
     <ScrollView style={styles.container}

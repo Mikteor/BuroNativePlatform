@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
 import { StyleSheet, Text, View, Image, RefreshControl  } from 'react-native';
-import { ButtonGroup } from 'react-native-elements'
+import { ButtonGroup, Badge } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { ScrollView, ImageBackground } from 'react-native';
 import { loadUser } from '../redux/actions/auth';
@@ -12,13 +13,39 @@ import { allProjects } from '../redux/actions/projects';
 import News from './news'
 import MyProjects from '../components/main/myProjects'
 import {url} from '../components/utils/axios'
-
+import Loading from '../components/common/loadingScreen'
+import NotificationBell from '../components/common/header/notificationBell'
+// import DocumentPicker from 'react-native-document-picker';
 
 const Main = ({navigation}) => {
+
+
+  // try {
+  //   const res = await DocumentPicker.pick({
+  //     type: [DocumentPicker.types.images],
+  //   });
+  //   console.log(
+  //     res.uri,
+  //     res.type, // mime type
+  //     res.name,
+  //     res.size
+  //   );
+  // } catch (err) {
+  //   if (DocumentPicker.isCancel(err)) {
+  //     // User cancelled the picker, exit any dialogs or menus and move on
+  //   } else {
+  //     throw err;
+  //   }
+  // }
+
+
+
+
+
+
 const dispatch = useDispatch()
 const user = useSelector(state=>state.auth.user)
 const buttons = ['Проекты','Новости']
-console.log('auth Projects',user && user.projects)
 const [selectedButton, setButton] = useState(0)
 const [refreshing, setRefreshing] = useState(false);
 
@@ -44,7 +71,11 @@ useEffect(()=>{
   user && loadAll()
 },[])
 
-
+if(!user){
+  return(
+    <Loading/>
+  ) 
+}
   return (
     
 <ScrollView  style={styles.container} 
@@ -58,8 +89,11 @@ useEffect(()=>{
       
         <View style={{backgroundColor: 'white'}}>
             <View style={{height: 120,}}>
-                <ImageBackground  source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avaBG} blurRadius={50} />
-            </View>  
+                <ImageBackground  source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avaBG} blurRadius={5} >
+                    <NotificationBell />
+                </ImageBackground>
+            </View> 
+            {/* <DocumentPicker />  */}
             <View style={styles.profileTop}>
               <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
               <Text style={styles.name}>{user? user.fullname :'Имя Фамилия'}</Text>
@@ -109,7 +143,10 @@ const styles = StyleSheet.create({
     avaBG : {
       flex: 1,
       resizeMode: "cover",
-      paddingLeft: 10,
+      padding: 10,
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
+      
     },
     profileTop: {
       alignItems: 'center',

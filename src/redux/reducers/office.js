@@ -66,7 +66,8 @@ export default function(state = initialState, action) {
                 console.log('likes',payload)
                 return {
                     ...state,
-                    msg: payload,
+                    likedProposes: payload,
+                    // msg: payload,
                     reload: !state.reload,
 
                     error: ''

@@ -66,6 +66,7 @@ export default function(state = initialState, action) {
                        error:''  
                     }
                 case EDIT_TASK: 
+                console.log('edited task sprint', payload.sprint)
                     return {
                         ...state,
                         sprint: payload.sprint

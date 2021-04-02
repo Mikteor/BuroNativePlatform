@@ -146,7 +146,7 @@ export default Project
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#F8FAFB',
+      backgroundColor: 'white',
       // '#F8FAFB'
       // alignItems: 'center',
       // justifyContent: 'center',

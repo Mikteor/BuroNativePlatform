@@ -148,12 +148,12 @@ export const addSprint = (id, title,description, tags) => async dispatch  => {
  
 }
 
-export const EditTask = (editTask, id, crypt) => async (dispatch) => {
+export const EditTask = (editTask, id, crypt, date) => async (dispatch) => {
     try {
       const data = {
         taskid:id,
         taskTitle:editTask,
-        deadline:'2011-11-11',
+        deadline: date? date: '2011-11-11',
     }
     console.log('data',data, crypt)
         const res = await innerBackend.put(`projects/sprints/taskedit/${crypt}`, data);

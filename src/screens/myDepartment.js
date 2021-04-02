@@ -12,6 +12,7 @@ import { findDepartment } from '../redux/actions/department';
 import CommonTitle from '../components/common/titles'
 import ProjectItem from '../components/main/myProjects'
 import DepartmentComponent from '../components/departments/departmentComponent'
+import Loading from '../components/common/loadingScreen';
 
 
 
@@ -35,7 +36,11 @@ useEffect(()=>{
 },[user])
 
 
-
+if(!user || !department){
+  return(
+    <Loading />
+  )
+}
 
   return (
     

@@ -7,8 +7,8 @@ import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux';
 import { EditTask } from '../../redux/actions/projects';
 import Performer from './performer'
+import TaskCalendar from './taskCalendar'
 import {url} from '../../components/utils/axios'
-
 
 const Project = ({ navigation, historyScreen, task, checkTask, deleteTask,  }) => {
   const dispatch = useDispatch()
@@ -17,16 +17,21 @@ const Project = ({ navigation, historyScreen, task, checkTask, deleteTask,  }) =
 //   const cryptProject = useSelector(state => state.projects.selectedProject)
   const sprint = useSelector(state => state.projects.sprint)
   const user = useSelector(state => state.auth.user)
-
+  
 
   const [edit, setEdit] = useState(false)
   const [performerModal, setPerformerModal] = useState(false)
+  const [calendarModal, setCalendarModal] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalTop, setModalTop] = useState(0)
   const [taskData, setTaskData] = useState(task.taskTitle)
+  const [deadline, setDeadline] = useState(false)
+
+
 
 const editTask = () => {
-    dispatch(EditTask(taskData, task._id, sprint._id))
+    const ded = task.deadline && task.deadline.slice(0,10)
+    dispatch(EditTask(taskData, task._id, sprint._id, ded))
     setEdit(false)
   
 }
@@ -35,9 +40,35 @@ const modalOpen = (e) => {
   setModalTop(e.nativeEvent.pageY) 
 }
 
+const dayPress = (day) => {
+    console.log('day', day)
+    dispatch(EditTask(taskData, task._id, sprint._id, day.dateString))
+    setCalendarModal(false)
+}
 
-
-
+useEffect(()=>{
+  const date = new Date(task.deadline)
+  const dateNaN = isNaN(date)
+  const day = date.getDate()
+  const month = date.getMonth()
+  
+  const ded = `${day} ${
+    month==0? 'Янв' :
+    month==1? 'Фев' :
+    month==2? 'Мар' :
+    month==3? 'Апр' :
+    month==4? 'Мая' :
+    month==5? 'Июн' :
+    month==6? 'Июл' :
+    month==7? 'Авг' :
+    month==8? 'Сен' :
+    month==9? 'Окт' :
+    month==10? 'Ноя' :
+    month==11 && 'Дек' 
+  }`
+  !dateNaN && task.deadline!='2011-11-11T00:00:00.000Z' && setDeadline(ded)
+  console.log(month)
+},[sprint])
 
   return (
 
@@ -49,8 +80,9 @@ const modalOpen = (e) => {
             checked={task.taskStatus}
             onPress={checkTask}
             />
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width:'80%', backgroundColor:'white'}}  onTouchEnd={(e)=>modalOpen(e)}>
-                <Text ref={reff}>{task.taskTitle}</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center', flex:1, backgroundColor:'white'}}  onTouchEnd={(e)=>modalOpen(e)}>
+                <Text ref={reff} style={{marginRight: 'auto'}}>{task.taskTitle}</Text>
+                <Text style={{marginRight: 15,}}>{deadline}</Text>
                 {task.user && <Image source={task.user.avatar? {uri: `${url+task.user.avatar}`} : require('../../../assets/ava.jpeg')} style={style.avatar}/>}
             </View>
             
@@ -71,7 +103,7 @@ const modalOpen = (e) => {
                           <Icon style={style.icon} name='account-check-outline' size={20} color='black'/>
                           <Text>Исполнитель</Text>
                       </View>
-                      <View style={style.onpressView} onTouchEnd={()=>setEdit(true)}>
+                      <View style={style.onpressView} onTouchEnd={()=>setCalendarModal(true)}>
                           <Icon style={style.icon} name='alarm' size={20} color='black'/>
                           <Text>Дедлайн</Text>
                       </View>
@@ -85,23 +117,20 @@ const modalOpen = (e) => {
             </Modal>}
 
             <Performer visible={performerModal} closeModal={()=>setPerformerModal(false)} taskId={task._id}/>
+            <TaskCalendar visible={calendarModal} closeModal={()=>setCalendarModal(false)} dayPress={(day)=>dayPress(day)} deadline={task.deadline && task.deadline.slice(0,10)}/>
 
         </View> :
         <View style={{flexDirection:'row', }}>
-          <View style={{ width:'85%', borderBottomWidth:0}}>
               <TextInput 
                     underlineColor='white' 
-                    style={{backgroundColor:'white',}}
+                    style={{backgroundColor:'white', flex:1, borderBottomWidth:0,  }}
                     label='Редактировать задачу'
                     placeholder='Введите новую текст задачи'
                     value={taskData}
                     onChangeText={(text)=>setTaskData(text)}
                     ref={ref}
                 />
-          </View>
-          <View style={{marginRight:0, width:'15%', justifyContent:'center', alignItems:'center', backgroundColor:'white'}} onTouchEnd={()=>editTask()} >
-              <Icon name='check' size={30} color='black'/>
-          </View>
+              <Icon name='check' size={30} color='black' onPress={()=>editTask()} style={{alignSelf: 'center', marginRight: 10,}}/>
 
             
         </View>

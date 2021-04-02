@@ -48,7 +48,7 @@ const joinTeamFunc = () => {
                 >
                     <Image source={el.user.avatar? {uri: `${url+el.user.avatar}`} : require('../../../assets/ava.jpeg')} style={teamStyle.avatar}/>
           
-                            <View>
+                            <View style={{flex:1}}>
                                 <Text style={teamStyle.name}>{el.user.fullname}</Text>
                                 <Text style={teamStyle.pos}>{el.position}</Text>
                                 <View style={teamStyle.flex}>
@@ -62,10 +62,10 @@ const joinTeamFunc = () => {
                                         
                                 </View>
                             </View>
-                            <View style={teamStyle.contactsContainer}>
+                            {/* <View style={teamStyle.contactsContainer}>
                                 <Text style={teamStyle.contacts}>{el.user.phone && el.user.phone}</Text>
                                 <Text style={teamStyle.contacts}>{el.user.rocketname}</Text>
-                            </View>
+                            </View> */}
               </View>
             )
         })}
@@ -95,18 +95,16 @@ export default Project
 
   const teamStyle = StyleSheet.create({
     scrollView:{
-        paddingHorizontal: 15,
-      },
+      backgroundColor: 'white',
+    },
       card: {
-        marginVertical: 4,
         flexDirection: "row",
         alignItems: 'center',
-        marginHorizontal: 15,
         backgroundColor: 'white',
-        borderRadius: 8,
         paddingHorizontal: 10,
         paddingVertical: 7,
-
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'grey',
         
       },
       avatar: {
@@ -120,12 +118,12 @@ export default Project
         flexDirection: 'row',
         backgroundColor: 'green',
         justifyContent: 'space-between',
+        
 
       },
       flex: {
         display: 'flex',
         flexDirection: 'row',
-
       },
       projType: {
         backgroundColor: '#F2ECE1',
@@ -133,6 +131,7 @@ export default Project
         paddingHorizontal: 5,
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 'auto'
       },
       contacts: {
         textAlign: 'right',
@@ -154,12 +153,7 @@ export default Project
       },
    
   });
-  const modelStyle = StyleSheet.create({
-   
-  });
-  const infoStyle = StyleSheet.create({
-   
-  });
+
 
 
 

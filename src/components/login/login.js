@@ -24,14 +24,8 @@ const [formData, setFormData ] = useState({
 
 
 
-const onSubmit = async e => {
-  e.preventDefault();
-  // console.log(formData)
+const onSubmit = () => {
   dispatch(login(formData))
-
-      // register({ name, email, password});
-
-     
   }
 
  

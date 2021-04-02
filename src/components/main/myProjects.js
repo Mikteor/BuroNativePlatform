@@ -28,7 +28,6 @@ return (
  const finish = new Date(el.dateFinish)
  const left = (finish.getTime() - now.getTime()) / (1000*60*60*24)
  const days = Math.floor(left)
-
  return(
  
       <View style={styles.tableRow} key={'projj'+i}>

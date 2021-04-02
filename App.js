@@ -15,7 +15,6 @@ import Application from './Application'
 import store from './src/redux/store';
 import {navigationRef} from './RootNavigation';
 
-import {Alert} from 'react-native'
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification'
 
@@ -37,29 +36,28 @@ const App: () => React$Node = () => {
     (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
   );
 
-  const getPushData = (message) => {
-    console.log('message: ', message)
-   const alTitle = message.notification.title
-   const alBody = message.notification.body
-
-    Alert.alert(
-      alTitle, alBody
-      )
-  }
-
-
-  useEffect(()=>{
-    // getToken()
-    // const mes = messaging().onMessage(getPushData);
-  },[])
-
-  messaging().onMessage(getPushData);
 
   const getToken = async() => {
     const token = await messaging().getToken()
     console.log('token::',token)
     setToken(token)
   }
+  useEffect(()=>{
+    getToken()
+  },[])
+
+
+  // const getPushData = (message) => {
+  //   console.log('message: ', message)
+  //   // dispatch(newNotif(message))
+  //  const alTitle = message.notification.title
+  //  const alBody = message.notification.body
+  
+  // }
+  // messaging().onMessage(getPushData);
+
+
+
 
  
     // const getBackgroundPushData = (message) => {

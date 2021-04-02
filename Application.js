@@ -9,6 +9,7 @@ import { setAuthToken } from './src/components/utils/axios';
 
 //login
 import Login from './src/components/login/login'
+import Loading from './src/components/common/loadingScreen'
 import Registration from './src/components/login/registration'
 
 // screens 
@@ -42,10 +43,16 @@ import { likedProposes } from './src/redux/actions/office';
 import { allProjects } from './src/redux/actions/projects';
 import * as RootNavigation from './RootNavigation';
 
-export default function App({deviceToken}) {
+
+import messaging from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification'
+import { newNotif } from './src/redux/actions/notifications';
+
+
+
+export default function App({deviceToken, notification}) {
 const dispatch = useDispatch()
-// const navigation = useNavigation()
-// const Stack = createStackNavigator();
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator()
 const tokenBoulean = useSelector(state=> state.auth.token)
@@ -53,16 +60,12 @@ const user = useSelector(state=>state.auth.user)
 
 const [isAuthenticated, setIsAuthenticated] = useState(false)
 const [createModal, setCreateModal] = useState(false)
-const [redirect, setReditect] = useState(false)
 
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
-      // console.log('result::::::::::::::::::',res)
         res ? setIsAuthenticated(true) : setIsAuthenticated(false)
         setAuthToken(res)
     })    
-   
-
   },[tokenBoulean])
 
   const loadAll = () => {
@@ -73,13 +76,23 @@ useEffect(() => {
       dispatch(allProjects())
       dispatch(allDepartments())
       user && user.division && dispatch(findDepartment(user.division.divname))
-
     }
-    
   }
   useEffect(()=>{
     loadAll()
   },[isAuthenticated])
+
+  useEffect(()=>{
+    messaging().onMessage(getPushData);
+  },[])
+
+  const getPushData = (message) => {
+    console.log('message: ', message)
+    dispatch(newNotif(message))
+   const alTitle = message.notification.title
+   const alBody = message.notification.body
+  
+  }
 
 
   
@@ -98,7 +111,6 @@ useEffect(() => {
               {props => <Registration {...props} deviceToken={deviceToken} />}
           </Stack.Screen>
       </Stack.Navigator>  :
-
 
 
     user && !user.name? <EditProfile initial /> :

@@ -50,7 +50,7 @@ const wait = (timeout) => {
       
         <View style={{backgroundColor: 'white'}}>
             <View style={{height: 100, backgroundColor: 'black',}}>
-                <ImageBackground  source={user? {uri: `${url+user.avatar}`} : require('../../../assets/ava.jpeg')} style={styles.avaBG} blurRadius={50} />
+                <ImageBackground  source={user? {uri: `${url+user.avatar}`} : require('../../../assets/ava.jpeg')} style={styles.avaBG} blurRadius={5} />
             </View>  
             <View style={styles.profileTop}>
               <Image source={user? {uri: `${url+user.avatar}`} : require('../../../assets/ava.jpeg')} style={styles.avatar}/>
