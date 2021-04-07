@@ -104,7 +104,6 @@ export const MY_DEPARTMENT = 'find_my_department'
 export const JOIN_DEPARTMENT = 'join_department'
 export const LEAVE_DEPARTMENT = 'leave_department'
 export const DEPARTMENT_FAIL = 'department_fail'
-export const CLEAR_OPENED_DEPARTMENT = 'clear_opened_dep'
 // msg catch
 export const CLEAR_MSG = 'clear_msg_field'
 //error handler

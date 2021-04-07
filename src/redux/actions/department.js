@@ -29,7 +29,7 @@ export const newDepartment = (formData) => async dispatch  => {
     }
 
 }
-export const clearDeps = () => async dispatch  => {
+export const clearDeps = () => dispatch  => {
   
         dispatch({
             type: CLEAR_DEPS,

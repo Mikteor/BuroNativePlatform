@@ -57,11 +57,12 @@ const chosenSprint = () => {
   const deleteTaskFunc = (taskId) => {
     dispatch(DeleteTask(sprint._id, taskId))
   }
-
+useEffect(()=>{
+  return  dispatch(clearOpenedSprint())
+},[])
 
 const backButton = () => {
   navigation.pop()
-  dispatch(clearOpenedSprint())
 }
 
 if(!sprint){

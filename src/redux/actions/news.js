@@ -76,7 +76,7 @@ export const getNews = (id) => async dispatch  => {
     }
 
 }
-export const clearOpenedNews = () => async dispatch  => {
+export const clearOpenedNews = () => dispatch  => {
    
     dispatch({
           type: CLEAR_OPENED_NEWS,

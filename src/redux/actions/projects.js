@@ -52,14 +52,14 @@ export const clearUrn = () => async dispatch => {
     } catch (error) {
     }
 }
-export const clearOpenedProject = () => async dispatch => {
+export const clearOpenedProject = () => dispatch => {
  
       dispatch({
           type: CLEAR_OPENED_PROJECT,
           payload: ''
       })
 }
-export const clearOpenedSprint = () => async dispatch => {
+export const clearOpenedSprint = () => dispatch => {
  
   dispatch({
       type: CLEAR_OPENED_SPRINT,

@@ -118,7 +118,7 @@ export const getUser = (id) => async dispatch  => {
     } 
 
 }
-export const clearOpenedUser = () => async dispatch  => {
+export const clearOpenedUser = () =>  dispatch  => {
 
       dispatch({
           type: CLEAR_OPENED_USER,

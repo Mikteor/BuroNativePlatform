@@ -21,6 +21,11 @@ useEffect(()=>{
     }
 },[news])
 
+useEffect(()=>{
+    return dispatch(clearOpenedNews())
+},[])
+
+
 if(!news){
     return(
       <Loading/>
@@ -30,7 +35,7 @@ if(!news){
 <View style={styles.container}>
 
       
-    <CommonHeader navigation={navigation} title='Новость' clearState={()=>dispatch(clearOpenedNews())} />
+    <CommonHeader navigation={navigation} title='Новость' />
     
     <ScrollView style={styles.scrollView}>
 

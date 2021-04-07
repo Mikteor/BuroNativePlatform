@@ -51,10 +51,11 @@ const wait = (timeout) => {
   },[cryptProject])
 
   const backHandler = ()=> {
-    dispatch(clearOpenedProject())
    navigation.goBack() 
   }
-
+useEffect(()=>{
+  return dispatch(clearOpenedProject())
+},[])
 
 if (!project) {
   return(

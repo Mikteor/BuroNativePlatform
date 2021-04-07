@@ -34,7 +34,9 @@ const wait = (timeout) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-
+useEffect(()=>{
+  return dispatch(clearOpenedUser())
+},[])
 
 if(!user){
   return(
@@ -53,7 +55,7 @@ if(!user){
             />}
           stickyHeaderIndices={[0]}
           >
-     <CommonHeader navigation={navigation} title='Профиль сотрудника' clearState={()=>dispatch(clearOpenedUser())}/>
+     <CommonHeader navigation={navigation} title='Профиль сотрудника' />
       
         <View style={{backgroundColor: 'white'}}>
             <View style={{height: 100, backgroundColor: 'black',}}>

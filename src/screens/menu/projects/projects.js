@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { StyleSheet, Text, View, Image, TextInput, Button,RefreshControl } from 'react-native';
-import { DataTable } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectedProject, allProjects } from '../../../redux/actions/projects'
+import { allProjects,  } from '../../../redux/actions/projects'
 import CommonHeader from '../../../components/common/header/commonHeader'
 import CommonTitle from '../../../components/common/titles'
 import ProjectRow from '../../../components/main/myProjects'
@@ -26,12 +25,7 @@ const Projects = ({navigation}) => {
   
   const projects = useSelector(state=>state.projects.projects)
   
-  const projectPress = (crypt, el) => {
-    // console.log('crypt',crypt)
-    // console.log('project',el)
-    dispatch(selectedProject(crypt))
-    navigation.navigate('project')
-  }
+
 
   return (
     

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet,  View, Button , Text, } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import CommonHeader from '../../components/common/header/commonHeader'
 
 import { allNews, createNews } from '../../redux/actions/news';
 
@@ -15,7 +16,7 @@ const ref2 = useRef(null)
 
 const [formData, setFormData ] = useState({
   title: '',
-  subtitle: '',
+  subtitle: 'Подзаголовок',
   text: '',
 });
 
@@ -36,7 +37,7 @@ const onSubmit = e => {
 
   return (
     <View style={styles.container}>
-
+      <CommonHeader title={'Создать новость'} navigation={navigation} />
       <View style={styles.title}>
           <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
           <Text style={{marginRight: 'auto',marginLeft: 10, color: '#7C7C7C'}}>Создать новость</Text>
@@ -48,13 +49,13 @@ const onSubmit = e => {
         onChangeText={(text)=>setFormData({...formData, title: text})}
         // leftIcon={<Icon name="account" size={24} color="black" />}
         />
-        <Input
+        {/* <Input
         ref={ref1}
         placeholder='Подзаголовок'
         onChangeText={(text)=>setFormData({...formData, subtitle: text})}
         
         // leftIcon={<Icon name="account" size={24} color="black" />}
-        />
+        /> */}
       <Input
         ref={ref2}
         placeholder='Текст'
@@ -76,8 +77,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
     
   },
   title: {

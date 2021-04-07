@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { StyleSheet,  View, Button , Text, } from 'react-native';
 import { Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import CommonHeader from '../../components/common/header/commonHeader'
 
 import { likedProposes, newPropose } from '../../redux/actions/office';
 
@@ -34,6 +35,7 @@ const onSubmit = e => {
 
   return (
     <View style={styles.container}>
+      <CommonHeader title={'Создать предложение'} navigation={navigation} />
 
       <View style={styles.title}>
           <Icon name='account-group-outline' color='#7C7C7C' size={24}/>
@@ -67,8 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+
     
   },
   title: {

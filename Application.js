@@ -48,7 +48,7 @@ import * as RootNavigation from './RootNavigation';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification'
 import { newNotif } from './src/redux/actions/notifications';
-
+import Preload from './src/components/common/loadingScreen'
 
 
 export default function App({deviceToken, notification}) {
@@ -61,7 +61,13 @@ const user = useSelector(state=>state.auth.user)
 
 const [isAuthenticated, setIsAuthenticated] = useState(false)
 const [createModal, setCreateModal] = useState(false)
+const [preload, setPreload] = useState(true)
 
+useEffect(()=>{
+  setTimeout(() => {
+    setPreload(false)
+  }, 1000);
+},[])
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
         res ? setIsAuthenticated(true) : setIsAuthenticated(false)
@@ -83,10 +89,7 @@ useEffect(() => {
     loadAll()
   },[isAuthenticated])
 
-  // useEffect(()=>{
-  //   messaging().onMessage(getPushData);
-  
-  // },[])
+
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
      getPushData(remoteMessage)
@@ -99,9 +102,11 @@ useEffect(() => {
     const back = messaging().setBackgroundMessageHandler(async remoteMessage => {
      getPushData(remoteMessage)
     });
-
     return back;
   }, []);
+  const getPushData = (message) => {
+    dispatch(loadUser())
+  }
 // messaging().setBackgroundMessageHandler(async remoteMessage => {
 //   console.log('Message handled in the background!', remoteMessage);
 //   PushNotification.localNotification({
@@ -111,17 +116,14 @@ useEffect(() => {
 //     largeIconUrl: remoteMessage.notification.android.imageUrl,
 //   })
 // });
-  const getPushData = (message) => {
-    console.log('message: ', message)
-    dispatch(loadUser())
-    // dispatch(newNotif(message))
-   const alTitle = message.notification.title
-   const alBody = message.notification.body
-  
+
+
+
+  if(preload){
+    return(
+      <Preload />
+    )
   }
-
-
-  
 
   return (
     

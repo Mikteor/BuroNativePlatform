@@ -26,7 +26,9 @@ const onRefresh = React.useCallback(() => {
   },2000)
 }, []);
 
-
+useEffect(()=>{
+  return dispatch(clearDeps())
+},[])
 
 
 if(!department){
@@ -42,7 +44,7 @@ if(!department){
             refreshing={refreshing}
             onRefresh={onRefresh}
           />}>
-      <CommonHeader navigation={navigation} title={'Отдел "'+department && department.divname+'"'} clearState={()=>dispatch(clearDeps())}/>
+      <CommonHeader navigation={navigation} title={'Отдел "'+department && department.divname+'"'}/>
       <DepartmentComponent navigation={navigation} department={department} />
   </ScrollView>
   );

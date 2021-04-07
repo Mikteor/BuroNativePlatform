@@ -35,7 +35,7 @@ const onSubmit = e => {
     
     <View style={styles.container}>
       <View style={{position: 'absolute', top: 0, left: 0, width: '100%'}}>
-        <CommonHeader navigation={navigation}/>
+        <CommonHeader navigation={navigation} title='Регистрация'/>
       </View>
   
         <Input
