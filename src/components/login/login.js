@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Image, TextInput,  } from 'react-native';
 // import  storage  from '../../components/localStorage/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Input, Button } from 'react-native-elements';
+import { SvgUri } from 'react-native-svg';
 
 
 
@@ -48,6 +49,11 @@ const onSubmit = () => {
       <Button title='Подтвердить' onPress={onSubmit} />
       <Button title='Регистрация' type='clear'  onPress={()=>navigation.navigate('registration')} />
       {/* <Button title='log' onPress={log} /> */}
+      <SvgUri
+    width="100%"
+    height="100%"
+    uri="http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
+  />
      
   
 
