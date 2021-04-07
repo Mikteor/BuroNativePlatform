@@ -66,7 +66,7 @@ const [preload, setPreload] = useState(true)
 useEffect(()=>{
   setTimeout(() => {
     setPreload(false)
-  }, 1000);
+  }, 10000);
 },[])
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
