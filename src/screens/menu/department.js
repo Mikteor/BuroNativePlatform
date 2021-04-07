@@ -3,10 +3,11 @@ import {useDispatch, useSelector} from 'react-redux'
 import { StyleSheet, Text, View, ScrollView, Image, TextInput,RefreshControl } from 'react-native';
 
 import { loadUser } from '../../redux/actions/auth';
-import { findDepartment } from '../../redux/actions/department';
+import { clearDeps, findDepartment } from '../../redux/actions/department';
 
 import DepartmentComponent from '../../components/departments/departmentComponent'
 import CommonHeader from '../../components/common/header/commonHeader'
+import Loadscreen from '../../components/common/loadingScreen'
 
 
 
@@ -28,7 +29,11 @@ const onRefresh = React.useCallback(() => {
 
 
 
-
+if(!department){
+  return(
+    <Loadscreen />
+  )
+}
   return (
     
   <ScrollView style={styles.container} 
@@ -37,7 +42,7 @@ const onRefresh = React.useCallback(() => {
             refreshing={refreshing}
             onRefresh={onRefresh}
           />}>
-      <CommonHeader navigation={navigation} title={'Отдел "'+department.divname+'"'}/>
+      <CommonHeader navigation={navigation} title={'Отдел "'+department && department.divname+'"'} clearState={()=>dispatch(clearDeps())}/>
       <DepartmentComponent navigation={navigation} department={department} />
   </ScrollView>
   );

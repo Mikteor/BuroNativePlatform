@@ -17,9 +17,10 @@ import Loading from '../components/common/loadingScreen'
 import NotificationBell from '../components/common/header/notificationBell'
 // import DocumentPicker from 'react-native-document-picker';
 
-const Main = ({navigation}) => {
+const Main = ({navigation, route}) => {
 
-
+const params = route.params
+console.log(params)
   // try {
   //   const res = await DocumentPicker.pick({
   //     type: [DocumentPicker.types.images],
@@ -70,6 +71,10 @@ const loadAll = () => {
 useEffect(()=>{
   user && loadAll()
 },[])
+
+useEffect(()=>{
+ params && params.newsNotification && setButton(1)
+},[params])
 
 if(!user){
   return(
@@ -126,7 +131,7 @@ if(!user){
               {selectedButton == 0? 
                   <MyProjects navigation={navigation} projects={user && user.projects} /> :
               selectedButton == 1 &&
-                  <News noHeader /> 
+                  <News noHeader navigation={navigation} /> 
               }
 
         </View>

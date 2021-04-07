@@ -1,5 +1,5 @@
 
-import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED, CHANGE_USERDATA, CHANGE_AVATAR, CHANGE_LOADED, ADD_SPRINT_TO_CHOSEN, CLEAR_MSG, CLEAR_ERROR, LOG_OUT, JOIN_DEPARTMENT} from '../types'
+import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED, CHANGE_USERDATA, CHANGE_AVATAR, CHANGE_LOADED, ADD_SPRINT_TO_CHOSEN, CLEAR_MSG, CLEAR_ERROR, LOG_OUT, JOIN_DEPARTMENT, NOTIFICATION_CLICK} from '../types'
 // import  storage  from '../../components/localStorage/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -99,7 +99,12 @@ export default function(state = initialState, action) {
                     isAuthenticated: false,
                     error: payload.err
                 }
-            
+            case NOTIFICATION_CLICK:
+                console.log('payliad', payload.notifications)
+                return {
+                    ...state,
+                    user: payload
+                }
             
             default: 
                 return state;

@@ -16,9 +16,12 @@ import { allProjects, selectedProject } from '../../redux/actions/projects';
 import MyProjects from '../../components/main/myProjects'
 import {url} from '../../components/utils/axios'
 import CommonHeader from '../../components/common/header/commonHeader'
+import { clearOpenedUser } from '../../redux/actions/user';
+import Loadscreen from '../../components/common/loadingScreen'
 
 
 const TeamMateProfile = ({navigation,}) => {
+  const dispatch = useDispatch()
 const user = useSelector(state=>state.users.user)
 
 const [refreshing, setRefreshing] = React.useState(false);
@@ -33,7 +36,11 @@ const wait = (timeout) => {
 
 
 
-
+if(!user){
+  return(
+    <Loadscreen />
+  )
+}
 
   return (
     
@@ -46,7 +53,7 @@ const wait = (timeout) => {
             />}
           stickyHeaderIndices={[0]}
           >
-     <CommonHeader navigation={navigation} title='Профиль сотрудника'/>
+     <CommonHeader navigation={navigation} title='Профиль сотрудника' clearState={()=>dispatch(clearOpenedUser())}/>
       
         <View style={{backgroundColor: 'white'}}>
             <View style={{height: 100, backgroundColor: 'black',}}>

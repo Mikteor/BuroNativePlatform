@@ -17,36 +17,41 @@ const user = useSelector(state=>state.auth.user)
 const buttons = [
   {
   name: "Все отделы",
-  navigate: 'allDepartments'
+  navigate: 'allDepartments',
+  icon: 'account-group-outline'
   },
     {
   name: "Все проекты",
-  navigate: 'projects'
+  navigate: 'projects',
+  icon: 'ballot-outline'
   },
     {
   name: "Сотрудники",
-  navigate: 'buroTeam'
+  navigate: 'buroTeam',
+  icon:'account-multiple-outline'
   },
   //   {
   // name: "Субподрядчики",
   // navigate: 'smejniki'
   // },
+  {name:'Настройки',
+  navigate: 'editProfile',
+  icon: 'cog-outline'
+  },
 ]
-const scndGroup = [ 
-  {name:'Изменить профиль',
-  navigate: 'editProfile'
-  },]
 
 
 
   return (
     
     <ScrollView style={styles.container}>
-      <View style={styles.avatar}>
-          <ImageBackground source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avaBG}>
+      <View style={styles.profile}>
+          <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} width={60} height={60} style={styles.avatar} />
+          <View>
             <Text style={styles.name}>{user? user.fullname: 'Имя'}</Text>
             <Text style={styles.postition}>{user? user.position: 'Должность'}</Text>
-          </ImageBackground>
+          </View>
+
       </View>
 
       {buttons.map((el,i)=>{
@@ -58,33 +63,15 @@ const scndGroup = [
           tension={100} // These props are passed to the parent component (here TouchableScale)
           activeScale={0.95} //
           >
-              <Icon name="rhombus-outline" color='white' size={24}  />
+              <Icon name={el.icon} color='#96A7AF' size={24}  />
               <ListItem.Content>
                 <ListItem.Title style={styles.buttText}>{el.name}</ListItem.Title>
               </ListItem.Content>
-              <ListItem.Chevron />
+              {/* <ListItem.Chevron /> */}
           </ListItem>
           )
       })}
-      <Divider style={{marginVertical: 20,}}/>
-      {scndGroup.map((el,i)=>{
-        return(
-          <ListItem key={'scndGroup'+i} containerStyle={styles.buttContainer}
-          onPress={()=>navigation.navigate(el.navigate)}
-          Component={TouchableScale}
-          friction={90} //
-          tension={100} // These props are passed to the parent component (here TouchableScale)
-          activeScale={0.95} //
-          >
-              <Icon name="rhombus-outline" color='white' size={24}  />
-              <ListItem.Content>
-                <ListItem.Title style={styles.buttText}>{el.name}</ListItem.Title>
-              </ListItem.Content>
-              <ListItem.Chevron />
-          </ListItem>
-          )
-      })}
-      <Divider style={{marginVertical: 20,}}/>
+     
 
       <ListItem containerStyle={styles.exitButton} onPress={()=>setExit(true)}
           Component={TouchableScale}
@@ -95,7 +82,7 @@ const scndGroup = [
               <ListItem.Content>
                 <ListItem.Title style={styles.buttText}>Выйти из аккаунта</ListItem.Title>
               </ListItem.Content>
-              <ListItem.Chevron />
+              {/* <ListItem.Chevron /> */}
         </ListItem>
 
       
@@ -128,34 +115,38 @@ export default Main
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#3F496C',
+      backgroundColor: 'black',
       
       // alignItems: 'center',
       // justifyContent: 'center',
     },
   exitButton: {
-    backgroundColor: '#3F496C',
+    backgroundColor: 'black',
     marginTop: -5,
     paddingLeft: 50,
     
   },
   buttContainer: {
-    backgroundColor: '#3F496C',
+    backgroundColor: 'black',
   },
   buttText: {
-    color: 'white',
+    color: '#96A7AF',
+  },
+  profile: {
+    // height: 150,
+    marginBottom: 30,
+    flexDirection: 'row',
+    paddingTop: 30,
+    paddingHorizontal: 15,
   },
   avatar: {
-    height: 150,
-    marginBottom: 30,
-  },
-  avaBG : {
-    flex: 1,
-    resizeMode: "cover",
-    paddingLeft: 10,
+    width: 100,
+    height: 100,
+    borderRadius:100,
+    marginRight:10,
+    // resizeMode: "cover",
   },
   name: {
-    marginTop: 'auto',
     fontSize: 24,
     color: 'white',
     textShadowRadius: 10,

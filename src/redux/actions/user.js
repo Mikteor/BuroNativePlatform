@@ -1,5 +1,5 @@
 import { innerBackend } from "../../components/utils/axios";
-import { ALL_USERS, USER_ERR, CHANGE_PERMISSION, PERM_RETURN, ONE_USER,SEARCH_USER, CLEAR_ERROR, CLEAR_MSG,ADD_CONTRACTOR,ALL_CONTRACTORS, PARTITION_UPDATE } from "../types";
+import { ALL_USERS, USER_ERR, CHANGE_PERMISSION, PERM_RETURN, ONE_USER,SEARCH_USER, CLEAR_ERROR, CLEAR_MSG,ADD_CONTRACTOR,ALL_CONTRACTORS, PARTITION_UPDATE, CLEAR_OPENED_USER } from "../types";
 
 
 
@@ -116,6 +116,15 @@ export const getUser = (id) => async dispatch  => {
       })
           
     } 
+
+}
+export const clearOpenedUser = () => async dispatch  => {
+
+      dispatch({
+          type: CLEAR_OPENED_USER,
+          payload: ''
+      })
+    
 
 }
 export const addContractor = (formData) => async dispatch  => {

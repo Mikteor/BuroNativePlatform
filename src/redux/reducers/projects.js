@@ -1,5 +1,5 @@
 
-import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_TASK, CREATE_PROJECT, GET_PROJECT, SPRINT_ERROR, ALL_SPRINT, UPDATE_PROJECT, GET_SPRINT, GET_TOKEN, ADD_TASKS, FINISH_TASK, DELETE_PROJECT, FINISH_SPRINT, JOIN_TEAM,ADD_SPRINT_TO_CHOSEN,FINISH_PROJECT, ADD_INFO_SPRINT, CLEAR_MSG, CLEAR_ERROR, GET_URN, DELETE_SPRINT, CLEAR_URN, SELECTED_PROJECT, ADD_USER_TO_TASK } from '../types'
+import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_TASK, CREATE_PROJECT, GET_PROJECT, SPRINT_ERROR, ALL_SPRINT, UPDATE_PROJECT, GET_SPRINT, GET_TOKEN, ADD_TASKS, FINISH_TASK, DELETE_PROJECT, FINISH_SPRINT, JOIN_TEAM,ADD_SPRINT_TO_CHOSEN,FINISH_PROJECT, ADD_INFO_SPRINT, CLEAR_MSG, CLEAR_ERROR, GET_URN, DELETE_SPRINT, CLEAR_URN, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT } from '../types'
 
 
 
@@ -234,7 +234,16 @@ export default function(state = initialState, action) {
                        ...state,
                        selectedProject: payload,
                    }
-            
+                   case CLEAR_OPENED_PROJECT:
+                    return {
+                        ...state,
+                        project: null,
+                    }
+                    case CLEAR_OPENED_SPRINT:
+                    return {
+                        ...state,
+                        sprint: null,
+                    }
             default: 
                 return state;
     }

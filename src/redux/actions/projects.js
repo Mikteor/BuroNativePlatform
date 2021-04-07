@@ -1,5 +1,5 @@
 import { innerBackend, instance } from "../../components/utils/axios";
-import { ADD_SPRINT, SORT_PROJECTS, ADD_TASKS,CLEAR_URN, ALL_PROJECTS, ALL_SPRINT, EDIT_TASK, CREATE_FAIL, DELETE_PROJECT,EDIT_PROJECT, FINISH_SPRINT, FINISH_TASK, GET_PROJECT,CREATE_PROJECT, GET_SPRINT, JOIN_TEAM, PROJECT_ID, SPRINT_ERROR, FINISH_PROJECT,ADD_INFO_SPRINT,CLEAR_MSG, CLEAR_ERROR, DELETE_SPRINT, PROJECTS_SORT, SELECTED_PROJECT, ADD_USER_TO_TASK  } from "../types";
+import { ADD_SPRINT, SORT_PROJECTS, ADD_TASKS,CLEAR_URN, ALL_PROJECTS, ALL_SPRINT, EDIT_TASK, CREATE_FAIL, DELETE_PROJECT,EDIT_PROJECT, FINISH_SPRINT, FINISH_TASK, GET_PROJECT,CREATE_PROJECT, GET_SPRINT, JOIN_TEAM, PROJECT_ID, SPRINT_ERROR, FINISH_PROJECT,ADD_INFO_SPRINT,CLEAR_MSG, CLEAR_ERROR, DELETE_SPRINT, PROJECTS_SORT, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT  } from "../types";
 
 
 
@@ -52,8 +52,20 @@ export const clearUrn = () => async dispatch => {
     } catch (error) {
     }
 }
-
-
+export const clearOpenedProject = () => async dispatch => {
+ 
+      dispatch({
+          type: CLEAR_OPENED_PROJECT,
+          payload: ''
+      })
+}
+export const clearOpenedSprint = () => async dispatch => {
+ 
+  dispatch({
+      type: CLEAR_OPENED_SPRINT,
+      payload: ''
+  })
+}
 export const allProjects = () => async dispatch  => {
     
     try {

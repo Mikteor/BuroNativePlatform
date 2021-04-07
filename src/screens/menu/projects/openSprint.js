@@ -8,10 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../../redux/actions/auth';
 import { usersPartition } from '../../../redux/actions/user';
 import { loadUser } from '../../../redux/actions/auth';
-import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint } from '../../../redux/actions/projects';
+import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint, clearOpenedSprint } from '../../../redux/actions/projects';
 import CommonHeader from '../../../components/common/header/commonHeader'
 import TaskRow from '../../../components/projects/sprintTaskRow'
 import Confirm from '../../../components/common/confirm'
+import Loadscreen from '../../../components/common/loadingScreen'
 
 const Project = ({ navigation, route}) => {
   const dispatch = useDispatch()
@@ -58,9 +59,16 @@ const chosenSprint = () => {
   }
 
 
+const backButton = () => {
+  navigation.pop()
+  dispatch(clearOpenedSprint())
+}
 
-
-
+if(!sprint){
+  return(
+    <Loadscreen />
+  )
+}
   return (
     
  
@@ -68,7 +76,7 @@ const chosenSprint = () => {
         <View style={style.container}>
           
                 <View style={style.topRow}>
-                    <Text onPress={()=>navigation.pop()}>Назад</Text>
+                    <Text onPress={()=>backButton()}>Назад</Text>
                     <Icon style={style.iconChosen} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint()}/>
                 </View>
                 <View style={style.nameBlock}> 

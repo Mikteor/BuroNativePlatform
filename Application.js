@@ -29,6 +29,7 @@ import CreateNews from './src/screens/create/createNews'
 import OpenSprint from './src/screens/menu/projects/openSprint'
 import TeamMateProfile from './src/screens/menu/teamMateProfile'
 import Department from './src/screens/menu/department'
+import OneNews from './src/screens/menu/oneNews'
 //
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -82,13 +83,38 @@ useEffect(() => {
     loadAll()
   },[isAuthenticated])
 
-  useEffect(()=>{
-    messaging().onMessage(getPushData);
-  },[])
+  // useEffect(()=>{
+  //   messaging().onMessage(getPushData);
+  
+  // },[])
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+     getPushData(remoteMessage)
+    });
 
+    return unsubscribe;
+  }, []);
+  // Register background handler
+  useEffect(() => {
+    const back = messaging().setBackgroundMessageHandler(async remoteMessage => {
+     getPushData(remoteMessage)
+    });
+
+    return back;
+  }, []);
+// messaging().setBackgroundMessageHandler(async remoteMessage => {
+//   console.log('Message handled in the background!', remoteMessage);
+//   PushNotification.localNotification({
+//     channelId: 'channel-id',
+//     title: remoteMessage.notification.title,
+//     message: 'remoteMessage.notification.body',
+//     largeIconUrl: remoteMessage.notification.android.imageUrl,
+//   })
+// });
   const getPushData = (message) => {
     console.log('message: ', message)
-    dispatch(newNotif(message))
+    dispatch(loadUser())
+    // dispatch(newNotif(message))
    const alTitle = message.notification.title
    const alBody = message.notification.body
   
@@ -134,7 +160,7 @@ useEffect(() => {
                     <Stack.Screen name='main' component={Main}/>
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
-                    {/* <Stack.Screen name='createSprint' component={CreateNewSprint}/> */}
+                    <Stack.Screen name='oneNews' component={OneNews}/>
                   </Stack.Navigator>
                   }
           </Tab.Screen>
@@ -145,7 +171,6 @@ useEffect(() => {
                     <Stack.Screen name='project' component={Project}/>
                     <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
-                    {/* <Stack.Screen name='createSprint' component={CreateNewSprint}/> */}
                   </Stack.Navigator>
                   }
           </Tab.Screen>
@@ -153,10 +178,10 @@ useEffect(() => {
                 name='Create'  
                 options={{
                   tabBarLabel: '',
-                  tabBarButton:()=>
+                  tabBarButton:({accessibilityState})=> 
                   <View style={{ backgroundColor: 'black'}}>
-                    <Icon name="plus" color={'white'} size={55} style={{marginHorizontal: 10}}  onPress={()=>setCreateModal(true)} />
-                  </View>
+                    <Icon name="plus" color={accessibilityState.selected? 'white': createModal? 'white' : 'grey'} size={55} style={{marginHorizontal: 10}}  onPress={()=>setCreateModal(true)} />
+                  </View>,
                   }}
                   >
                   {e => 
@@ -181,10 +206,10 @@ useEffect(() => {
                     <Stack.Screen name='editProfile' component={EditProfile}/>
                     <Stack.Screen name='projects' component={Projects}/>
                     <Stack.Screen name='project' component={Project}/>
-                    {/* <Stack.Screen name='createSprint' component={CreateNewSprint}/> */}
                     <Stack.Screen name='openSprint' component={OpenSprint}/>
                     <Stack.Screen name='teamMateProfile' component={TeamMateProfile}/>
                     <Stack.Screen name='dep' component={Department}/>
+                    <Stack.Screen name='oneNews' component={OneNews}/>
                   </Stack.Navigator>
                   }
           </Tab.Screen>

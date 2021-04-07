@@ -10,8 +10,9 @@ import Info from '../../../components/projects/info'
 import Model from '../../../components/projects/model'
 import History from '../../../components/projects/history'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProject } from '../../../redux/actions/projects'
+import { clearOpenedProject, getProject } from '../../../redux/actions/projects'
 import CreateNewSprint from '../../../components/projects/createNewSprint'
+import Loadscreen from '../../../components/common/loadingScreen'
 
 const Project = ({navigation}) => {
   const dispatch = useDispatch()
@@ -50,16 +51,14 @@ const wait = (timeout) => {
   },[cryptProject])
 
   const backHandler = ()=> {
-
+    dispatch(clearOpenedProject())
    navigation.goBack() 
   }
 
 
 if (!project) {
   return(
-  <View style={{flex: 1,justifyContent:'center', alignContent: 'center'}}>
-    <Text style={{textAlign: 'center'}}>loading...</Text>
-  </View>
+  <Loadscreen />
   )
 } 
 
@@ -103,7 +102,7 @@ if (!project) {
 
 
       {selectedButton==0? <SprintPage  project={project} navigation={navigation}/> : 
-       selectedButton==1? <TeamPage team={project.team2} crypt={cryptProject} user={user}/> :
+       selectedButton==1? <TeamPage navigation={navigation} team={project.team2} crypt={cryptProject} user={user}/> :
        selectedButton==2? <Model /> :
        selectedButton==3? <Info project={project} user={user} /> :
        selectedButton==4 && <History project={project} navigation={navigation}/>}

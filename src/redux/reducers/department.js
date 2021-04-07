@@ -1,10 +1,11 @@
-import { NEW_DEPARTMENT, ALL_DEPARTMENTS, FIND_DEPARTMENT, JOIN_DEPARTMENT, LEAVE_DEPARTMENT, DEPARTMENT_FAIL,CLEAR_DEPS} from "../types";
+import { NEW_DEPARTMENT, ALL_DEPARTMENTS, FIND_DEPARTMENT, JOIN_DEPARTMENT, LEAVE_DEPARTMENT, DEPARTMENT_FAIL,CLEAR_DEPS, MY_DEPARTMENT} from "../types";
 
 
 
 const initialState = {
     departments: null,
     findDep: null,
+    myDepartment: null,
     loaded: false,
     reload: false,
     
@@ -64,7 +65,14 @@ export default function(state = initialState, action) {
 
                     error:''
                 }
-
+                case MY_DEPARTMENT:
+                    return {
+                        ...state,
+                        myDepartment: payload.division,
+                        reload: !state.reload,
+    
+                        error:''
+                    }
             case LEAVE_DEPARTMENT:
 // console.log('leave' , payload)
 

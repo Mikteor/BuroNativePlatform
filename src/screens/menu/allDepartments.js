@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 
 import { ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
-import { allDepartments, findDepartment } from '../../redux/actions/department'
+import { allDepartments, clearDeps, findDepartment } from '../../redux/actions/department'
 import CommonHeader from '../../components/common/header/commonHeader'
 import CommonTitle from '../../components/common/titles'
 import { round } from 'react-native-reanimated';
@@ -16,7 +16,6 @@ const dispatch = useDispatch()
 const departments = useSelector(state => state.departments.departments)
 useEffect(()=>{
   dispatch(allDepartments())
-
 },[])
 const depPress = (divname) => {
   dispatch(findDepartment(divname))

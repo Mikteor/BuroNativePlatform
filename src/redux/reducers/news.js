@@ -1,4 +1,4 @@
-import { ALL_NEWS,CREATE_NEWS, GET_NEWS, DELETE_NEWS, UPDATE_NEWS, NEWS_FAIL, CLEAR_MSG, CLEAR_ERROR, } from "../types";
+import { ALL_NEWS,CREATE_NEWS, GET_NEWS, DELETE_NEWS, UPDATE_NEWS, NEWS_FAIL, CLEAR_MSG, CLEAR_ERROR, CLEAR_OPENED_NEWS} from "../types";
 
 
 
@@ -51,7 +51,7 @@ export default function(state = initialState, action) {
             case GET_NEWS:
                 return {
                     ...state,
-                    getNews: payload,
+                    getNews: payload.news,
                     // loadNews: true,
 
                     error: ''
@@ -78,7 +78,12 @@ export default function(state = initialState, action) {
                         error: payload,
                        
                     }
-            
+                    case CLEAR_OPENED_NEWS:
+                        return {
+                            ...state,
+                            getNews: null,
+                           
+                        }
             default: 
                 return state;
     }

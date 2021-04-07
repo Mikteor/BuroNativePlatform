@@ -49,25 +49,13 @@ const dayPress = (day) => {
 useEffect(()=>{
   const date = new Date(task.deadline)
   const dateNaN = isNaN(date)
+  const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря',]
   const day = date.getDate()
-  const month = date.getMonth()
+  const month = months[date.getMonth()]
   
-  const ded = `${day} ${
-    month==0? 'Янв' :
-    month==1? 'Фев' :
-    month==2? 'Мар' :
-    month==3? 'Апр' :
-    month==4? 'Мая' :
-    month==5? 'Июн' :
-    month==6? 'Июл' :
-    month==7? 'Авг' :
-    month==8? 'Сен' :
-    month==9? 'Окт' :
-    month==10? 'Ноя' :
-    month==11 && 'Дек' 
-  }`
+  const ded = day + ' ' + month
   !dateNaN && task.deadline!='2011-11-11T00:00:00.000Z' && setDeadline(ded)
-  console.log(month)
+  // console.log(month)
 },[sprint])
 
   return (

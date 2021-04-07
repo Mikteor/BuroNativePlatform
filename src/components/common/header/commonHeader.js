@@ -3,11 +3,11 @@ import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
-const CommonHeader = ({navigation, title}) => {
+const CommonHeader = ({navigation, title, clearState}) => {
 
 const backHandler = () =>{
    navigation.goBack()
-  
+   clearState && clearState()
 }
   return (
     

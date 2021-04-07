@@ -1,5 +1,5 @@
 import { innerBackend } from "../../components/utils/axios";
-import { NEW_DEPARTMENT, ALL_DEPARTMENTS, FIND_DEPARTMENT, JOIN_DEPARTMENT, LEAVE_DEPARTMENT, DEPARTMENT_FAIL,CLEAR_DEPS} from "../types";
+import { NEW_DEPARTMENT, ALL_DEPARTMENTS, FIND_DEPARTMENT, JOIN_DEPARTMENT, LEAVE_DEPARTMENT, DEPARTMENT_FAIL,CLEAR_DEPS, MY_DEPARTMENT} from "../types";
 
 
 
@@ -82,7 +82,22 @@ export const findDepartment = (divname) => async dispatch  => {
     }
 
 }
+export const myDepartment = (divname) => async dispatch  => {
+    try {
+        const res = await innerBackend.get(`/divisions/find/${divname}`)
 
+
+        dispatch({
+            type: MY_DEPARTMENT,
+            payload: res.data
+        })
+
+        }
+      catch (err) {
+       console.log('myDepError',err)
+    }
+
+}
 export const joinDepartment = (id) => async dispatch  => {
     try {
 // console.log('join1' , id)

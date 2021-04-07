@@ -8,7 +8,7 @@ import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {url} from '../components/utils/axios'
 import { loadUser } from '../redux/actions/auth';
-import { findDepartment } from '../redux/actions/department';
+import { findDepartment, myDepartment } from '../redux/actions/department';
 import CommonTitle from '../components/common/titles'
 import ProjectItem from '../components/main/myProjects'
 import DepartmentComponent from '../components/departments/departmentComponent'
@@ -19,7 +19,7 @@ import TabHeader from '../components/common/header/tabHeader'
 const Main = ({navigation}) => {
 const dispatch = useDispatch()
 const user = useSelector(state=>state.auth.user)
-const department = useSelector(state => state.departments.findDep)
+const department = useSelector(state => state.departments.myDepartment)
 const [refreshing, setRefreshing] = useState(false);
 
 const onRefresh = React.useCallback(() => {
@@ -32,11 +32,13 @@ const onRefresh = React.useCallback(() => {
 }, []);
 
 useEffect(()=>{
-  user && user.division && dispatch(findDepartment(user.division.divname))
+  user && user.division && dispatch(myDepartment(user.division.divname))
 },[user])
 
 
 if(!user || !department){
+  !user && dispatch(loadUser())
+  !department && user && dispatch(myDepartment(user.division.divname))
   return(
     <Loading />
   )

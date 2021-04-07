@@ -9,9 +9,10 @@ import {url} from '../utils/axios'
 import { getProject, joinTeam } from '../../redux/actions/projects';
 import { useDispatch } from 'react-redux';
 import { loadUser } from '../../redux/actions/auth';
+import { getUser } from '../../redux/actions/user';
 import JoinModal from '../../components/projects/joinTeamModal';
 
-const Project = ({team, crypt, user}) => {
+const Project = ({navigation, team, crypt, user}) => {
 const dispatch = useDispatch()
 const userInTeam = team && team.some(el=> el.user._id==user._id)
   const [join, setJoin] = useState('')
@@ -24,6 +25,10 @@ const joinTeamFunc = () => {
   setRole('')
   setTask('')
   setJoin(false)
+}
+const teamClick =(id) => {
+  dispatch(getUser(id))
+  navigation.navigate( 'teamMateProfile' )
 }
 
   return (
@@ -40,6 +45,7 @@ const joinTeamFunc = () => {
               <View
                 style={teamStyle.card}
                 key={'team'+i}  
+                onTouchEnd={()=>teamClick(el.user._id)}
                 // containerStyle={styles.buttContainer}
                 // Component={TouchableScale}
                 // friction={90} //

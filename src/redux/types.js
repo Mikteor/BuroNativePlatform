@@ -18,6 +18,7 @@ export const GET_EMPLOYE = 'get_users';
 export const CHANGE_PERMISSION = 'change_permission';
 export const ONE_USER = 'get_one'
 export const PARTITION_UPDATE = 'update_user_partition';
+export const CLEAR_OPENED_USER = 'clear_opened_user';
 
 //user errors
 export const USER_ERR = 'get_all_users_error'
@@ -36,6 +37,8 @@ export const PROJECT_ID = 'project_updated';
 export const DELETE_PROJECT = 'delete_project'
 export const FINISH_PROJECT = 'finish_project'
 export const ADD_USER_TO_TASK = 'add_user_to_task'
+export const CLEAR_OPENED_PROJECT = 'clear_opened_project'
+
 // for mobile
 export const SELECTED_PROJECT = 'selected_project_in_mobile'
 
@@ -53,6 +56,8 @@ export const ALL_SPRINT = 'get_project_sprints'
 export const FINISH_SPRINT = 'finish_sprint' 
 export const ADD_SPRINT_TO_CHOSEN = 'add_sprint_to_chosen' 
 export const DELETE_SPRINT = 'delete_sprint'
+export const CLEAR_OPENED_SPRINT = 'clear_opened_sprint'
+
 //teams
 export const JOIN_TEAM = 'join_to_team'
 //projects errors
@@ -67,6 +72,7 @@ export const GET_NEWS = 'get_news'
 export const DELETE_NEWS = 'delete_news'
 export const UPDATE_NEWS = 'update_news'
 export const NEWS_FAIL = 'fail_on_news'
+export const CLEAR_OPENED_NEWS = 'clear_opened_news'
 
 
 /////SYSTEM ADMIN
@@ -94,10 +100,11 @@ export const IN_WORK = 'in_work'
 export const NEW_DEPARTMENT = 'new_department'
 export const ALL_DEPARTMENTS = 'all_departments'
 export const FIND_DEPARTMENT = 'find_department'
+export const MY_DEPARTMENT = 'find_my_department'
 export const JOIN_DEPARTMENT = 'join_department'
 export const LEAVE_DEPARTMENT = 'leave_department'
 export const DEPARTMENT_FAIL = 'department_fail'
-
+export const CLEAR_OPENED_DEPARTMENT = 'clear_opened_dep'
 // msg catch
 export const CLEAR_MSG = 'clear_msg_field'
 //error handler
@@ -120,6 +127,8 @@ export const CLEAR_DEPS = 'clear_deps'
 /// notifications
 export const NEW_NOTIFICATION = 'new_notification'
 export const CLEAR_NOTIFICATIONS = 'clear_notifications'
+export const NOTIFICATION_CLICK = 'notif_click'
+
 
 ///errors
 
