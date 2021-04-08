@@ -2,6 +2,7 @@ import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED,CHANGE_AVATAR,CLEAR_MSG,CLEAR_E
 import {innerBackend, instance, setAuthToken, url} from '../../components/utils/axios'
 
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {url} from '../../components/utils/axios'
 
 
@@ -140,22 +141,26 @@ export const changeAvatar = (file) => async dispatch  => {
 
 
   try {
-    console.log('avatar change 1', file)
   
   const form = new FormData()
-  if(file){
-      form.append(
+        form.append(
           'file',
-          {uri: file.uri, name: 'image.jpg', type: 'image/jpeg'}
+          {uri: file.uri, name: file.fileName, type: 'image/jpeg'}
         )
-  }
    
-  console.log('avatar change 2', form)
-      console.log(form.get('file'), 'file HERE')
+      let token = ''
+      const wot = await AsyncStorage.getItem('token').then(res => token=res)  
+     
+     
+      const res = await axios.put(`/users/me/a`, form, {
+        baseURL: url,
+        headers: {
+          'content-type': 'multipart/form-data',
+          'auth-token':token
+        },
+        
+      })
 
-
-      const res = await innerBackend.put(`/users/me/a`, form)
-    console.log('avatar change 3', res.data)
 
       dispatch({
           type: CHANGE_AVATAR,
