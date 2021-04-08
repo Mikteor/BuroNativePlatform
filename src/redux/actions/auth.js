@@ -2,6 +2,7 @@ import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED,CHANGE_AVATAR,CLEAR_MSG,CLEAR_E
 import {innerBackend, instance, setAuthToken, url} from '../../components/utils/axios'
 
 import axios from 'axios'
+// import {url} from '../../components/utils/axios'
 
 
 // LOAD USER 
@@ -139,21 +140,23 @@ export const changeAvatar = (file) => async dispatch  => {
 
 
   try {
+    console.log('avatar change 1', file)
   
   const form = new FormData()
   if(file){
       form.append(
           'file',
-          file
+          {uri: file.uri, name: 'image.jpg', type: 'image/jpeg'}
         )
   }
-  
-
-      // console.log(form.get('file'), 'file HERE')
    
+  console.log('avatar change 2', form)
+      console.log(form.get('file'), 'file HERE')
 
 
       const res = await innerBackend.put(`/users/me/a`, form)
+    console.log('avatar change 3', res.data)
+
       dispatch({
           type: CHANGE_AVATAR,
           payload: res.data
@@ -162,13 +165,7 @@ export const changeAvatar = (file) => async dispatch  => {
 
     }
     catch (err) {
-      const errors = err.response.data.err;
-      errors.map(error => {
-         return dispatch({
-          type: AUTH_ERROR,
-          payload: error.msg
-      })
-      })
+  console.log('avatar change error',err)
           
     } 
 

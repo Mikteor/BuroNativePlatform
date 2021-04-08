@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector} from 'react-redux'
-import { StyleSheet, Text, View, Image, RefreshControl  } from 'react-native';
-import { ButtonGroup, Badge } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { StyleSheet, Text, View, Image, RefreshControl, ScrollView, ImageBackground } from 'react-native';
+import { ButtonGroup, Badge, Avatar } from 'react-native-elements'
 
-import { ScrollView, ImageBackground } from 'react-native';
-import { loadUser } from '../redux/actions/auth';
+import { changeAvatar, loadUser } from '../redux/actions/auth';
 import { allNews } from '../redux/actions/news';
 import { findDepartment } from '../redux/actions/department';
 import { likedProposes } from '../redux/actions/office';
@@ -16,11 +14,12 @@ import {url} from '../components/utils/axios'
 import Loading from '../components/common/loadingScreen'
 import NotificationBell from '../components/common/header/notificationBell'
 // import DocumentPicker from 'react-native-document-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const Main = ({navigation, route}) => {
 
 const params = route.params
-console.log(params)
+// console.log(params)
   // try {
   //   const res = await DocumentPicker.pick({
   //     type: [DocumentPicker.types.images],
@@ -67,6 +66,15 @@ const loadAll = () => {
   dispatch(likedProposes())
   dispatch(allProjects())
 }
+const avatarClick = () => {
+  console.log('hi')
+  launchImageLibrary({mediaType: 'photo', }, el => imgPickerFunc(el))
+}
+const imgPickerFunc = (el) => {
+
+console.log('image::::',el)
+!el.didCancel && dispatch(changeAvatar(el))
+}
 
 useEffect(()=>{
   user && loadAll()
@@ -100,7 +108,14 @@ if(!user){
             </View> 
             {/* <DocumentPicker />  */}
             <View style={styles.profileTop}>
-              <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar}/>
+              {/* <Image source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')} style={styles.avatar} /> */}
+              <Avatar
+                  rounded
+                  size={130}
+                  source={user? {uri: `${url+user.avatar}`} : require('../../assets/ava.jpeg')}
+                  onPress={()=>avatarClick()}
+                  // avatarStyle={styles.avatar}
+                />
               <Text style={styles.name}>{user? user.fullname :'Имя Фамилия'}</Text>
               <Text style={styles.pos}>{user? user.position : 'Должность'}</Text>
             </View>
@@ -161,9 +176,9 @@ const styles = StyleSheet.create({
       marginTop: -120,
     },
     avatar: {
-      width: 130,
-      height: 130,
-      borderRadius: 100,
+      // width: 130,
+      // height: 130,
+      // borderRadius: 100,
     },
     name: {
       fontSize: 24,

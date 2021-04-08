@@ -17,7 +17,7 @@ const sprint = useSelector(state => state.projects.sprint)
 
 const addPerformer = (userId) => {
     dispatch(addUserToTask(sprint._id, userId, taskId  ))
-    console.log(sprint._id, userId, taskId )
+    // console.log(sprint._id, userId, taskId )
 }
 
 

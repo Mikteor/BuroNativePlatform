@@ -66,7 +66,7 @@ const [preload, setPreload] = useState(true)
 useEffect(()=>{
   setTimeout(() => {
     setPreload(false)
-  }, 5000);
+  }, 1000);
 },[])
 
 useEffect(() => {
@@ -131,7 +131,7 @@ useEffect(() => {
     <View style={styles.container}> 
       <StatusBar hidden={true}/>
 
-    {!isAuthenticated?  
+    {isAuthenticated?  
       <Stack.Navigator headerMode='none'>
           <Stack.Screen name='login'>
               {props => <Login {...props} deviceToken={deviceToken} />}

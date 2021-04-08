@@ -41,7 +41,7 @@ const modalOpen = (e) => {
 }
 
 const dayPress = (day) => {
-    console.log('day', day)
+    // console.log('day', day)
     dispatch(EditTask(taskData, task._id, sprint._id, day.dateString))
     setCalendarModal(false)
 }

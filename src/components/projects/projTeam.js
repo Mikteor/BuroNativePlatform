@@ -20,7 +20,7 @@ const userInTeam = team && team.some(el=> el.user._id==user._id)
   const [task, setTask] = useState('')
 
 const joinTeamFunc = () => {
-  console.log('tik')
+  // console.log('tik')
  crypt && dispatch(joinTeam(crypt, role, task))
   setRole('')
   setTask('')
@@ -40,7 +40,7 @@ const teamClick =(id) => {
       {!userInTeam && <Button title='Вступить в команду' type='clear' onPress={()=>setJoin(true)} />}
       {userInTeam && <Button title='Выйти из команды' type='clear' onPress={()=>joinTeamFunc()} />}
         {team && team.map((el,i)=>{
-          console.log(el)
+          // console.log(el)
             return(
               <View
                 style={teamStyle.card}

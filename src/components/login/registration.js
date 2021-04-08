@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { register } from '../../redux/actions/auth'
-import { StyleSheet, View, Button } from 'react-native';
-import { Input } from 'react-native-elements';
+import { StyleSheet, View,  } from 'react-native';
+import { Input, Button } from 'react-native-elements';
 import CommonHeader from '../common/header/commonHeader'
 
 
@@ -42,13 +42,15 @@ const onSubmit = e => {
             onChangeText={text=>setFormData({...formData, email: text})}
             value={formData.email}
             placeholder='E-mail'
+            style={styles.input}
         />
         <Input
             onChangeText={text=>setFormData({...formData, rocketname: text})}
             value={formData.rocketname}
             placeholder='Rocket name'
+            style={styles.input}
         />
-      <Button title='Подтвердить' onPress={onSubmit} />
+      <Button title='Подтвердить' onPress={onSubmit} buttonStyle={{borderRadius: 50, marginHorizontal:15, height:50, backgroundColor:'black'}} />
 
     </View>
   );
@@ -61,6 +63,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     justifyContent: 'center',
+  },
+  input:{
+    borderWidth:0.5,
+    borderRadius:8,
   },
 
 });
