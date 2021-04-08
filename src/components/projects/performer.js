@@ -32,7 +32,7 @@ const addPerformer = (userId) => {
           >
             <View style={styles.modalCont} onTouchEnd={closeModal} >
                 <ScrollView style={styles.modalCard} >
-                    {project.team2.map((el,i)=>{
+                    {project && project.team2 && project.team2.map((el,i)=>{
                         return(
                             <ListItem
                                 style={{marginVertical: 2,}}

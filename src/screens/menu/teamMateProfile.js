@@ -35,7 +35,7 @@ const wait = (timeout) => {
   }, []);
 
 useEffect(()=>{
-  return dispatch(clearOpenedUser())
+  // return dispatch(clearOpenedUser())
 },[])
 
 if(!user){

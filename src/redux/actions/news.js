@@ -56,8 +56,9 @@ export const allNews = () => async dispatch  => {
 export const getNews = (id) => async dispatch  => {
     
     try {
-
+console.log('news')
         const res = await innerBackend.get(`/news/${id}`)
+        console.log('res', res.data)
         dispatch({
             type: GET_NEWS,
             payload: res.data

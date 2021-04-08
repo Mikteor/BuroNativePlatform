@@ -1,6 +1,6 @@
 import {REGISTER, AUTH_ERROR, LOGIN, USER_LOADED,CHANGE_AVATAR,CLEAR_MSG,CLEAR_ERROR, CHANGE_USERDATA, CHANGE_LOADED, ADD_SPRINT_TO_CHOSEN, SPRINT_ERROR, LOG_OUT} from '../types'
 import {innerBackend, instance, setAuthToken, url} from '../../components/utils/axios'
-
+import {Alert} from 'react-native'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {url} from '../../components/utils/axios'
@@ -170,7 +170,8 @@ export const changeAvatar = (file) => async dispatch  => {
 
     }
     catch (err) {
-  console.log('avatar change error',err)
+  console.log('avatar change error',err),
+  Alert.alert('avatar change error',err)
           
     } 
 

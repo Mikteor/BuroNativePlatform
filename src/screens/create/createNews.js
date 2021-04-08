@@ -11,7 +11,7 @@ import { allNews, createNews } from '../../redux/actions/news';
 const CreateNews = ({navigation}) => {
 const dispatch = useDispatch()
 const ref = useRef(null)
-const ref1 = useRef(null)
+// const ref1 = useRef(null)
 const ref2 = useRef(null)
 
 const [formData, setFormData ] = useState({
@@ -26,7 +26,7 @@ const onSubmit = e => {
 
   dispatch(createNews(formData))
   ref.current.clear()
-  ref1.current.clear()
+  // ref1.current.clear()
   ref2.current.clear()
 
   setTimeout(() => {

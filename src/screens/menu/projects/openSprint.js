@@ -58,7 +58,7 @@ const chosenSprint = () => {
     dispatch(DeleteTask(sprint._id, taskId))
   }
 useEffect(()=>{
-  return  dispatch(clearOpenedSprint())
+  // return  dispatch(clearOpenedSprint())
 },[])
 
 const backButton = () => {

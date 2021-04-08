@@ -27,7 +27,7 @@ const onRefresh = React.useCallback(() => {
 }, []);
 
 useEffect(()=>{
-  return dispatch(clearDeps())
+  // return dispatch(clearDeps())
 },[])
 
 

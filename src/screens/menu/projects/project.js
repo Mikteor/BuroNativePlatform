@@ -54,7 +54,7 @@ const wait = (timeout) => {
    navigation.goBack() 
   }
 useEffect(()=>{
-  return dispatch(clearOpenedProject())
+  // return dispatch(clearOpenedProject())
 },[])
 
 if (!project) {

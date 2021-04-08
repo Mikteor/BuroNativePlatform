@@ -22,7 +22,7 @@ useEffect(()=>{
 },[news])
 
 useEffect(()=>{
-    return dispatch(clearOpenedNews())
+    // return dispatch(clearOpenedNews())
 },[])
 
 
