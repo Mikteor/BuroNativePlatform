@@ -48,7 +48,7 @@ import * as RootNavigation from './RootNavigation';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification'
 import { newNotif } from './src/redux/actions/notifications';
-import Preload from './src/components/common/loadingScreen'
+import Preload from './src/components/common/introScreen'
 
 
 export default function App({deviceToken, notification}) {
@@ -66,8 +66,9 @@ const [preload, setPreload] = useState(true)
 useEffect(()=>{
   setTimeout(() => {
     setPreload(false)
-  }, 10000);
+  }, 5000);
 },[])
+
 useEffect(() => {
     AsyncStorage.getItem('token').then(res => {
         res ? setIsAuthenticated(true) : setIsAuthenticated(false)

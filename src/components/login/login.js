@@ -49,11 +49,7 @@ const onSubmit = () => {
       <Button title='Подтвердить' onPress={onSubmit} />
       <Button title='Регистрация' type='clear'  onPress={()=>navigation.navigate('registration')} />
       {/* <Button title='log' onPress={log} /> */}
-      <SvgUri
-    width="100%"
-    height="100%"
-    uri="http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
-  />
+ 
      
   
 
