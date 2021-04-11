@@ -5,7 +5,7 @@ import { ButtonGroup, Badge, Avatar } from 'react-native-elements'
 
 import { changeAvatar, loadUser } from '../redux/actions/auth';
 import { allNews } from '../redux/actions/news';
-import { findDepartment } from '../redux/actions/department';
+import { myDepartment } from '../redux/actions/department';
 import { likedProposes } from '../redux/actions/office';
 import { allProjects } from '../redux/actions/projects';
 import News from './news'
@@ -17,30 +17,6 @@ import NotificationBell from '../components/common/header/notificationBell'
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const Main = ({navigation, route}) => {
-
-const params = route.params
-// console.log(params)
-  // try {
-  //   const res = await DocumentPicker.pick({
-  //     type: [DocumentPicker.types.images],
-  //   });
-  //   console.log(
-  //     res.uri,
-  //     res.type, // mime type
-  //     res.name,
-  //     res.size
-  //   );
-  // } catch (err) {
-  //   if (DocumentPicker.isCancel(err)) {
-  //     // User cancelled the picker, exit any dialogs or menus and move on
-  //   } else {
-  //     throw err;
-  //   }
-  // }
-
-
-
-
 
 
 const dispatch = useDispatch()
@@ -62,7 +38,7 @@ const loadAll = () => {
 
   dispatch(loadUser())
   dispatch(allNews())
-  user && user.division && dispatch(findDepartment(user.division.divname))
+  user && user.division && dispatch(myDepartment(user.division.divname))
   dispatch(likedProposes())
   dispatch(allProjects())
 }
@@ -80,13 +56,11 @@ useEffect(()=>{
   user && loadAll()
 },[])
 useEffect(()=>{
-  console.log('lol')
-  user && user.division && dispatch(findDepartment(user.division.divname))
+  console.log('lol',user)
+  user && user.division && dispatch(myDepartment(user.division.divname))
 },[user])
 
-useEffect(()=>{
- params && params.newsNotification && setButton(1)
-},[params])
+
 
 if(!user){
   return(

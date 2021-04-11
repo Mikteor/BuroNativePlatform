@@ -7,10 +7,11 @@ import CommonTitle from '../common/titles'
 import ProjectItem from '../main/myProjects'
 import { useDispatch } from 'react-redux';
 import { getUser } from '../../redux/actions/user';
+import Loadscreen from '../common/loadingScreen'
 
 const DepartmentComponent = ({navigation, department}) => {
 const dispatch = useDispatch()
-const [departmentProjects, setDepProjects] = useState([])
+const [departmentProjects, setDepProjects] = useState(null)
 
 
 const getDepartmentProjects = () => {
@@ -47,8 +48,8 @@ const teamClick =(id) => {
   <View style={styles.scrollView}>
         
         <CommonTitle icon='account-group-outline' title={`Команда отдела "${department && department.divname}"`} />
-            {!department? <Text>loading department</Text> : 
-            !department.members?  <Text>loading members</Text> : 
+            {!department? <Loadscreen /> : 
+            !department.members?  <Loadscreen reverse /> : 
             department.members.map((el,i)=>{
                 return(
                   <ListItem
@@ -70,11 +71,10 @@ const teamClick =(id) => {
                   </ListItem>
                 )
             })}
-      
 
-      
+
       <CommonTitle icon='account-group-outline' title='Проекты отдела' /*button={{title: 'Все проекты', onPress: ()=>navigation.navigate('Меню',{screen: 'projects'})}}*/ />
-          {!department? <Text>loading</Text> : 
+          {!departmentProjects? <Loadscreen reverse /> : 
           departmentProjects.length==0? <Text>У отдела пока нет проектов</Text> : 
           <ProjectItem navigation={navigation} projects={departmentProjects} />}
   </View>
@@ -84,66 +84,15 @@ const teamClick =(id) => {
 export default DepartmentComponent
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8FAFB',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
+
   scrollView:{
     // paddingHorizontal: 15,
   },
-    card: {
-      backgroundColor: 'white',
-      marginHorizontal: 10,
-      borderRadius: 13,
-      paddingRight: 8,
-      paddingLeft: 20,
-      paddingVertical: 8,
-      marginTop: 20,
-    },
-    newsTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginRight: 50,
-      marginBottom: 30,
-    },
-    title: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginHorizontal: 15,
-      alignItems: 'center',
-      borderBottomWidth: 1,
-      borderColor: '#DDDDDD',
-      marginBottom: 5,
-      paddingBottom: 3,
-      marginTop: 20,
-    },
-    tableRow: {
-      backgroundColor: 'white',
-      marginVertical: 2,
-      padding: 0,
-    },
-    projType: {
-      backgroundColor: '#F2ECE1',
-
-    },
-    profileFlex: {
-      display: 'flex',
-      flexDirection: 'row',
-      paddingVertical: 10,
-    },
     avatar: {
       width: 40,
       height: 40,
       borderRadius: 100,
       marginRight: 20,
-    },
-    name: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      width: 200,
-      // backgroundColor: 'red'
     },
     btnProf: {
       borderRadius: 13,

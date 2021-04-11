@@ -4,14 +4,18 @@ import {  TextInput } from 'react-native-paper';
 import { Button,  } from 'react-native-elements'
 
 
-const Loading = ({visible, closeModal, confirm, reject, title, subtitle, delet, finish}) => {
+const Loading = ({reverse}) => {
 
 
   return (
     
 
-            <View style={styles.container} >
-                <ActivityIndicator size={60} color="white" />
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              backgroundColor: reverse? 'white' : 'black',
+            }} >
+                <ActivityIndicator size={60} color={reverse?'black':"white"} />
             </View>
 
 
@@ -29,10 +33,5 @@ export default Loading
 
   const styles =  StyleSheet.create({
 
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'black'
-  },
  
   });
