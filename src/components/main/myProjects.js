@@ -7,7 +7,7 @@ import { selectedProject } from '../../redux/actions/projects';
 
 
 
-const Main = ({navigation, projects}) => {
+const ProjectComponent = ({navigation, projects}) => {
 const dispatch = useDispatch()
 
 const projectPress = (crypt) => {
@@ -34,12 +34,12 @@ return (
         <View style={styles.circle}>
             <Icon name='circle' color='green' size={10}/>
         </View>
-        <View style={styles.projMain} onTouchEnd={()=>projectPress(el.crypt)} >
+        <View style={styles.projMain} onTouchEnd={()=>projectPress(el.crypt)}>
             <View style={styles.topLine}>
-              <Text style={styles.title}>{el.title}</Text>
+              <Text style={styles.title} numberOfLines={1}>{el.title}</Text>
               <Text style={styles.daysLeft}>{days} {days<2?'день': days<5? 'дня': 'дней'}</Text>
             </View>
-            {el.about && <Text style={styles.description} numberOfLines={2}>{el.about}</Text>}
+            <Text style={styles.description} numberOfLines={2}>{el.about && el.about}</Text>
             <View style={styles.types}>
               {el.type && 
               <View style={ {...styles.projType,  backgroundColor: '#F2ECE1'}}>
@@ -58,7 +58,7 @@ return (
 </View> 
   );
 }
-export default Main
+export default ProjectComponent
 
 const styles = StyleSheet.create({
 
@@ -90,9 +90,11 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
     },
     title: {
+      flex:1,
       fontWeight: '700',
       fontSize: 19,
       marginBottom: 8,
+      marginRight:5,
     },
     daysLeft:{
       color: 'gray'

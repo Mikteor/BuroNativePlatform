@@ -210,6 +210,7 @@ export default function(state = initialState, action) {
                     // loadedAllProj: false
                 }
                 case FINISH_TASK:
+                    console.log('finish task', payload)
                     return {
                     ...state,
                     sprint: payload.sprint,

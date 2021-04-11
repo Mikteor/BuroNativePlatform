@@ -35,7 +35,7 @@ const wait = (timeout) => {
   }, []);
 
 useEffect(()=>{
-  // return dispatch(clearOpenedUser())
+  return ()=>dispatch(clearOpenedUser())
 },[])
 
 if(!user){
@@ -43,7 +43,6 @@ if(!user){
     <Loadscreen />
   )
 }
-
   return (
     
 <ScrollView  style={styles.container} 

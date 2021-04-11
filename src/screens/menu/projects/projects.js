@@ -34,7 +34,9 @@ const Projects = ({navigation}) => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-            />}>
+            />}
+            stickyHeaderIndices={[0]}
+            >
       <CommonHeader navigation={navigation} title='Все проекты' />
         <CommonTitle title='Текущие проекты' icon='home' />
 

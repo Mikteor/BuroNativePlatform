@@ -27,7 +27,7 @@ const onRefresh = React.useCallback(() => {
 }, []);
 
 useEffect(()=>{
-  // return dispatch(clearDeps())
+  return ()=>dispatch(clearDeps())
 },[])
 
 
@@ -43,8 +43,10 @@ if(!department){
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-          />}>
-      <CommonHeader navigation={navigation} title={'Отдел "'+department && department.divname+'"'}/>
+          />}
+          stickyHeaderIndices={[0]}
+          >
+      <CommonHeader navigation={navigation} title={department &&('Отдел "'+ department.divname+'"')}/>
       <DepartmentComponent navigation={navigation} department={department} />
   </ScrollView>
   );

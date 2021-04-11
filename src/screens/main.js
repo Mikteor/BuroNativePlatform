@@ -79,6 +79,10 @@ console.log('image::::',el)
 useEffect(()=>{
   user && loadAll()
 },[])
+useEffect(()=>{
+  console.log('lol')
+  user && user.division && dispatch(findDepartment(user.division.divname))
+},[user])
 
 useEffect(()=>{
  params && params.newsNotification && setButton(1)

@@ -35,7 +35,22 @@ useEffect(()=>{
   user && user.division && dispatch(myDepartment(user.division.divname))
 },[user])
 
-
+if(user && !user.division){
+  return(
+  <ScrollView style={styles.container} 
+    refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />}
+      stickyHeaderIndices={[0]}
+      >
+  <TabHeader navigation={navigation} title={'Мой отдел'} />
+  <View style={{flex:1, justifyContent: 'center', alignItems: 'center',paddingTop: 100}}>
+    <Text>Вы не вступили ни в один отдел</Text>
+  </View>
+</ScrollView>)
+}
 if(!user || !department){
   !user && dispatch(loadUser())
   !department && user && dispatch(myDepartment(user.division.divname))
