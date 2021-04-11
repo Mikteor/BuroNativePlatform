@@ -8,13 +8,11 @@ import { deletePropose, likedProposes, likePropose } from '../redux/actions/offi
 import CommonTitle from '../components/common/titles'
 import Loading from '../components/common/loadingScreen'
 import TabHeader from '../components/common/header/tabHeader'
+import ProposeRow from '../components/office/proposeRow'
 
 const Profile = ({navigation}) => {
 const dispatch = useDispatch()
 const liked = useSelector(state => state.office.likedProposes)
-const dated = useSelector(state => state.office.dateProposes)
-const loaded = useSelector(state => state.office.loaded)
-const reload = useSelector(state => state.office.reload)
 const user = useSelector(state => state.auth.user)
 
 const [refreshing, setRefreshing] = useState(false);
@@ -31,8 +29,6 @@ const onRefresh = React.useCallback(() => {
     setRefreshing(false)
   },2000)
 }, []);
-
-const proposes = [1,2,3,4,5]
 
 if(!user || !liked){
   return(
@@ -52,25 +48,12 @@ if(!user || !liked){
       <TabHeader navigation={navigation} title={'Офис'} />
 
     <CommonTitle icon='puzzle-plus' title='Предложения' />
-
-
     <View>
       {!liked? <Text>Предложений пока нет</Text> : 
         liked.map((el,i)=>{
           const likeTrue = user && el.likes.some(el => el.user == user._id)
         return(
-            <View key={'proposrss'+i} style={styles.proposeCard}>
-              <View style={styles.propCardFlex}>
-                  <Text>{el.user && el.user.fullname}</Text>
-                  <Text>{el.date.slice(5,10).split('-').reverse().join('.')}</Text>
-              </View>
-              <Text style={{fontWeight: 'bold',marginVertical: 5, fontSize: 15}}>{el.title}</Text>
-              <Text>{el.text}</Text>
-              <View style={styles.propCardFlex}>
-                <Text>{el.likeCount} людям нравится</Text>
-                <Icon onPress={()=>likeButton(el._id)} name={likeTrue?'heart': 'heart-outline'} color={likeTrue?'red': '#7C7C7C'} size={24}/>
-              </View>
-            </View>
+            <ProposeRow key={'proposrss'+i} propose={el} likePress={()=>likeButton(el._id)} likeTrue={likeTrue} />
         )
       })}
     </View>

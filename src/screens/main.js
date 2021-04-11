@@ -42,21 +42,17 @@ const loadAll = () => {
   dispatch(likedProposes())
   dispatch(allProjects())
 }
+// change avatar
 const avatarClick = () => {
   console.log('hi')
   launchImageLibrary({mediaType: 'photo', }, el => imgPickerFunc(el))
 }
 const imgPickerFunc = (el) => {
-
-console.log('image::::',el)
-!el.didCancel && dispatch(changeAvatar(el))
+  !el.didCancel && dispatch(changeAvatar(el))
 }
+// //////
 
 useEffect(()=>{
-  user && loadAll()
-},[])
-useEffect(()=>{
-  console.log('lol',user)
   user && user.division && dispatch(myDepartment(user.division.divname))
 },[user])
 

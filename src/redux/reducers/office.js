@@ -63,10 +63,10 @@ export default function(state = initialState, action) {
                 }
 
             case LIKE_PROPOSE:
-                console.log('likes',payload)
+                // console.log('likes',payload)
                 return {
                     ...state,
-                    likedProposes: payload,
+                    // likedProposes: payload,
                     // msg: payload,
                     reload: !state.reload,
 
