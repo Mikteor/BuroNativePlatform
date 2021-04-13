@@ -1,7 +1,12 @@
 
-import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_TASK, CREATE_PROJECT, GET_PROJECT, SPRINT_ERROR, ALL_SPRINT, UPDATE_PROJECT, GET_SPRINT, GET_TOKEN, ADD_TASKS, FINISH_TASK, DELETE_PROJECT, FINISH_SPRINT, JOIN_TEAM,ADD_SPRINT_TO_CHOSEN,FINISH_PROJECT, ADD_INFO_SPRINT, CLEAR_MSG, CLEAR_ERROR, GET_URN, DELETE_SPRINT, CLEAR_URN, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT } from '../types'
+import { useEffect } from 'react';
+import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_TASK, CREATE_PROJECT, GET_PROJECT, SPRINT_ERROR, ALL_SPRINT, UPDATE_PROJECT, GET_SPRINT, GET_TOKEN, ADD_TASKS, FINISH_TASK, DELETE_PROJECT, FINISH_SPRINT, JOIN_TEAM,ADD_SPRINT_TO_CHOSEN,FINISH_PROJECT, ADD_INFO_SPRINT, CLEAR_MSG, CLEAR_ERROR, GET_URN, DELETE_SPRINT, CLEAR_URN, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT, GET_TASKS } from '../types'
 
-
+// const console = () => {
+//     // useEffect(()=>{
+//         console.log('state',initialState.tasks)
+//     // },[initialState])
+// }
 
 const initialState = {
     projects: null,
@@ -25,7 +30,9 @@ const initialState = {
     selectedProject: null,
 }
 
+
 export default function(state = initialState, action) {
+
     const {
         type, payload
     } = action;
@@ -90,15 +97,18 @@ export default function(state = initialState, action) {
                         msg: payload.msg
                     }
             case GET_PROJECT:
+                console.log(payload)
                 return {
                     ...state,
                     project: payload,
-                    loadedAllProj: false,
-                    loadProject: true,
-                    sprint_load: false,
-                    sprintLoad: false,
-                    reload: false,
-                    error: ''
+                    sprints: payload.sprints,
+                    // team: payload.team2,
+                    // loadedAllProj: false,
+                    // loadProject: true,
+                    // sprint_load: false,
+                    // sprintLoad: false,
+                    // reload: false,
+                    // error: ''
                 }
             case ADD_SPRINT:
                 console.log('new sprint',payload.sprint)
@@ -142,6 +152,13 @@ export default function(state = initialState, action) {
                     error: '',
                     msg:payload.msg
                 }
+                case GET_TASKS:
+                    console.log('tasks',payload)
+                return {
+                    ...state,
+                    tasks: payload,
+                    
+                }
                 case JOIN_TEAM:
                     return {
                         ...state,
@@ -160,14 +177,16 @@ export default function(state = initialState, action) {
                     error: ''
                 }
             case GET_SPRINT:
+                console.log('sprint',payload)
+
                 return {
                     ...state,
                     sprint: payload,
-                    reload: false,
-                    loadProject: false,
-                    sprintLoad: true,
-                    loadSprints: true,
-                    error: ''
+                    // reload: false,
+                    // loadProject: false,
+                    // sprintLoad: true,
+                    // loadSprints: true,
+                    // error: ''
                 }
             case UPDATE_PROJECT:
                 return {
@@ -244,6 +263,7 @@ export default function(state = initialState, action) {
                     return {
                         ...state,
                         sprint: null,
+                        tasks: null,
                     }
             default: 
                 return state;

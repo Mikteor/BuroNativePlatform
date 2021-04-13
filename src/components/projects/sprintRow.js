@@ -10,7 +10,6 @@ const SprintsTab = ({sprint, userSprintsID, navigation, chosenSprint, editSprint
 const tass = sprint.tasks.map((el,i)=>{
     return el.taskStatus
 })
-console.log('sprint','._id',sprint._id,'.title',sprint.title,'.status',sprint.status,'.tags',sprint.tags, '.tasks',tass)
         let finishedTasks = 0
             sprint.tasks.map((task,i)=>{
               task.taskStatus==true && (finishedTasks += 1)

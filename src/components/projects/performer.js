@@ -12,7 +12,7 @@ const CreateNewSprint = ({navigation, visible, closeModal, taskId}) => {
   const dispatch = useDispatch()
 
   const team = useSelector(state => state.projects.project && state.projects.project.team2)
-  const sprintID = useSelector(state => state.projects.sprint._id)
+  const sprintID = useSelector(state => state.projects.sprint && state.projects.sprint._id)
 
 
   const addPerformer = (userId) => {

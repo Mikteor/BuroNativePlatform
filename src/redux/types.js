@@ -38,6 +38,7 @@ export const DELETE_PROJECT = 'delete_project'
 export const FINISH_PROJECT = 'finish_project'
 export const ADD_USER_TO_TASK = 'add_user_to_task'
 export const CLEAR_OPENED_PROJECT = 'clear_opened_project'
+export const GET_TASKS = 'get_tasks'
 
 // for mobile
 export const SELECTED_PROJECT = 'selected_project_in_mobile'

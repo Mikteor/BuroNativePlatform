@@ -5,7 +5,7 @@ import { Button,} from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../../redux/actions/auth';
-import { addTask, deleteSprint, finishSprint,  clearOpenedSprint } from '../../../redux/actions/projects';
+import { addTask, deleteSprint, finishSprint,  clearOpenedSprint, getTasks } from '../../../redux/actions/projects';
 import TaskRow from '../../../components/projects/sprintTaskRow'
 import Confirm from '../../../components/common/confirm'
 import Loadscreen from '../../../components/common/loadingScreen'
@@ -18,6 +18,7 @@ const Project = ({ navigation, route}) => {
 
   const userSprints = useSelector(state => state.auth.user.sprints)
   const sprint = useSelector(state => state.projects.sprint)
+  const tasks = useSelector(state => state.projects.tasks)
   let chosen = sprint && userSprints? userSprints.some(el=>el._id==sprint._id) : false
 
 
@@ -25,6 +26,13 @@ const Project = ({ navigation, route}) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [finishConfirm, setFinishConfirm] = useState(false)
   const [newTaskLoader, setNewTaskLoader] = useState(false)
+
+  useEffect(()=>{
+    sprint && dispatch(getTasks(sprint._id))
+  },[sprint])
+  useEffect(()=>{
+    console.log('tasks')
+  },[tasks])
 
   useEffect(()=>{
     setNewTaskLoader(false)
@@ -88,7 +96,9 @@ if(!sprint){
 
             <ScrollView ref={tasksScrollview} style={style.main} keyboardShouldPersistTaps='always'>
 
-                  {sprint && sprint.tasks.map((el,i)=>{
+                  {!tasks? 
+                  <Loadscreen reverse /> :
+                  tasks.map((el,i)=>{
                     return(
                       
                           <TaskRow 
