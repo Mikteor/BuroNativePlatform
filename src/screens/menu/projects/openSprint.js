@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, ImageBackground, StatusBar, Modal } from 'react-native';
-import { DataTable, FAB, Portal, Provider, TextInput } from 'react-native-paper';
-import { Button, CheckBox, colors, Input, Tooltip } from 'react-native-elements'
+import { StyleSheet, Text, View, ScrollView,} from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { Button,} from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
-import ArrowIcon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../../redux/actions/auth';
-import { usersPartition } from '../../../redux/actions/user';
-import { loadUser } from '../../../redux/actions/auth';
-import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint, clearOpenedSprint } from '../../../redux/actions/projects';
-import CommonHeader from '../../../components/common/header/commonHeader'
+import { addTask, deleteSprint, finishSprint,  clearOpenedSprint } from '../../../redux/actions/projects';
 import TaskRow from '../../../components/projects/sprintTaskRow'
 import Confirm from '../../../components/common/confirm'
 import Loadscreen from '../../../components/common/loadingScreen'
@@ -17,26 +13,33 @@ import Loadscreen from '../../../components/common/loadingScreen'
 const Project = ({ navigation, route}) => {
   const dispatch = useDispatch()
   const ref = useRef(null)
+  const tasksScrollview = useRef(null)
   const { historyScreen } = route.params;
 
-  const user = useSelector(state => state.auth.user)
+  const userSprints = useSelector(state => state.auth.user.sprints)
   const sprint = useSelector(state => state.projects.sprint)
-  let chosen = sprint && user.sprints? user.sprints.some(el=>el._id==sprint._id) : false
+  let chosen = sprint && userSprints? userSprints.some(el=>el._id==sprint._id) : false
 
 
   const [newTaskData, setnewTaskData] = useState('')
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [finishConfirm, setFinishConfirm] = useState(false)
+  const [newTaskLoader, setNewTaskLoader] = useState(false)
 
-const chosenSprint = () => {
-  dispatch(addToChosen(sprint._id));
-  // dispatch(loadUser())
-}
+  useEffect(()=>{
+    setNewTaskLoader(false)
+  },[sprint])
+
+  const chosenSprint = () => {
+    dispatch(addToChosen(sprint._id));
+  }
 
   const addNewTask = () => {
     dispatch(addTask(sprint._id, newTaskData))
     setnewTaskData('')
     ref.current.focus()
+    setNewTaskLoader(true)
+    tasksScrollview.current.scrollTo({x:0, y:100000, animated:true})
     
   }
   const deleteSprintFunc = () => {
@@ -51,12 +54,7 @@ const chosenSprint = () => {
       navigation.pop()
     }, 100);
   }
-  const checkTaskStatus = (taskId) => {
-    dispatch(finishTask(sprint._id, taskId))
-  }
-  const deleteTaskFunc = (taskId) => {
-    dispatch(DeleteTask(sprint._id, taskId))
-  }
+
 useEffect(()=>{
   return ()=>dispatch(clearOpenedSprint())
 },[])
@@ -65,6 +63,7 @@ const backButton = () => {
   navigation.pop()
 }
 
+
 if(!sprint){
   return(
     <Loadscreen />
@@ -72,73 +71,64 @@ if(!sprint){
 }
   return (
     
- 
     <View style={{flex:1}}>
         <View style={style.container}>
-          
-                <View style={style.topRow}>
-                    <Text onPress={()=>backButton()}>Назад</Text>
-                    <Icon style={style.iconChosen} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint()}/>
-                </View>
-                <View style={style.nameBlock}> 
-                    <Text style={style.title} >{sprint&&sprint.title && sprint.title}</Text>
-                    <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
-                </View>
+            <View style={style.topRow}>
+                <Text onPress={()=>backButton()}>Назад</Text>
+                <Icon style={style.iconChosen} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={()=>chosenSprint()}/>
+            </View>
+            <View style={style.nameBlock}> 
+                <Text style={style.title} >{sprint&&sprint.title && sprint.title}</Text>
+                <Text style={style.modalBtnText}>{sprint && sprint.description}</Text>
+            </View>
 
 
-              <Text style={style.tasksTitle}>Задачи</Text>
-              <ScrollView style={style.main} >
-                
-
-                {sprint && sprint.tasks.map((el,i)=>{
-                  return(
-                    
-                        <TaskRow 
-                            key={'taskrow'+i} 
-                            task={el} 
-                            historyScreen={historyScreen} 
-                            checkTask={()=>checkTaskStatus(el._id)} 
-                            deleteTask={()=>deleteTaskFunc(el._id)} 
-                            />
-                  )
-                })}
-                
-                {!historyScreen &&
-                <View style={{flexDirection:'row',marginBottom: 100, backgroundColor:'white'}}>
-                 
-                      <TextInput 
-                          underlineColor='white' 
-                          style={{backgroundColor:'white', flex:1}}
-                          placeholder='Введите новую задачу'
-                          value={newTaskData}
-                          onChangeText={(text)=>setnewTaskData(text)}
-                          ref={ref}
-                      />
-                      <Icon onPress={()=>newTaskData.length>0 && addNewTask()}  name='check' size={30} color={newTaskData.length>0 ? 'black' : 'grey'} style={{alignSelf: 'center', marginRight: 10,}}/>
-                
-                    
-                </View>
-                }
-                
-                
-                
-            </ScrollView>
-        
+            <Text style={style.tasksTitle}>Задачи</Text>
 
 
+            <ScrollView ref={tasksScrollview} style={style.main} keyboardShouldPersistTaps='always'>
 
+                  {sprint && sprint.tasks.map((el,i)=>{
+                    return(
+                      
+                          <TaskRow 
+                              key={'taskrow'+i} 
+                              task={el} 
+                              historyScreen={historyScreen} 
+                              sprint={sprint}
+                      
+                              />
+                    )
+                  })}
 
+                  {newTaskLoader && <Loadscreen reverse small /> }
 
-
-
+                  {!historyScreen &&
+                  <View style={{flexDirection:'row',marginBottom: 150, backgroundColor:'white'}}>
+                  
+                        <TextInput 
+                            underlineColor='white' 
+                            style={{backgroundColor:'white', flex:1}}
+                            placeholder='Введите новую задачу'
+                            value={newTaskData}
+                            onChangeText={(text)=>setnewTaskData(text)}
+                            ref={ref}
+                        />
+                        <Icon onPress={()=>newTaskData.length>0 && addNewTask()}  name='check' size={30} color={newTaskData.length>0 ? 'black' : 'grey'} style={{alignSelf: 'center', marginRight: 10,}}/>
+                  
+                  </View>
+                  }
+              </ScrollView>
         </View>
 
+
+            {/* absolute buttons */}
             <View style={{backgroundColor:'white'}}>
                 {!historyScreen && <Button containerStyle={{borderRadius:50, marginHorizontal:20,}} title='Завершить спринт'  onPress={()=>setFinishConfirm(true)}/>}
                 <Button title='Удалить спринт' type='clear' onPress={()=>setDeleteConfirm(true)}/>
             </View>
 
-
+            {/* modals */}
             <Confirm 
                 visible={finishConfirm} 
                 closeModal={()=>setFinishConfirm(false)} 
@@ -159,9 +149,8 @@ if(!sprint){
                 />
             
 
-        </View>
+    </View>
   
-
 
   );
 }

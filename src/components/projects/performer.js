@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View,  Modal, ScrollView, Image} from 'react-native';
-import {  TextInput, } from 'react-native-paper';
-import { Button, ListItem } from 'react-native-elements'
+import React from 'react';
+import { StyleSheet,  View,  Modal, ScrollView, Image} from 'react-native';
+import {  ListItem } from 'react-native-elements'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProject, addSprint, addUserToTask } from '../../redux/actions/projects';
+import {  addUserToTask } from '../../redux/actions/projects';
 import TouchableScale from 'react-native-touchable-scale';
 import {url} from '../../components/utils/axios'
 
 
 const CreateNewSprint = ({navigation, visible, closeModal, taskId}) => {
+
   const dispatch = useDispatch()
 
-const project = useSelector(state => state.projects.project)
-const sprint = useSelector(state => state.projects.sprint)
+  const team = useSelector(state => state.projects.project && state.projects.project.team2)
+  const sprintID = useSelector(state => state.projects.sprint._id)
 
 
-const addPerformer = (userId) => {
-    dispatch(addUserToTask(sprint._id, userId, taskId  ))
-    // console.log(sprint._id, userId, taskId )
-}
+  const addPerformer = (userId) => {
+      dispatch(addUserToTask(sprintID, userId, taskId  ))
+  }
 
 
   return (
@@ -32,7 +31,7 @@ const addPerformer = (userId) => {
           >
             <View style={styles.modalCont} onTouchEnd={closeModal} >
                 <ScrollView style={styles.modalCard} >
-                    {project && project.team2 && project.team2.map((el,i)=>{
+                    {team && team.map((el,i)=>{
                         return(
                             <ListItem
                                 style={{marginVertical: 2,}}

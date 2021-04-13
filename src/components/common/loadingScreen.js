@@ -4,7 +4,7 @@ import {  TextInput } from 'react-native-paper';
 import { Button,  } from 'react-native-elements'
 
 
-const Loading = ({reverse}) => {
+const Loading = ({reverse, small}) => {
 
 
   return (
@@ -15,7 +15,7 @@ const Loading = ({reverse}) => {
               justifyContent: 'center',
               backgroundColor: reverse? 'white' : 'black',
             }} >
-                <ActivityIndicator size={60} color={reverse?'black':"white"} />
+                <ActivityIndicator size={small?40: 60} color={reverse?'black':"white"} />
             </View>
 
 

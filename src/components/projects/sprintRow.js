@@ -4,40 +4,51 @@ import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../redux/actions/auth';
 import {  getSprint } from '../../redux/actions/projects';
-import SprintRow from './sprintRow'
-
-const SprintsTab = ({project, navigation}) => {
-  const dispatch = useDispatch()
-
-  const userSprints = useSelector(state => state.auth.user.sprints)
-  const userSprintsID = userSprints && userSprints.map(el=>el._id)
 
 
-  const chosenSprint = (id) => {
-    dispatch(addToChosen(id));
-  }
-  const editSprint = (id) => {
-    dispatch(getSprint(id))
-    navigation.navigate('openSprint',{historyScreen: false})
-  }
- 
+const SprintsTab = ({sprint, userSprintsID, navigation, chosenSprint, editSprint}) => {
+const tass = sprint.tasks.map((el,i)=>{
+    return el.taskStatus
+})
+console.log('sprint','._id',sprint._id,'.title',sprint.title,'.status',sprint.status,'.tags',sprint.tags, '.tasks',tass)
+        let finishedTasks = 0
+            sprint.tasks.map((task,i)=>{
+              task.taskStatus==true && (finishedTasks += 1)
+            })
+        let percent = sprint.tasks.length>0 ? (finishedTasks/sprint.tasks.length*100) : 0
+        let chosen = userSprintsID? userSprintsID.some(id=>id==sprint._id) : false
+     
 
   return (
+    
+            <View  style={sprintStyle.mainFlex}>
 
-  <View style={sprintStyle.container}>
-      <ScrollView>
+              <Icon style={sprintStyle.icon} name={chosen? 'star':'star-outline'} size={24} color='black' onPress={chosenSprint}/>
+              
+              <View style={sprintStyle.cardFlex} onTouchEnd={editSprint}>
+                <View style={sprintStyle.cardCenter}>
+                  <Text style={sprintStyle.title}>{sprint.title&&sprint.title} </Text>
+                  <View style={{flexDirection: 'row'}}>
+                  {sprint.tags.map((el,i)=>{
+                              if(el.length>0){
+                                return(
+                                  <View key={'histTag'+i} style={sprintStyle.projType}>
+                                    <Text style={{color: '#CA9E4D',}}>{el.length>14 ? el.slice(0,15)+'...' : el}</Text>
+                                  </View>
+                                )
+                              }
+                            })}
+                  </View>
+                </View>
 
-      {project.sprints
-      .filter(el => !el.status)
-      .map((el,i)=>{
-        return(
-            <SprintRow key={'sprints'+i} sprint={el} userSprintsID={userSprintsID} chosenSprint={()=>chosenSprint(el._id)} editSprint={()=>editSprint(el._id)} />
-        )
-      })}
-          </ScrollView>
+                <View>
+                  <Text style={sprintStyle.status}>{Math.round(percent)}%</Text>
+                </View>
+              </View>
 
+            </View>
+ 
 
-  </View>
 
   );
 }

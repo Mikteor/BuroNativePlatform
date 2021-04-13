@@ -213,7 +213,7 @@ export default function(state = initialState, action) {
                     console.log('finish task', payload)
                     return {
                     ...state,
-                    sprint: payload.sprint,
+                    // sprint: payload.sprint,
                     hey: payload
                 }   
             case SPRINT_ERROR:
