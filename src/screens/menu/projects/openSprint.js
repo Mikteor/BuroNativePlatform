@@ -96,12 +96,10 @@ const backButton = () => {
 }
 
 const modalOpen = (height, taskId, deadLine, taskData) => {
-  console.log('1',height,'2', taskId,'3', deadLine)
   setModal({visible: true, taskId:  taskId, deadLine: deadLine, taskData: taskData})
   setModalTop(height) 
 }
 const dayPress = (day) => {
-  console.log('day', day)
   dispatch(EditTask(modal.taskData, modal.taskId, sprint._id, day.dateString))
   setCalendarModal(false)
 }

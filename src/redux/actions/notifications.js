@@ -17,12 +17,8 @@ export const newNotif = (data) => async dispatch  => {
 
 export const notifClick = (id) => async dispatch  => {
     try {
-        console.log('id',id)
         const idArray = {ids:[id]}
-console.log('notif click 1', idArray)
         const res = await innerBackend.put('/users/notificationread', idArray)
-        // console.log('creating news')
-console.log('notif click 2')
 
         dispatch({
             type: NOTIFICATION_CLICK,
@@ -31,7 +27,7 @@ console.log('notif click 2')
 
         }
       catch (err) {
-        console.log('notif click error:', err)          
+        // console.log('notif click error:', err)          
       
     }
 
@@ -41,12 +37,9 @@ console.log('notif click 2')
 export const clearNotifs = (notifIds) => async dispatch  => {
 
     try {
-        console.log('id',notifIds)
         const idArray = {ids: notifIds}
-console.log('notif clear 1', idArray)
         const res = await innerBackend.put('/users/notificationread', idArray)
         // console.log('creating news')
-console.log('notif clear 2')
 
         dispatch({
             type: NOTIFICATION_CLICK,
@@ -55,7 +48,7 @@ console.log('notif clear 2')
 
         }
       catch (err) {
-        console.log('notif click error:', err)          
+        // console.log('notif click error:', err)          
       
     }
         }

@@ -93,7 +93,6 @@ export default function(state = initialState, action) {
                             
                         
             case AUTH_ERROR:
-                // console.log('here is payload',payload) 
                 return {
                     ...state,
                     
@@ -101,7 +100,6 @@ export default function(state = initialState, action) {
                     error: payload.err
                 }
             case NOTIFICATION_CLICK:
-                console.log('payliad', payload.notifications)
                 return {
                     ...state,
                     user: payload

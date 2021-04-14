@@ -68,7 +68,7 @@ export const usersPartition = (partition) => async dispatch =>  {
     })
 
   } catch (err) {
-    console.log('user partition error:::', err)
+    // console.log('user partition error:::', err)
 
 
   }

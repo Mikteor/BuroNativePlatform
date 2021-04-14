@@ -74,15 +74,13 @@ export default function(state = initialState, action) {
                        error:''  
                     }
                 case EDIT_TASK: 
-                console.log('edited task payload', payload)
-                console.log('edited task tasks', state.tasks)
-                const newTasks = state.tasks.map((el,i)=>{
-                    if (el._id==payload._id){
-                        return payload
-                    } 
-                    return el
-                })
-                console.log('newTasks',newTasks)
+        
+                        const newTasks = state.tasks.map((el,i)=>{
+                            if (el._id==payload._id){
+                                return payload
+                            } 
+                            return el
+                            })
                     return {
                         ...state,
                         tasks: newTasks
@@ -127,7 +125,6 @@ export default function(state = initialState, action) {
                     // error: ''
                 }
             case ADD_SPRINT:
-                console.log('new sprint',payload)
                 const newSprints = [payload.sprint, ...state.sprints]
                 return {
                     ...state,
@@ -157,7 +154,6 @@ export default function(state = initialState, action) {
                         oauth: null
                     }
                 case DELETE_SPRINT:
-                    console.log('delete',payload)
                     return {
                         ...state,
                         sprints: payload.sprints
@@ -178,7 +174,6 @@ export default function(state = initialState, action) {
                     
                 }
                 case JOIN_TEAM:
-                    console.log('joinTeam',payload)
                     return {
                         ...state,
                        team: payload.team2,
@@ -194,7 +189,6 @@ export default function(state = initialState, action) {
                     error: ''
                 }
             case GET_SPRINT:
-                console.log('sprint',payload)
 
                 return {
                     ...state,
@@ -225,7 +219,6 @@ export default function(state = initialState, action) {
                         loadedAllProj: false,
                     }
             case FINISH_SPRINT:
-                console.log('finish',payload)
                 return {
                     ...state,
                     sprints: payload.sprints,
@@ -251,7 +244,6 @@ export default function(state = initialState, action) {
                     // tasks: newTasks1
                 }   
                 case DELETE_TASK:
-                   console.log('delete task payload',payload)
                    const newTasks2 = state.tasks.filter(el => el._id != payload)
                     return {
                     ...state,

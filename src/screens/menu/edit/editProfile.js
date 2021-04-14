@@ -61,9 +61,7 @@ const onSubmit = e => {
   dispatch(changeData(formData))
   !initial && navigation.pop()
   }
-useEffect(()=>{
-  console.log('lol',formData.division)
-},[formData])
+
   return (
 
     <View style={{flex:1,}}>

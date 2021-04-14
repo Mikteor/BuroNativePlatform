@@ -62,10 +62,10 @@ export const login = (formData) => async dispatch  => {
 
         }
       catch (err) {
-        console.log('login error:::', err);
+        // console.log('login error:::', err);
        
         const errors = err.response.data.errors
-        console.log(errors)
+        // console.log(errors)
         errors.map(err => {
             Alert.alert('Ошибка', err.err)
         })            
@@ -90,14 +90,14 @@ export const register = (formData) => async dispatch  => {
         
       }
       catch (err) {
-        console.log('register error:::', err)
-        const errors = err.response.data
+        // console.log('register error:::', err)
+        // const errors = err.response.data
  
     
-           dispatch({
-              type: AUTH_ERROR,
-              payload: errors
-        })
+        //    dispatch({
+        //       type: AUTH_ERROR,
+        //       payload: errors
+        // })
       
 
         
@@ -170,7 +170,7 @@ export const changeAvatar = (file) => async dispatch  => {
 
     }
     catch (err) {
-  console.log('avatar change error',err),
+  // console.log('avatar change error',err),
   Alert.alert('avatar change error',err)
           
     } 

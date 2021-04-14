@@ -33,7 +33,7 @@ const close = () => {
 }
 const notifPress = (id, news_id, sprint_id) => {
     id!=0 && dispatch(notifClick(id))
-    console.log('notif', id, news_id, sprint_id)
+    // console.log('notif', id, news_id, sprint_id)
     if (news_id){
         dispatch(getNews(news_id))
         setTimeout(() => {

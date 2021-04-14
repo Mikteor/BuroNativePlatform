@@ -4,7 +4,7 @@ import {NEW_IP} from '@env'
 
 export const url = NEW_IP;
 // console.log(url,'uuuuuuuuuuuuuu')
-console.log('url', url)
+// console.log('url', url)
 
 export const setAuthToken = (token) => {
     // console.log(token, 'token')

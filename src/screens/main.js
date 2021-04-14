@@ -44,7 +44,6 @@ const loadAll = () => {
 }
 // change avatar
 const avatarClick = () => {
-  console.log('hi')
   launchImageLibrary({mediaType: 'photo', }, el => imgPickerFunc(el))
 }
 const imgPickerFunc = (el) => {

@@ -94,7 +94,7 @@ export const myDepartment = (divname) => async dispatch  => {
 
         }
       catch (err) {
-       console.log('myDepError',err)
+    //    console.log('myDepError',err)
     }
 
 }

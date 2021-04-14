@@ -56,9 +56,9 @@ export const allNews = () => async dispatch  => {
 export const getNews = (id) => async dispatch  => {
     
     try {
-console.log('news')
+// console.log('news')
         const res = await innerBackend.get(`/news/${id}`)
-        console.log('res', res.data)
+        // console.log('res', res.data)
         dispatch({
             type: GET_NEWS,
             payload: res.data
@@ -66,13 +66,13 @@ console.log('news')
 
         }
       catch (err) {
-        const errors = err.response.data.err;
-        errors.map(error => {
-           return dispatch({
-             type: ERROR_MSG,
-             payload: error.msg,
-           });
-        })            
+        // const errors = err.response.data.err;
+        // errors.map(error => {
+        //    return dispatch({
+        //      type: ERROR_MSG,
+        //      payload: error.msg,
+        //    });
+        // })            
       
     }
 

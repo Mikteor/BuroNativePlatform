@@ -148,7 +148,7 @@ export const addSprint = (id, title,description, tags) => async dispatch  => {
 
       }
     catch (err) {
-      console.log('sprint create error', err)
+      // console.log('sprint create error', err)
       // const errors = err.response.data.err;
       // errors.map(error => {
       //    return dispatch({
@@ -168,15 +168,14 @@ export const EditTask = (editTask, taskID, sprintID, date) => async (dispatch) =
         taskTitle:editTask,
         deadline: date? date: '2011-11-11',
     }
-    console.log('data',data, sprintID)
         const res = await innerBackend.put(`/mob/sprints/taskedit/${taskID}`, data);
         dispatch({
             type: EDIT_TASK,
             payload: res.data
         })
     } catch (err) {
-        console.log('task edit error::', err)
-        console.log('task edit error::', err.response.data.errors)
+        // console.log('task edit error::', err)
+        // console.log('task edit error::', err.response.data.errors)
     }
 } 
 
@@ -286,7 +285,7 @@ export const deleteSprint = (id) => async dispatch => {
             payload: res.data
         })
     } catch (err) {
-      console.log('delete sprint errpr:', err)
+      // console.log('delete sprint errpr:', err)
       Alert.alert('Ошибка', err.response.data.err)
 
     }
@@ -320,7 +319,7 @@ export const addTask = ( id, task ) => async (dispatch) => {
       // console.log(res.data)
   
     } catch (err) {
-        console.log('add task error::',err)
+        // console.log('add task error::',err)
       // const errors = err.response.data.err;
      
       //   return dispatch({
@@ -344,19 +343,16 @@ export const addTask = ( id, task ) => async (dispatch) => {
         payload: res.data,
       });
     } catch (err) {
-      console.log(err.response.data);
+      // console.log(err.response.data);
     }
   }; 
   
 
 export const finishTask = (sprintId, taskId) => async dispatch  => {
   
-console.log('taskId', taskId)
     try {
-        // console.log('finish 1','sprintId:', sprintId,'taskId: ', taskId)
 
         const res = await innerBackend.put(`/mob/sprints/DAtask/${taskId}`)
-        // console.log('finish 2')
 
         dispatch({
             type: FINISH_TASK,
@@ -365,8 +361,8 @@ console.log('taskId', taskId)
 
         }
       catch (err) {
-          console.log('finish task error::: ', err)
-          console.log('finish task error::: ', err.response.data.errors)
+          // console.log('finish task error::: ', err)
+          // console.log('finish task error::: ', err.response.data.errors)
         // const errors = err.response.data.err;
         // errors.map(error => {
         //    return dispatch({
@@ -393,7 +389,7 @@ export const DeleteTask = ( id, taskId ) => async (dispatch) => {
       });
 
     } catch (err) {
-      console.log('delete task error::: ',err.response.data.err);
+      // console.log('delete task error::: ',err.response.data.err);
       Alert.alert('Ошибка', err.response.data.err)
     }
   }; 
@@ -401,26 +397,15 @@ export const DeleteTask = ( id, taskId ) => async (dispatch) => {
 
 export const finishSprint = (id) => async dispatch  => {
     try {
-      console.log('finish id 1', id)
-
         const res = await innerBackend.put(`/mob/sprints/${id}`)
-        console.log('finish res 2', res.data)
         dispatch({
             type: FINISH_SPRINT,
             payload: res.data
         })
         }
       catch (err) {
-        // Alert.alert('Ошибка', err.response.data.err)
-        console.log('finish sprint error',  err)
-        // const errors = err.response.data.err;
-        // errors.map(error => {
-        //    return dispatch({
-        //     type: SPRINT_ERROR,
-        //     payload: error.msg
-        // })
-        // })            
-      
+        Alert.alert('Ошибка', err.response.data.err)
+        // console.log('finish sprint error',  err)
     }
 
 }
