@@ -119,7 +119,6 @@ useEffect(() => {
 // });
 
 
-
   if(preload){
     return(
       <Preload />
