@@ -9,13 +9,19 @@ import { addToChosen } from '../../redux/actions/auth';
 import { usersPartition } from '../../redux/actions/user';
 import { loadUser } from '../../redux/actions/auth';
 import { addTask, deleteSprint, getProject, finishSprint, finishTask, DeleteTask, getSprint, selectedProject } from '../../redux/actions/projects';
+import Loading from '../common/loadingScreen';
 
 
-const Project = ({project, navigation}) => {
+const Project = ({ navigation}) => {
 const dispatch = useDispatch()
+const sprints = useSelector(state=> state.projects.sprints)
 const sprintClick = (id) => {
   dispatch(getSprint(id))
   navigation.navigate('openSprint', {historyScreen: true})
+}
+
+if(!sprints){
+  return <Loading reverse/>
 }
   return (
     
@@ -27,7 +33,7 @@ const sprintClick = (id) => {
           <View>
             <ScrollView>
               <DataTable>
-                    {project.sprints
+                    {sprints && sprints
                       .filter(el => el.status)
                       .map((el,i)=>{
                         let done = el.tasks.every(el=>el.taskStatus==true)

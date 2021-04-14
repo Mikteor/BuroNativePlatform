@@ -1,5 +1,6 @@
+import { Alert } from "react-native";
 import { innerBackend, instance } from "../../components/utils/axios";
-import { ADD_SPRINT, SORT_PROJECTS, ADD_TASKS,CLEAR_URN, ALL_PROJECTS, ALL_SPRINT, EDIT_TASK, CREATE_FAIL, DELETE_PROJECT,EDIT_PROJECT, FINISH_SPRINT, FINISH_TASK, GET_PROJECT,CREATE_PROJECT, GET_SPRINT, JOIN_TEAM, PROJECT_ID, SPRINT_ERROR, FINISH_PROJECT,ADD_INFO_SPRINT,CLEAR_MSG, CLEAR_ERROR, DELETE_SPRINT, PROJECTS_SORT, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT, GET_TASKS  } from "../types";
+import { ADD_SPRINT, SORT_PROJECTS, ADD_TASKS,CLEAR_URN, ALL_PROJECTS, ALL_SPRINT, EDIT_TASK, CREATE_FAIL, DELETE_PROJECT,EDIT_PROJECT, FINISH_SPRINT, FINISH_TASK, GET_PROJECT,CREATE_PROJECT, GET_SPRINT, JOIN_TEAM, PROJECT_ID, SPRINT_ERROR, FINISH_PROJECT,ADD_INFO_SPRINT,CLEAR_MSG, CLEAR_ERROR, DELETE_SPRINT, PROJECTS_SORT, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT, GET_TASKS, DELETE_TASK  } from "../types";
 
 
 
@@ -130,7 +131,7 @@ export const addSprint = (id, title,description, tags) => async dispatch  => {
       }
       
       // console.log('body', body)
-      const res = await innerBackend.post(`/projects/sprints/new/${id}`,body)
+      const res = await innerBackend.post(`/mob/sprints/new/${id}`,body)
     // console.log('as 2')
 
       dispatch({
@@ -139,10 +140,10 @@ export const addSprint = (id, title,description, tags) => async dispatch  => {
       })
     // console.log('as 3')
 
-      dispatch({
-          type: GREEN_MSG,
-          payload: res.data
-      })
+      // dispatch({
+      //     type: GREEN_MSG,
+      //     payload: res.data
+      // })
     // console.log('as 4')
 
       }
@@ -160,21 +161,22 @@ export const addSprint = (id, title,description, tags) => async dispatch  => {
  
 }
 
-export const EditTask = (editTask, id, crypt, date) => async (dispatch) => {
+export const EditTask = (editTask, taskID, sprintID, date) => async (dispatch) => {
     try {
       const data = {
-        taskid:id,
+        taskid:taskID,
         taskTitle:editTask,
         deadline: date? date: '2011-11-11',
     }
-    console.log('data',data, crypt)
-        const res = await innerBackend.put(`projects/sprints/taskedit/${crypt}`, data);
+    console.log('data',data, sprintID)
+        const res = await innerBackend.put(`/mob/sprints/taskedit/${taskID}`, data);
         dispatch({
             type: EDIT_TASK,
             payload: res.data
         })
     } catch (err) {
         console.log('task edit error::', err)
+        console.log('task edit error::', err.response.data.errors)
     }
 } 
 
@@ -278,13 +280,15 @@ export const getSprint = (id) => async dispatch  => {
 export const deleteSprint = (id) => async dispatch => {
     try {
         // console.log(id, 'sprint id')
-        const res = await innerBackend.delete(`/projects/sprints/${id}`);
+        const res = await innerBackend.delete(`/mob/sprints/${id}`);
         dispatch({
             type: DELETE_SPRINT,
             payload: res.data
         })
     } catch (err) {
-        console.log('delete sprint error:::',err)
+      console.log('delete sprint errpr:', err)
+      Alert.alert('Ошибка', err.response.data.err)
+
     }
 }
 
@@ -334,7 +338,7 @@ export const addTask = ( id, task ) => async (dispatch) => {
         taskid: taskId,
       };
   
-      const res = await innerBackend.put(`projects/sprints/task/adduser/${id}`, body);
+      const res = await innerBackend.put(`/mob/sprints/task/adduser/${id}`, body);
       dispatch({
         type: ADD_USER_TO_TASK,
         payload: res.data,
@@ -346,13 +350,12 @@ export const addTask = ( id, task ) => async (dispatch) => {
   
 
 export const finishTask = (sprintId, taskId) => async dispatch  => {
-    let body = {
-        taskid: taskId 
-    }
+  
+console.log('taskId', taskId)
     try {
         // console.log('finish 1','sprintId:', sprintId,'taskId: ', taskId)
 
-        const res = await innerBackend.put(`projects/sprints/DAtask/test`, body)
+        const res = await innerBackend.put(`/mob/sprints/DAtask/${taskId}`)
         // console.log('finish 2')
 
         dispatch({
@@ -363,6 +366,7 @@ export const finishTask = (sprintId, taskId) => async dispatch  => {
         }
       catch (err) {
           console.log('finish task error::: ', err)
+          console.log('finish task error::: ', err.response.data.errors)
         // const errors = err.response.data.err;
         // errors.map(error => {
         //    return dispatch({
@@ -380,34 +384,35 @@ export const DeleteTask = ( id, taskId ) => async (dispatch) => {
       let body = {
         taskid: taskId,
       };
-      // console.log(id)
   
-      console.log('wow', id, body)
-      const res = await innerBackend.put(
-        `/projects/sprints/deltask/${id}`, body
-      );
-      // console.log(res.data)
-      console.log('wow',res)
+      const res = await innerBackend.put(`/projects/sprints/deltask/${id}`, body);
 
       dispatch({
-        type: EDIT_TASK,
-        payload: res.data,
+        type: DELETE_TASK,
+        payload: taskId,
       });
+
     } catch (err) {
-      console.log('delete task error::: ',err);
+      console.log('delete task error::: ',err.response.data.err);
+      Alert.alert('Ошибка', err.response.data.err)
     }
   }; 
 
 
 export const finishSprint = (id) => async dispatch  => {
     try {
-        const res = await innerBackend.put(`projects/sprints/${id}`)
+      console.log('finish id 1', id)
+
+        const res = await innerBackend.put(`/mob/sprints/${id}`)
+        console.log('finish res 2', res.data)
         dispatch({
             type: FINISH_SPRINT,
             payload: res.data
         })
         }
       catch (err) {
+        // Alert.alert('Ошибка', err.response.data.err)
+        console.log('finish sprint error',  err)
         // const errors = err.response.data.err;
         // errors.map(error => {
         //    return dispatch({
@@ -521,7 +526,7 @@ export const joinTeam = (id, pos, task) => async dispatch  => {
     try {
       // console.log('1', id)
         const body = {position: pos, task: task}
-        const res = await innerBackend.put(`/projects/join2/${id}`,body)
+        const res = await innerBackend.put(`/mob/join2/${id}`,body)
         // console.log('2')
 
         dispatch({

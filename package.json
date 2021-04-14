@@ -24,6 +24,7 @@
     "react-native": "0.63.4",
     "react-native-axios": "^0.17.1",
     "react-native-calendars": "^1.1254.0",
+    "react-native-console-time-polyfill": "^1.2.3",
     "react-native-dotenv": "^2.5.3",
     "react-native-elements": "^3.2.0",
     "react-native-gesture-handler": "^1.10.1",

@@ -1,6 +1,6 @@
 
 import { useEffect } from 'react';
-import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_TASK, CREATE_PROJECT, GET_PROJECT, SPRINT_ERROR, ALL_SPRINT, UPDATE_PROJECT, GET_SPRINT, GET_TOKEN, ADD_TASKS, FINISH_TASK, DELETE_PROJECT, FINISH_SPRINT, JOIN_TEAM,ADD_SPRINT_TO_CHOSEN,FINISH_PROJECT, ADD_INFO_SPRINT, CLEAR_MSG, CLEAR_ERROR, GET_URN, DELETE_SPRINT, CLEAR_URN, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT, GET_TASKS } from '../types'
+import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_TASK, CREATE_PROJECT, GET_PROJECT, SPRINT_ERROR, ALL_SPRINT, UPDATE_PROJECT, GET_SPRINT, GET_TOKEN, ADD_TASKS, FINISH_TASK, DELETE_PROJECT, FINISH_SPRINT, JOIN_TEAM,ADD_SPRINT_TO_CHOSEN,FINISH_PROJECT, ADD_INFO_SPRINT, CLEAR_MSG, CLEAR_ERROR, GET_URN, DELETE_SPRINT, CLEAR_URN, SELECTED_PROJECT, ADD_USER_TO_TASK, CLEAR_OPENED_PROJECT, CLEAR_OPENED_SPRINT, GET_TASKS, DELETE_TASK } from '../types'
 
 // const console = () => {
 //     // useEffect(()=>{
@@ -11,6 +11,7 @@ import { ADD_SPRINT,SORT_PROJECTS, ALL_PROJECTS,EDIT_PROJECT, CREATE_FAIL, EDIT_
 const initialState = {
     projects: null,
     project: null,
+    team: [],
     loadProject: false,
     loadedAllProj: false,
     sprints: [],
@@ -73,15 +74,29 @@ export default function(state = initialState, action) {
                        error:''  
                     }
                 case EDIT_TASK: 
-                console.log('edited task sprint', payload.sprint)
+                console.log('edited task payload', payload)
+                console.log('edited task tasks', state.tasks)
+                const newTasks = state.tasks.map((el,i)=>{
+                    if (el._id==payload._id){
+                        return payload
+                    } 
+                    return el
+                })
+                console.log('newTasks',newTasks)
                     return {
                         ...state,
-                        sprint: payload.sprint
+                        tasks: newTasks
                     }
                 case ADD_USER_TO_TASK:
+                    const newTasks3 = state.tasks.map((el,i)=>{
+                        if (el._id==payload._id){
+                            return payload
+                        } 
+                        return el
+                    })
                     return {
                         ...state,
-                        sprint: payload
+                        tasks: newTasks3
                     }
                 case CLEAR_MSG:
                     return {
@@ -97,11 +112,12 @@ export default function(state = initialState, action) {
                         msg: payload.msg
                     }
             case GET_PROJECT:
-                console.log(payload)
+                // console.log(payload)
                 return {
                     ...state,
                     project: payload,
                     sprints: payload.sprints,
+                    team: payload.team2
                     // team: payload.team2,
                     // loadedAllProj: false,
                     // loadProject: true,
@@ -111,16 +127,17 @@ export default function(state = initialState, action) {
                     // error: ''
                 }
             case ADD_SPRINT:
-                console.log('new sprint',payload.sprint)
+                console.log('new sprint',payload)
+                const newSprints = [payload.sprint, ...state.sprints]
                 return {
                     ...state,
-                    project: payload.project,
+                    sprints: newSprints,
                     sprint: payload.sprint,
-                    sprint_load: true,
-                    loadProject: false,
-                    reload: true,
-                    error: '',
-                    sprint_msg:payload.msg,
+                    // sprint_load: true,
+                    // loadProject: false,
+                    // reload: true,
+                    // error: '',
+                    // sprint_msg:payload.msg,
                 }
             case ADD_INFO_SPRINT: 
                 return {
@@ -140,9 +157,10 @@ export default function(state = initialState, action) {
                         oauth: null
                     }
                 case DELETE_SPRINT:
+                    console.log('delete',payload)
                     return {
                         ...state,
-                        project: payload.project
+                        sprints: payload.sprints
                     }
                 case ADD_TASKS:
                 return {
@@ -153,18 +171,17 @@ export default function(state = initialState, action) {
                     msg:payload.msg
                 }
                 case GET_TASKS:
-                    console.log('tasks',payload)
+                    // console.log('tasks payload',payload)
                 return {
                     ...state,
                     tasks: payload,
                     
                 }
                 case JOIN_TEAM:
+                    console.log('joinTeam',payload)
                     return {
                         ...state,
-                        project: payload.project,
-                        msg: payload.msg,
-                        error: ''
+                       team: payload.team2,
                     }
             case ALL_SPRINT:
                 return {
@@ -208,32 +225,37 @@ export default function(state = initialState, action) {
                         loadedAllProj: false,
                     }
             case FINISH_SPRINT:
-                // console.log('finish',payload.project.sprints)
+                console.log('finish',payload)
                 return {
                     ...state,
-                    msg: payload.msg,
-                    project: payload.project,
+                    sprints: payload.sprints,
                     error: ''
                 }
-                // case ADD_SPRINT_TO_CHOSEN:
-                //     return {
-                //         ...state,
-                    
-                //         msg: payload
-                //     }
+         
             case CREATE_FAIL:
                 return {
                     ...state,
                     error: payload,
-                    // loadProject: false,
-                    // loadedAllProj: false
+                   
                 }
                 case FINISH_TASK:
-                    console.log('finish task', payload)
+                    // console.log('finish task', payload)
+                    //   const newTasks1 = state.tasks.map((el,i)=>{
+                    // if (el._id==payload._id){
+                    //     return payload
+                    // }
+                    // return el
+                // })
                     return {
                     ...state,
-                    // sprint: payload.sprint,
-                    hey: payload
+                    // tasks: newTasks1
+                }   
+                case DELETE_TASK:
+                   console.log('delete task payload',payload)
+                   const newTasks2 = state.tasks.filter(el => el._id != payload)
+                    return {
+                    ...state,
+                    tasks: newTasks2
                 }   
             case SPRINT_ERROR:
                 return {

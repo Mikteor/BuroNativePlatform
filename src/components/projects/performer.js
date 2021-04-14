@@ -16,6 +16,7 @@ const CreateNewSprint = ({navigation, visible, closeModal, taskId}) => {
 
 
   const addPerformer = (userId) => {
+    console.log(sprintID,'1', userId,'2', taskId,'3'  )
       dispatch(addUserToTask(sprintID, userId, taskId  ))
   }
 

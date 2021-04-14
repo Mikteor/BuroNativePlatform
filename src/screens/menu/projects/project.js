@@ -18,6 +18,7 @@ const Project = ({navigation}) => {
   const dispatch = useDispatch()
   const project = useSelector(state => state.projects.project)
   const cryptProject = useSelector(state => state.projects.selectedProject)
+  const team = useSelector(state => state.projects.team)
   const user = useSelector(state => state.auth.user)
   const [selectedButton, setButton] = useState(0)
   const [plusOpen, setPlusOpen] = useState(false)
@@ -102,11 +103,11 @@ if (!project) {
         </View>
 
 
-      {selectedButton==0? <SprintPage  project={project} navigation={navigation}/> : 
-       selectedButton==1? <TeamPage navigation={navigation} team={project.team2} crypt={cryptProject} user={user}/> :
+      {selectedButton==0? <SprintPage   navigation={navigation}/> : 
+       selectedButton==1? <TeamPage navigation={navigation} team={team} crypt={cryptProject} user={user}/> :
        selectedButton==2? <Model /> :
        selectedButton==3? <Info project={project} user={user} /> :
-       selectedButton==4 && <History project={project} navigation={navigation}/>}
+       selectedButton==4 && <History  navigation={navigation}/>}
       
     
 

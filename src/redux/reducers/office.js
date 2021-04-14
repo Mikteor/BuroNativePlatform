@@ -68,7 +68,7 @@ export default function(state = initialState, action) {
                     ...state,
                     // likedProposes: payload,
                     // msg: payload,
-                    reload: !state.reload,
+                    // reload: !state.reload,
 
                     error: ''
                 }

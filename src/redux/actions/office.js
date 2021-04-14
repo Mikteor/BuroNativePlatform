@@ -94,7 +94,7 @@ export const likePropose = (id) => async dispatch => {
         errors.map(error => {
             return dispatch({
              type: PROPOSE_FAIL,
-             payload: error.msg
+             payload: 'like'
          })
          })            
        

@@ -5,12 +5,10 @@ import { CheckBox,  } from 'react-native-elements'
 import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
 import { DeleteTask, EditTask, finishTask } from '../../redux/actions/projects';
-import Performer from './performer'
-import TaskMenu from './taskMenu'
-import TaskCalendar from './taskCalendar'
+
 import {url} from '../../components/utils/axios'
 
-const Project = ({ navigation, historyScreen, task, sprint }) => {
+const Project = ({ navigation, historyScreen, task, sprintID, openMenu, editingTaskID, clearEditingTaskId }) => {
   const dispatch = useDispatch()
 
   // editing task
@@ -18,10 +16,7 @@ const Project = ({ navigation, historyScreen, task, sprint }) => {
   const [taskData, setTaskData] = useState(task.taskTitle)
 
   // modals
-  const [performerModal, setPerformerModal] = useState(false)
-  const [calendarModal, setCalendarModal] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [modalTop, setModalTop] = useState(0) 
+
   const [deadline, setDeadline] = useState(false)
 
   // checkbox state
@@ -30,28 +25,19 @@ const Project = ({ navigation, historyScreen, task, sprint }) => {
 
 const editTask = () => {
     const ded = task.deadline && task.deadline.slice(0,10)
-    dispatch(EditTask(taskData, task._id, sprint._id, ded))
+    dispatch(EditTask(taskData, task._id, sprintID, ded))
     setEdit(false)
+    clearEditingTaskId()
 }
 
-const modalOpen = (e) => {
-    setModal(true)
-    setModalTop(e.nativeEvent.pageY) 
-}
 
-const dayPress = (day) => {
-    dispatch(EditTask(taskData, task._id, sprint._id, day.dateString))
-    setCalendarModal(false)
-}
 
 
 const checkTaskStatus = (taskId) => {
     setChecked(!checked)
-    dispatch(finishTask(sprint._id, taskId))
+    dispatch(finishTask(sprintID, taskId))
 }
-const deleteTaskFunc = (taskId) => {
-    dispatch(DeleteTask(sprint._id, taskId))
-}
+
 
 
 useEffect(()=>{
@@ -63,24 +49,25 @@ useEffect(()=>{
   
   const ded = day + ' ' + month
   !dateNaN && task.deadline!='2011-11-11T00:00:00.000Z' && setDeadline(ded)
-},[sprint])
+},[task])
 
   return (
 
     <View style={style.rowCont}>
-         {!edit?
+         {editingTaskID!=task._id ?
             <View  style={{flexDirection: 'row', alignItems: 'center', }} >
                 <CheckBox
                 disabled={historyScreen? true : false}
                 checked={checked}
                 onPress={()=>checkTaskStatus(task._id)}
                 />
-                <View style={{flexDirection: 'row', alignItems: 'center', flex:1, backgroundColor:'white'}}  onTouchEnd={(e)=>modalOpen(e)}>
-                    <Text style={{marginRight: 'auto'}}>{task.taskTitle}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center', flex:1, backgroundColor:'white'}}  onTouchEnd={(e)=>openMenu(e.nativeEvent.pageY, task._id, task.deadline, taskData)}>
+                    <Text style={{flex:1, paddingRight:5,}}>{task.taskTitle}</Text>
                     <Text style={{marginRight: 15,}}>{deadline}</Text>
                     {task.user && <Image source={task.user.avatar? {uri: `${url+task.user.avatar}`} : require('../../../assets/ava.jpeg')} style={style.avatar}/>}
                 </View>
-            </View> :
+            </View> 
+            :  
             <View style={{flexDirection:'row', }}>
                   <TextInput 
                         underlineColor='white' 
@@ -94,28 +81,7 @@ useEffect(()=>{
             </View>
           }
 
-                {!historyScreen && 
-                <TaskMenu 
-                      visible={modal} 
-                      modalTop={modalTop}
-                      closeModal={()=>setModal(false)} 
-                      changePress={()=>setEdit(true)} 
-                      performerPress={()=>setPerformerModal(true)} 
-                      deadlinePress={()=>setCalendarModal(true)} 
-                      deletePress={()=>deleteTaskFunc(task._id)} 
-                      />}
-
-                <Performer 
-                      visible={performerModal} 
-                      closeModal={()=>setPerformerModal(false)} 
-                      taskId={task._id}
-                      />
-                <TaskCalendar 
-                      visible={calendarModal} 
-                      closeModal={()=>setCalendarModal(false)} 
-                      dayPress={(day)=>dayPress(day)} 
-                      deadline={task.deadline && task.deadline.slice(0,10)}
-                      />
+                
     </View>
     
 

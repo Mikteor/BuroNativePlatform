@@ -4,12 +4,14 @@ import  Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToChosen } from '../../redux/actions/auth';
 import {  getSprint } from '../../redux/actions/projects';
+import Loading from '../common/loadingScreen';
 import SprintRow from './sprintRow'
 
-const SprintsTab = ({project, navigation}) => {
+const SprintsTab = ({ navigation}) => {
   const dispatch = useDispatch()
 
-  const userSprints = useSelector(state => state.auth.user.sprints)
+  const sprints = useSelector(state =>state.projects.sprints)
+  const userSprints = useSelector(state =>state.auth.user && state.auth.user.sprints)
   const userSprintsID = userSprints && userSprints.map(el=>el._id)
 
 
@@ -22,12 +24,17 @@ const SprintsTab = ({project, navigation}) => {
   }
  
 
+ if(!sprints) {
+   return(
+     <Loading reverse />
+   )
+ } 
   return (
 
   <View style={sprintStyle.container}>
       <ScrollView>
 
-      {project.sprints
+      {sprints && sprints
       .filter(el => !el.status)
       .map((el,i)=>{
         return(
